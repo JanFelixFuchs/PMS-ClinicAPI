@@ -137,14 +137,16 @@ public class User : IEntity, IDeletable, IArchivable
     }
     
     // Method to unarchive the entity
-    public void Unarchive()
+    public void Unarchive(Clinician? clinician)
     {
         // Validating
         if (!IsArchived)
             throw new InvalidOperationException($"Cannot unarchive an already unarchived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot unarchive a deleted {nameof(User)}");
-        
+        if (clinician != null && clinician.IsArchived)
+            throw new InvalidOperationException($"Cannot unarchive a {nameof(User)} with an archived {nameof(Clinician)}");
+    
         // Setting property
         IsArchived = false;   
     }
