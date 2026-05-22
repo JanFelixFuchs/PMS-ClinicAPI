@@ -54,8 +54,8 @@ public class User : IEntity, IDeletable, IArchivable
     
     
     /* - - - Behaviour methods - - - */
-    // Method to update the state of the entity
-    public void Update(Role role)
+    // Method to update the role
+    public void UpdateRole(Role role)
     {
         // Checking archive and deletion flag
         if (IsArchived)
