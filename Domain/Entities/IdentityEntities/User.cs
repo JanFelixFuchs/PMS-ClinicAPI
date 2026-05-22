@@ -158,6 +158,10 @@ public class User : IEntity, IDeletable, IArchivable
         if (!IsArchived)
             throw new InvalidOperationException($"Cannot delete an unarchived {nameof(User)}");
         
+        // Detaching clinician
+        ClinicianId = null;
+        Clinician = null;
+        
         // Setting property
         IsDeleted = true;
     }
