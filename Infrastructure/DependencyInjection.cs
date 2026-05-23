@@ -47,6 +47,7 @@ public static class DependencyInjection
         serviceCollection.AddTransient<IAppointmentRepository, AppointmentRepository>();
         serviceCollection.AddTransient<IAppointmentCategoryRepository, AppointmentCategoryRepository>();
         serviceCollection.AddTransient<IAppointmentProtocolRepository, AppointmentProtocolRepository>();
+        serviceCollection.AddTransient<IResultRepository, ResultRepository>();
         serviceCollection.AddTransient<IClinicianCategoryRepository, ClinicianCategoryRepository>();
         serviceCollection.AddTransient<IClinicianRepository, ClinicianRepository>();
         serviceCollection.AddTransient<IDeviceCategoryRepository, DeviceCategoryRepository>();
