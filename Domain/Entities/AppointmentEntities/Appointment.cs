@@ -1,5 +1,6 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
+using Domain.Commons.Utils.Constants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
@@ -16,6 +17,7 @@ public class Appointment : IEntity, IDeletable
     public Guid Id { get; }
     public Guid ClinicId { get; private set; }
     public Clinic Clinic { get; private set; } = null!;
+    public string Title { get; private set; } = null!;
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public AppointmentStatus Status { get; private set; }
@@ -35,6 +37,7 @@ public class Appointment : IEntity, IDeletable
     // Standard constructor used to initialize objects 
     public Appointment(
         Clinic clinic,
+        string title,
         DateTime startTime,
         DateTime endTime,
         ICollection<AppointmentCategory> appointmentCategories,
@@ -46,6 +49,7 @@ public class Appointment : IEntity, IDeletable
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
+        ValidateAndSetTitle(title);
         ValidateAndSetDateTimes(startTime, endTime);
         Status = AppointmentStatus.Planned;
         IsDeleted = false;
@@ -60,6 +64,7 @@ public class Appointment : IEntity, IDeletable
     /* - - - Behaviour methods - - - */
     // Method to update the state of the entity
     public void Update(
+        string title,
         DateTime startTime,
         DateTime endTime,
         ICollection<AppointmentCategory> appointmentCategories,
@@ -75,6 +80,7 @@ public class Appointment : IEntity, IDeletable
             throw new InvalidOperationException($"Cannot update an {nameof(Appointment)} that is {nameof(AppointmentStatus.Completed)}");
 
         // Updating properties
+        ValidateAndSetTitle(title);
         ValidateAndSetDateTimes(startTime, endTime);
         ValidateAndSetAppointmentCategories(appointmentCategories);
         ValidateAndSetPatient(patient);
@@ -123,6 +129,18 @@ public class Appointment : IEntity, IDeletable
         // Setting properties
         Clinic = clinic;
         ClinicId = clinic.Id;
+    }
+    
+    // Method to validate and set the title
+    private void ValidateAndSetTitle(string title)
+    {
+        // Validating
+        ValidationHelper.ConstructPropertyValidation(
+            ValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
+            ValidationConditions.HasMaximumLength(title, Lengths.AppointmentTitle, nameof(Title)));
+        
+        // Setting property
+        Title = title;
     }
     
     // Method to validate and set the start time and end time
@@ -218,6 +236,7 @@ public class Appointment : IEntity, IDeletable
     {
         return $"{nameof(Id)}: {Id}, " +
                $"{nameof(Clinic)}: {ClinicId}, " +
+               $"{nameof(Title)}: {Title}, " +
                $"{nameof(StartTime)}: {StartTime}, " +
                $"{nameof(EndTime)}: {EndTime}, " +
                $"{nameof(Status)}: {Status}, " +

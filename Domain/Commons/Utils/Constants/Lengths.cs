@@ -54,7 +54,9 @@ public static class Lengths
     public const int InsuranceStatus = 16;
     public const int Allergies = 1024;
 
-    public const int Title = 256;
+    private const int Title = 256;
+    public const int AppointmentTitle = Title;
+    public const int ResultTitle = Title;
 
     public const int Symptoms = 4096;
     public const int Diagnosis = 4096;

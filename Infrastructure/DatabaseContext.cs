@@ -45,6 +45,11 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
             
+            // Title
+            entity.Property(appointment => appointment.Title)
+                .HasMaxLength(Lengths.AppointmentTitle)
+                .IsRequired();
+            
             // StartTime
             entity.Property(appointment => appointment.StartTime)
                 .IsRequired();
@@ -236,7 +241,7 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
             
             // Title
             entity.Property(result => result.Title)
-                .HasMaxLength(Lengths.Title)
+                .HasMaxLength(Lengths.ResultTitle)
                 .IsRequired();
             
             // DateOfCreation

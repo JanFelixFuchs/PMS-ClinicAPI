@@ -89,7 +89,7 @@ public class Result : IEntity, IDeletable
         // Validating
         ValidationHelper.ConstructPropertyValidation(
             ValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
-            ValidationConditions.HasMaximumLength(title, Lengths.Title, nameof(Title)));
+            ValidationConditions.HasMaximumLength(title, Lengths.ResultTitle, nameof(Title)));
         
         // Setting property
         Title = title;
