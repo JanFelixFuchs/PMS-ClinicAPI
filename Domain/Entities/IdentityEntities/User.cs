@@ -117,8 +117,8 @@ public class User : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
         
         // Updating properties
-        RefreshTokenHash = null;
-        RefreshTokenExpirationTime = null;
+        ValidateAndSetRefreshTokenHash(null);
+        ValidateAndSetRefreshTokenExpirationTime(null);
     }
     
     // Method to archive the entity
@@ -131,6 +131,10 @@ public class User : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(User)}");
         if (IsAdmin)
             throw new InvalidOperationException($"Cannot archive an admin {nameof(User)}");
+        
+        // Invalidating refresh token
+        ValidateAndSetRefreshTokenHash(null);
+        ValidateAndSetRefreshTokenExpirationTime(null);
         
         // Setting property
         IsArchived = true;
