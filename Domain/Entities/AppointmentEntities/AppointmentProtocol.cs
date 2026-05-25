@@ -41,8 +41,7 @@ public class AppointmentProtocol : IEntity
     // Standard constructor used to initialize objects
     public AppointmentProtocol(
         Clinic clinic,
-        Appointment appointment,
-        Clinician clinician)
+        Appointment appointment)
     {
         // Initializing properties
         Id = Guid.NewGuid();
@@ -56,7 +55,7 @@ public class AppointmentProtocol : IEntity
         Status = AppointmentProtocolStatus.Undealt;
         ValidateAndSetAppointment(appointment);
         ValidateAndSetPatient(appointment.Patient);
-        ValidateAndSetClinician(clinician);
+        ValidateAndSetClinician(appointment.Clinicians.First());
         ValidateAndSetRoom(appointment.Room);
         ValidateAndSetDevices(appointment.Devices);
         ValidateAndSetDateOfAppointment(appointment.EndTime);
@@ -70,6 +69,7 @@ public class AppointmentProtocol : IEntity
         string? diagnosis,
         string? treatment,
         string? remarks,
+        Clinician clinician,
         Room room,
         ICollection<Device> devices)
     {
@@ -82,6 +82,7 @@ public class AppointmentProtocol : IEntity
         ValidateAndSetDiagnosis(diagnosis);
         ValidateAndSetTreatment(treatment);
         ValidateAndSetRemarks(remarks);
+        ValidateAndSetClinician(clinician);
         ValidateAndSetRoom(room);
         ValidateAndSetDevices(devices);
     }
