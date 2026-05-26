@@ -253,6 +253,12 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
                 .HasColumnType("LONGBLOB")
                 .IsRequired();
             
+            // AppendixContentType
+            entity.Property(result => result.AppendixContentType)
+                .HasMaxLength(Lengths.AppendixContentType)
+                .HasConversion<string>()
+                .IsRequired();
+            
             // IsDeleted
             entity.Property(result => result.IsDeleted)
                 .IsRequired();
