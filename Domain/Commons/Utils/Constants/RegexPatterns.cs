@@ -10,7 +10,7 @@ public static class RegexPatterns
     public const string Password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$";
     
     public const string Email = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-    private const string PhoneNumberDe = @"^\+49[0-9]{6,12}]$";
+    private const string PhoneNumberDe = @"^\+49[0-9]{6,12}$";
     private const string PhoneNumberFi = @"^\+358[0-9]{6,10}$";
 
     private const string ZipCodeDe = "^[0-9]{5}$";

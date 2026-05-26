@@ -69,4 +69,5 @@ public static class Lengths
     public const int AppointmentProtocolRemarks = Remarks;
     
     public const int Appendix = 7 * 1024 * 1024;
+    public const int AppendixContentType = 16;
 }

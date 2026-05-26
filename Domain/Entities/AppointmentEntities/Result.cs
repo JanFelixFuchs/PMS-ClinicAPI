@@ -1,5 +1,7 @@
+using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Helper;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
@@ -18,6 +20,7 @@ public class Result : IEntity, IDeletable
     public string Title { get; private set; } = string.Empty;
     public DateTime DateOfCreation { get; private set; }
     public byte[] Appendix { get; private set; } = [];
+    public AppendixContentType AppendixContentType { get; private set; }
     public bool IsDeleted { get; private set; }
     public string? Remarks { get; private set; }
     public Guid PatientId { get; private set; }
@@ -46,7 +49,7 @@ public class Result : IEntity, IDeletable
         ValidateAndSetClinic(clinic);
         ValidateAndSetTitle(title);
         ValidateAndSetDateOfCreation(dateOfCreation);
-        ValidateAndSetAppendix(appendix);
+        ValidateAndSetAppendixAndAppendixContentType(appendix);
         IsDeleted = false;
         ValidateAndSetRemarks(remarks);
         ValidateAndSetPatient(patient);
@@ -107,8 +110,8 @@ public class Result : IEntity, IDeletable
         DateOfCreation = dateOfCreation;
     }
     
-    // Method to validate and set the appendix
-    private void ValidateAndSetAppendix(byte[] appendix)
+    // Method to validate and set the appendix and appendix content type
+    private void ValidateAndSetAppendixAndAppendixContentType(byte[] appendix)
     {
         // Validating
         ValidationHelper.ConstructPropertyValidation(
@@ -116,7 +119,8 @@ public class Result : IEntity, IDeletable
             ValidationConditions.IsNotEmpty(appendix, nameof(Appendix)),
             ValidationConditions.HasMaximumLength(appendix, Lengths.Appendix, nameof(Appendix), $"{nameof(Appendix)} must not exceed maximum file size"));
 
-        // Setting property
+        // Inferring appendix content type and setting properties
+        AppendixContentType = FileHelper.InferFileContentType(appendix, nameof(Appendix));
         Appendix = appendix;
     }
     
