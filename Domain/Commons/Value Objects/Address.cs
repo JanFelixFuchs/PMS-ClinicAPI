@@ -35,6 +35,7 @@ public class Address
         Street = street;
         HouseNumber = houseNumber;
         City = city;
+        ZipCode = zipCode;
         Country = country;
     }
     
