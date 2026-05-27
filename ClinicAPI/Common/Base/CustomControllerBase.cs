@@ -39,8 +39,8 @@ public abstract class CustomControllerBase<TController>(
         await sender.Send(request);
 
         // Logging endpoint execution completion and returning result
-        var httpResult = new HttpResult<EmptyPayload>(HttpStatusCode.NoContent);
-        logger.LogInformation(LogMessages.EndpointCallSucceeded, endpointName, HttpStatusCode.NoContent);
+        var httpResult = new HttpResult<EmptyPayload>(HttpStatusCode.OK);
+        logger.LogInformation(LogMessages.EndpointCallSucceeded, endpointName, HttpStatusCode.OK);
         return StatusCode(httpResult.HttpStatusCode, httpResult);
     }
 }
