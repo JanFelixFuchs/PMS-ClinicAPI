@@ -1,7 +1,7 @@
 using System.Net;
 using Utils.Exceptions.Base;
 
-namespace PMS_ClinicAPI.Common.Utils;
+namespace PMS_ClinicAPI.Common.Utils.Returns;
 
 public class HttpResult<T>
 {
@@ -28,7 +28,7 @@ public class HttpResult<T>
         {
             // Assigning properties from custom exception
             HttpStatusCode = (int) customExceptionBase.HttpStatusCode;
-            Exception = customExceptionBase.GetType().Name;
+            Exception = GetCleanExceptionName(customExceptionBase.GetType());
             Message = customExceptionBase.Message;
             
             // Checking if custom exception contains errors
@@ -41,7 +41,13 @@ public class HttpResult<T>
         
         // Assigning properties from exception
         HttpStatusCode = (int) System.Net.HttpStatusCode.InternalServerError;
-        Exception = exception.GetType().Name;
+        Exception = GetCleanExceptionName(exception.GetType());
         Message = exception.Message;
+    }
+
+    private static string GetCleanExceptionName(Type type)
+    {
+        var typeName = type.Name;
+        return typeName.Contains('`') ? typeName[..typeName.IndexOf('`')] : typeName;
     }
 }

@@ -2,7 +2,7 @@ using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PMS_ClinicAPI.Common.Logging;
-using PMS_ClinicAPI.Common.Utils;
+using PMS_ClinicAPI.Common.Utils.Returns;
 
 namespace PMS_ClinicAPI.Common.Base;
 
