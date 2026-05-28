@@ -107,7 +107,7 @@ public class Result : IEntity, IDeletable
             ValidationConditions.IsDateInThePast(dateOfCreation, nameof(DateOfCreation)));
         
         // Setting property
-        DateOfCreation = dateOfCreation;
+        DateOfCreation = dateOfCreation.Date;
     }
     
     // Method to validate and set the appendix and appendix content type
