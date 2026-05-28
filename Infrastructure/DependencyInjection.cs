@@ -38,7 +38,10 @@ public static class DependencyInjection
         
         // Adding database context
         serviceCollection.AddDbContext<DatabaseContext>(options =>
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), builder =>
+            options.UseMySql(
+                connectionString, 
+                ServerVersion.Parse(databaseCredentials.GetValue<string>("Version")), 
+                builder =>
             {
                 builder.MigrationsAssembly("ClinicAPI");
             }));
