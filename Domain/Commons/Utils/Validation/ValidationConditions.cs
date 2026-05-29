@@ -63,7 +63,7 @@ public static class ValidationConditions
     public static (bool, string) AreIdenticalDates(DateTime firstDateTimeInput, DateTime secondDateTimeInput, string firstPropertyName, string secondPropertyName, string? customErrorMessage = null) =>
         (firstDateTimeInput.Date == secondDateTimeInput.Date, customErrorMessage ?? $"{firstPropertyName} and {secondPropertyName} must be equal dates");
     
-    public static (bool, string) AreDatesInOrder(DateTime firstDateTimeInput, DateTime secondDateTimeInput, string firstPropertyName, string secondPropertyName, string? customErrorMessage = null) => 
+    public static (bool, string) AreDateTimesInOrder(DateTime firstDateTimeInput, DateTime secondDateTimeInput, string firstPropertyName, string secondPropertyName, string? customErrorMessage = null) => 
         (firstDateTimeInput < secondDateTimeInput, customErrorMessage ?? $"{firstPropertyName} must be earlier than {secondPropertyName}");
     
     

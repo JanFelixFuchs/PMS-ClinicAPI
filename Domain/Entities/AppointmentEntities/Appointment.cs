@@ -153,7 +153,7 @@ public class Appointment : IEntity, IDeletable
             ValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
             ValidationConditions.IsDateTimeInTheFuture(startTime, nameof(StartTime)),
             ValidationConditions.IsDateTimeInTheFuture(endTime, nameof(EndTime)),
-            ValidationConditions.AreDatesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
+            ValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
 
         // Setting properties
         StartTime = startTime;
