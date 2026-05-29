@@ -129,8 +129,8 @@ public class Device : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot archive an already archived {nameof(Device)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Device)}");
-        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Completed))
-            throw new InvalidOperationException($"Cannot archive a {nameof(Device)} that has uncompleted {nameof(Appointments)}");
+        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
+            throw new InvalidOperationException($"Cannot archive a {nameof(Device)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
             throw new InvalidOperationException($"Cannot archive a {nameof(Device)} that has uncompleted {nameof(AppointmentProtocols)}");
             

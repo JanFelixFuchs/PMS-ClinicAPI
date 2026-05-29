@@ -192,7 +192,7 @@ public class AppointmentProtocol : IEntity
         ValidationHelper.ConstructPropertyValidation(
             ValidationConditions.IsNotNull(appointment, nameof(Appointment)),
             ValidationConditions.IsNotDeleted(appointment, nameof(Appointment)),
-            ValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Completed, nameof(Appointment)));
+            ValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Attended, nameof(Appointment)));
         
         // Setting properties
         Appointment = appointment;

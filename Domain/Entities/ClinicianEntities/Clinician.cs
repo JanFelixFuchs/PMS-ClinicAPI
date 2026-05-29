@@ -96,8 +96,8 @@ public class Clinician : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot archive an already archived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Clinician)}");
-        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Completed))
-            throw new InvalidOperationException($"Cannot archive a {nameof(Clinician)} that has uncompleted {nameof(Appointments)}");
+        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
+            throw new InvalidOperationException($"Cannot archive a {nameof(Clinician)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
             throw new InvalidOperationException($"Cannot archive a {nameof(Clinician)} that has uncompleted {nameof(AppointmentProtocols)}");
         

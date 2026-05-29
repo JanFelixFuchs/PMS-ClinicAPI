@@ -76,8 +76,8 @@ public class Appointment : IEntity, IDeletable
         // Checking deletion flag and status
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Appointment)}");
-        if (Status == AppointmentStatus.Completed)
-            throw new InvalidOperationException($"Cannot update an {nameof(Appointment)} that is {nameof(AppointmentStatus.Completed)}");
+        if (Status == AppointmentStatus.Attended)
+            throw new InvalidOperationException($"Cannot update an {nameof(Appointment)} that is {nameof(AppointmentStatus.Attended)}");
 
         // Updating properties
         ValidateAndSetTitle(title);
@@ -89,19 +89,19 @@ public class Appointment : IEntity, IDeletable
         ValidateAndSetClinicians(clinicians);
     }
     
-    // Method to set the status to held
-    public void Complete()
+    // Method to set the status to attended
+    public void MarkAsAttended()
     {
         // Checking deletion flag status and time
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot complete a deleted {nameof(Appointment)}");
-        if (Status == AppointmentStatus.Completed)
-            throw new InvalidOperationException($"Cannot complete an {nameof(Appointment)} that is {nameof(AppointmentStatus.Completed)}");
-        if (EndTime > DateTime.UtcNow)
-            throw new InvalidOperationException($"Cannot complete an {nameof(Appointment)} that has not ended");
+        if (Status == AppointmentStatus.Attended)
+            throw new InvalidOperationException($"Cannot mark an {nameof(Appointment)} as attended that is {nameof(AppointmentStatus.Attended)}");
+        if (StartTime > DateTime.UtcNow)
+            throw new InvalidOperationException($"Cannot mark an {nameof(Appointment)} as attended that has not started");
 
         // Setting property
-        Status = AppointmentStatus.Completed;
+        Status = AppointmentStatus.Attended;
     }
     
     // Method to delete the entity
@@ -110,8 +110,8 @@ public class Appointment : IEntity, IDeletable
         // Validating
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot delete an already deleted {nameof(Appointment)}");
-        if (Status is AppointmentStatus.Completed)
-            throw new InvalidOperationException($"Cannot delete an {nameof(Appointment)} that is {nameof(AppointmentStatus.Completed)}");
+        if (Status is AppointmentStatus.Attended)
+            throw new InvalidOperationException($"Cannot delete an {nameof(Appointment)} that is {nameof(AppointmentStatus.Attended)}");
         
         // Setting property
         IsDeleted = true;

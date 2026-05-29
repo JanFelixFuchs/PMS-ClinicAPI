@@ -111,8 +111,8 @@ public class Room : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot archive an already archived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Room)}");
-        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Completed))
-            throw new InvalidOperationException($"Cannot archive a {nameof(Room)} that has uncompleted {nameof(Appointments)}");
+        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
+            throw new InvalidOperationException($"Cannot archive a {nameof(Room)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
             throw new InvalidOperationException($"Cannot archive a {nameof(Room)} that has uncompleted {nameof(AppointmentProtocols)}");
         
