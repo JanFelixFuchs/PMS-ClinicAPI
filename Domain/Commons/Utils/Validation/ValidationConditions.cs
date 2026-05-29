@@ -55,10 +55,10 @@ public static class ValidationConditions
         (dateTimeInput == null || dateTimeInput.Value >= DateTime.UtcNow, customErrorMessage ?? $"{propertyName} must be in the future");
     
     public static (bool, string) IsDateInThePast(DateTime dateTimeInput, string propertyName, string? customErrorMessage = null) =>
-        (dateTimeInput.Date <= DateTime.UtcNow, customErrorMessage ?? $"{propertyName} must be in the past");
+        (dateTimeInput.Date <= DateTime.UtcNow.Date, customErrorMessage ?? $"{propertyName} must be in the past");
     
     public static (bool, string) IsNullOrDateInThePast(DateTime? dateTimeInput, string propertyName, string? customErrorMessage = null) =>
-        (dateTimeInput == null || dateTimeInput.Value.Date <= DateTime.UtcNow, customErrorMessage ?? $"{propertyName} must be in the past");
+        (dateTimeInput == null || dateTimeInput.Value.Date <= DateTime.UtcNow.Date, customErrorMessage ?? $"{propertyName} must be in the past");
     
     public static (bool, string) AreIdenticalDates(DateTime firstDateTimeInput, DateTime secondDateTimeInput, string firstPropertyName, string secondPropertyName, string? customErrorMessage = null) =>
         (firstDateTimeInput.Date == secondDateTimeInput.Date, customErrorMessage ?? $"{firstPropertyName} and {secondPropertyName} must be equal dates");

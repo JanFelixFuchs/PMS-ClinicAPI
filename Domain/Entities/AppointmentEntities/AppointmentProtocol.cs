@@ -96,7 +96,7 @@ public class AppointmentProtocol : IEntity
             
         // Setting properties
         Status = AppointmentProtocolStatus.Started;
-        DateOfProcessingStart = DateTime.UtcNow; 
+        DateOfProcessingStart = DateTime.UtcNow.Date; 
     }
     
     // Method to set the status to completed
@@ -107,7 +107,7 @@ public class AppointmentProtocol : IEntity
             throw new InvalidOperationException($"Cannot complete an {nameof(AppointmentProtocol)} that is not {nameof(AppointmentProtocolStatus.Started)}");
         
         // Setting properties
-        DateOfProcessingCompletion = DateTime.UtcNow;
+        DateOfProcessingCompletion = DateTime.UtcNow.Date;
         Status = AppointmentProtocolStatus.Completed;
     }
     

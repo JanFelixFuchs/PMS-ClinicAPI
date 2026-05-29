@@ -59,7 +59,7 @@ public class Patient : IEntity, IDeletable, IArchivable
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
-        DateOfCreation = DateTime.UtcNow;
+        DateOfCreation = DateTime.UtcNow.Date;
         ValidateAndSetFirstName(firstName);
         ValidateAndSetLastName(lastName);
         ValidateAndSetDateOfBirth(dateOfBirth);
@@ -116,8 +116,8 @@ public class Patient : IEntity, IDeletable, IArchivable
             throw new InvalidOperationException($"Cannot archive an already archived {nameof(Patient)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Patient)}");
-        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Completed))
-            throw new InvalidOperationException($"Cannot archive a {nameof(Patient)} that has uncompleted {nameof(Appointments)}");
+        if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
+            throw new InvalidOperationException($"Cannot archive a {nameof(Patient)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
             throw new InvalidOperationException($"Cannot archive a {nameof(Patient)} that has uncompleted {nameof(AppointmentProtocols)}");
         
