@@ -57,11 +57,13 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to update the role
     public void UpdateRole(Role role)
     {
-        // Checking archive and deletion flag
+        // Checking archive, deletion and admin flag
         if (IsArchived)
             throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsAdmin)
+            throw new InvalidOperationException($"Cannot update an admin {nameof(User)}");
         
         // Updating property
         ValidateAndSetRole(role);
