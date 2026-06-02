@@ -1,7 +1,7 @@
 # PMS-ClinicAPI
-A comprehensive backend service for clinic management operations, providing a REST API for the PMS (Practice 
-Management Software) system. Designed to manage medical practices and small clinics with a focus on clean architecture 
-and maintainability.
+A comprehensive backend service for clinic management operations, providing a REST API for the [PMS (Practice
+Management Software)](https://github.com/stars/JanFelixFuchs/lists/pms) system. Designed to manage medical practices 
+and small clinics with a focus on clean architecture and maintainability.
 
 
 ## Table of Contents
@@ -61,7 +61,7 @@ separation of concerns, maintainability, and extendability.
 ### Layered Architecture
 
 - **Domain Layer**: The innermost layer containing core business models and domain concepts.
-  - Core business entities (appointments, patients, clinicians, etc.)
+  - Core business entities
   - Business rules and domain logic
   - Independent of external frameworks and libraries
 
@@ -168,10 +168,8 @@ The application can be run using either the built-in ui functionality of the cho
 cd ClinicAPI
 dotnet run
 ```
-The application will start and be available at `http://localhost:5059` or by default.
+The application will start and be available at `http://localhost:5059` by default.
 
 ### Accessing the API Documentation
 
-Once running, access the Swagger/OpenAPI documentation at:
-
-`http://localhost:5059/api/docs`
+Once running, access the Swagger/OpenAPI documentation at: `http://localhost:5059/api/docs`.
