@@ -3,7 +3,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.Common.Services;
-using Microsoft.Extensions.Configuration;
+using Infrastructure.Common.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Utils.Authentication;
 using Claim = Domain.Entities.IdentityEntities.Claim;
@@ -11,15 +12,12 @@ using JwtClaim = System.Security.Claims.Claim;
 
 namespace Infrastructure.Common.Services;
 
-public class TokenService(IConfiguration configuration) : ITokenService
+public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
 {
     public string CreateAccessToken(Guid clinicId, Guid userId, ICollection<Claim> claims)
     {
-        // Accessing configuration
-        var jwtSettings = configuration.GetSection("JwtSettings");
-        
         // Initializing key and credentials
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Secret")!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
     
         // Initializing claim list
@@ -34,10 +32,10 @@ public class TokenService(IConfiguration configuration) : ITokenService
     
         // Creating access token
         var accessToken = new JwtSecurityToken(
-            issuer: jwtSettings.GetValue<string>("Issuer"),
-            audience: jwtSettings.GetValue<string>("Audience"),
+            issuer: jwtSettings.Value.Issuer,
+            audience: jwtSettings.Value.Audience,
             claims: jwtClaims,
-            expires: DateTime.UtcNow.AddMinutes(jwtSettings.GetValue<double>("AccessTokenLifetimeInMinutes")),
+            expires: DateTime.UtcNow.AddMinutes(jwtSettings.Value.AccessTokenLifetimeInMinutes),
             signingCredentials: credentials);
         
         // Returning access token
@@ -52,19 +50,16 @@ public class TokenService(IConfiguration configuration) : ITokenService
     
     public ClaimsPrincipal GetPrincipalFromExpiredAccessToken(string accessToken)
     {
-        // Accessing configuration
-        var jwtSettings = configuration.GetSection("JwtSettings");
-        
         // Setting token validation parameters
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
+            ValidIssuer = jwtSettings.Value.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwtSettings.GetValue<string>("Audience"),
+            ValidAudience = jwtSettings.Value.Audience,
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Secret")!)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Secret)),
             ClockSkew = TimeSpan.Zero
         };
 

@@ -7,6 +7,7 @@ using Application.Repositories.DeviceRepositories;
 using Application.Repositories.IdentityRepositories;
 using Application.Repositories.PatientRepositories;
 using Application.Repositories.RoomRepositories;
+using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Contexts;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Transactions;
@@ -17,7 +18,6 @@ using Infrastructure.Repositories.IdentityRepositories;
 using Infrastructure.Repositories.PatientRepositories;
 using Infrastructure.Repositories.RoomRepositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AuthenticationService = Infrastructure.Common.Services.AuthenticationService;
 using IAuthenticationService = Application.Common.Services.IAuthenticationService;
@@ -26,21 +26,22 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructureLayerDependencies(this IServiceCollection serviceCollection, IConfiguration configuration)
+    public static void AddInfrastructureLayerDependencies(
+        this IServiceCollection serviceCollection, 
+        DatabaseSettings databaseSettings)
     {
         // Building connection string
-        var databaseCredentials = configuration.GetSection("DatabaseSettings");
-        var connectionString = $"Server={databaseCredentials.GetValue<string>("Server")};" +
-                               $"Database={databaseCredentials.GetValue<string>("Database")};" +
-                               $"Uid={databaseCredentials.GetValue<string>("User")};" +
-                               $"Pwd={databaseCredentials.GetValue<string>("Password")};" +
-                               $"Port={databaseCredentials.GetValue<string>("Port")}";
+        var connectionString = $"Server={databaseSettings.Server};" +
+                               $"Database={databaseSettings.Database};" +
+                               $"Uid={databaseSettings.User};" +
+                               $"Pwd={databaseSettings.Password};" +
+                               $"Port={databaseSettings.Port}";
         
         // Adding database context
         serviceCollection.AddDbContext<DatabaseContext>(options =>
             options.UseMySql(
                 connectionString, 
-                ServerVersion.Parse(databaseCredentials.GetValue<string>("Version")), 
+                ServerVersion.Parse(databaseSettings.Version), 
                 builder =>
             {
                 builder.MigrationsAssembly("ClinicAPI");
