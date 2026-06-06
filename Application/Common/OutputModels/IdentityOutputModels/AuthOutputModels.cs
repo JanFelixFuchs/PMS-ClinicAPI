@@ -9,12 +9,11 @@ public class RegisterClinicOutputModel(
     User user,
     Role role,
     Clinician? clinician,
-    string accessToken,
-    string refreshToken)
+    string accessToken)
 {
     public ClinicOutputModel Clinic { get; init; } = new(clinic);
     public CurrentUserOutputModel User { get; init; } = new(user, role, clinician);
-    public TokensOutputModel Tokens { get; init; } = new(accessToken, refreshToken);
+    public string AccessToken { get; init; } = accessToken;
 }
 
 public class LoginUserOutputModel(
@@ -22,19 +21,22 @@ public class LoginUserOutputModel(
     User user,
     Role role,
     Clinician? clinician,
-    string accessToken, 
-    string refreshToken)
+    string accessToken)
 {
     public ClinicOutputModel Clinic { get; init; } = new(clinic);
     public CurrentUserOutputModel User { get; init; } = new(user, role, clinician);
-    public TokensOutputModel Tokens { get; init; } = new(accessToken, refreshToken);
+    public string AccessToken { get; init; } = accessToken;
 }
 
-public class RefreshTokensOutputModel(string accessToken, string refreshToken)
-    : TokensOutputModel(accessToken, refreshToken);
+public class RefreshTokensOutputModel(string accessToken)
+{
+    public string AccessToken { get; init; } = accessToken;
+}
 
-public class UpdatePasswordOutputModel(string accessToken, string refreshToken)
-    : TokensOutputModel(accessToken, refreshToken);
+public class UpdatePasswordOutputModel(string accessToken)
+{
+    public string AccessToken { get; init; } = accessToken;
+}
 
 public class UpdateUsernameOutputModel(User user, Role role, Clinician? clinician)
     : CurrentUserOutputModel(user, role, clinician);
