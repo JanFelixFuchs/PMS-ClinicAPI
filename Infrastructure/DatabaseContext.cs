@@ -816,6 +816,10 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
             // Unique key for clinicId, normalizedUsername and isDeleted
             entity.HasIndex(user => new { user.ClinicId, user.NormalizedUsername, user.IsDeleted })
                 .IsUnique();
+
+            // Unique key for refresh token hash
+            entity.HasIndex(user => user.RefreshTokenHash)
+                .IsUnique();
             
             // Query filter
             entity.HasQueryFilter(user => !user.IsDeleted);
