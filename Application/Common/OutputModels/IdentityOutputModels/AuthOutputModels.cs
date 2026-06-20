@@ -28,8 +28,15 @@ public class LoginUserOutputModel(
     public string AccessToken { get; init; } = accessToken;
 }
 
-public class RefreshTokensOutputModel(string accessToken)
+public class RefreshTokensOutputModel(
+    Clinic clinic,
+    User user,
+    Role role,
+    Clinician? clinician,
+    string accessToken)
 {
+    public ClinicOutputModel Clinic { get; init; } = new(clinic);
+    public CurrentUserOutputModel User { get; init; } = new(user, role, clinician);
     public string AccessToken { get; init; } = accessToken;
 }
 

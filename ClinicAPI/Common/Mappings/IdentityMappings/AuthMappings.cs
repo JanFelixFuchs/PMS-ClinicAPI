@@ -1,5 +1,4 @@
 using Application.UseCases.AuthUseCases.Commands.LoginUserCommand;
-using Application.UseCases.AuthUseCases.Commands.RefreshTokensCommand;
 using Application.UseCases.AuthUseCases.Commands.RegisterClinicCommand;
 using Application.UseCases.AuthUseCases.Commands.UpdateClinicCodeCommand;
 using Application.UseCases.AuthUseCases.Commands.UpdatePasswordCommand;
@@ -37,15 +36,6 @@ public static class AuthMappings
             loginUserInputModel.Code,
             loginUserInputModel.Username,
             loginUserInputModel.Password);
-    }
-    
-    public static RefreshTokensCommand ToRefreshTokensCommand(
-        this RefreshTokensInputModel refreshTokensInputModel,
-        string refreshToken)
-    {
-        return new RefreshTokensCommand(
-            refreshTokensInputModel.AccessToken,
-            refreshToken);
     }
     
     public static UpdateClinicCodeCommand ToUpdateClinicCodeCommand(this UpdateClinicCodeInputModel updateClinicCodeInputModel)

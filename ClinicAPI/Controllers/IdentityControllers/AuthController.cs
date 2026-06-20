@@ -1,6 +1,7 @@
 using System.Net;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.UseCases.AuthUseCases.Commands.LogoutUserCommand;
+using Application.UseCases.AuthUseCases.Commands.RefreshTokensCommand;
 using Infrastructure.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,10 +57,10 @@ public class AuthController(
     [AllowAnonymous]
     [SwaggerOperation("Refreshes a user's access and refresh tokens")]
     [SwaggerResponse((int)HttpStatusCode.OK, "Refresh succeeded", typeof(HttpResult<RefreshTokensOutputModel>))]
-    public async Task<ActionResult<HttpResult<RefreshTokensOutputModel>>> RefreshTokens([FromBody] RefreshTokensInputModel refreshTokensInputModel)
+    public async Task<ActionResult<HttpResult<RefreshTokensOutputModel>>> RefreshTokens()
     {
         return await Execute(
-            refreshTokensInputModel.ToRefreshTokensCommand(GetRefreshTokenCookie()), 
+            new RefreshTokensCommand(GetRefreshTokenCookie()),
             HttpStatusCode.OK, 
             nameof(RefreshTokens),
             payloadSelector: result => result.Payload,

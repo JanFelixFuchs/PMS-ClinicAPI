@@ -26,9 +26,6 @@ public record LoginUserInputModel(
     [Required] string Username,
     [Required] string Password);
 
-public record RefreshTokensInputModel(
-    [Required] string AccessToken);
-
 public record UpdateClinicCodeInputModel(
     [Required] string OldCode,
     [Required] string NewCode);
