@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.Common.Services;
@@ -46,27 +45,5 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
     {
         // Returning refresh token
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-    }
-    
-    public ClaimsPrincipal GetPrincipalFromExpiredAccessToken(string accessToken)
-    {
-        // Setting token validation parameters
-        var tokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = jwtSettings.Value.Issuer,
-            ValidateAudience = true,
-            ValidAudience = jwtSettings.Value.Audience,
-            ValidateLifetime = false,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Secret)),
-            ClockSkew = TimeSpan.Zero
-        };
-
-        // Validating access token
-        var principal = new JwtSecurityTokenHandler().ValidateToken(accessToken, tokenValidationParameters, out _);
-        
-        // Returning principal
-        return principal;
     }
 }

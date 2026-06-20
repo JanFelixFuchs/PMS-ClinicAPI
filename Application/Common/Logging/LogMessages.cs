@@ -13,7 +13,6 @@ public static class LogMessages
     
     public const string ValidationFailed = "Failed to validate request {Request} with messages {Messages}";
     
-    public const string MissingMandatoryClaim = "Failed to authorize due to missing mandatory claims {ClinicIdClaim} or {UserIdClaim}";
     public const string InvalidMandatoryClaim = "Failed to authorize due to invalid mandatory claim {Claim}";
     public const string InvalidRefreshToken = "Failed to authorize due to invalid or expired refresh token for user with id {UserId}";
     
