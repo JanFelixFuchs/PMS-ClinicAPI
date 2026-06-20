@@ -129,4 +129,30 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
             throw new DatabaseReadException(nameof(User), exception.Message);
         }
     }
+
+    public async Task<User?> GetByRefreshTokenHashAsync(
+        string refreshTokenHash, 
+        CancellationToken cancellationToken,
+        params Expression<Func<User, object?>>[] includeProperties)
+    {
+        try
+        {
+            // Initializing query
+            IQueryable<User> query = databaseContext.Users;
+            
+            // Including properties
+            foreach (var property in includeProperties)
+                query = query.Include(property);
+            
+            // Querying user
+            return await query
+                .Where(user => user.RefreshTokenHash == refreshTokenHash)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            // Throwing exception
+            throw new DatabaseReadException(nameof(User), exception.Message);
+        }
+    }
 }

@@ -30,4 +30,9 @@ public interface IUserRepository
         string normalizedUsername,
         CancellationToken cancellationToken,
         params Expression<Func<User, object?>>[] includeProperties);
+    
+    Task<User?> GetByRefreshTokenHashAsync(
+        string refreshTokenHash, 
+        CancellationToken cancellationToken,
+        params Expression<Func<User, object?>>[] includeProperties);
 }
