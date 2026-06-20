@@ -22,7 +22,7 @@ public class GlobalExceptionHandlerMiddleware(
             // Handling authorization failures without any response body
             if (exception is AuthorizationFailedException)
             {
-                logger.LogInformation(LogMessages.EndpointCallFailed, HttpStatusCode.Unauthorized, "");
+                logger.LogInformation(LogMessages.EndpointCallFailed, HttpStatusCode.Unauthorized);
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return;
             }
@@ -33,7 +33,7 @@ public class GlobalExceptionHandlerMiddleware(
             // Logging exception
             if (exception is CustomExceptionBase)
             { 
-                logger.LogInformation(LogMessages.EndpointCallFailed, httpResult.HttpStatusCode, httpResult);
+                logger.LogInformation(LogMessages.EndpointCallFailed, httpResult.HttpStatusCode);
             }
             else
             { 

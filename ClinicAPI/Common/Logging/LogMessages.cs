@@ -4,7 +4,7 @@ public static class LogMessages
 {
     public const string EndpointCallStarted = "Started endpoint call {Endpoint}";
     public const string EndpointCallSucceeded = "Sucessfully completed endpoint call {Endpoint} with status code {StatusCode}";
-    public const string EndpointCallFailed = "Failed to process endpoint call with status code {StatusCode} and response {Response}";
+    public const string EndpointCallFailed = "Failed to process endpoint call with status code {StatusCode}";
     
     public const string AuthorizationSucceeded = "Completed authorization for resource {Resource} with access level {AccessLevel} >= required {MinimumAccessLevel}";
     
