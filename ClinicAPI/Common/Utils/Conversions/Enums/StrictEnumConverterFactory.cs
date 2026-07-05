@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace PMS_ClinicAPI.Common.Utils.Conversions;
+namespace PMS_ClinicAPI.Common.Utils.Conversions.Enums;
 
 public class StrictEnumConverterFactory : JsonConverterFactory
 {
