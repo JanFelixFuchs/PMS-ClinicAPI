@@ -15,7 +15,8 @@ using PMS_ClinicAPI.Common.Authorization;
 using PMS_ClinicAPI.Common.Exceptions;
 using PMS_ClinicAPI.Common.Logging;
 using PMS_ClinicAPI.Common.Middleware;
-using PMS_ClinicAPI.Common.Utils.Conversions;
+using PMS_ClinicAPI.Common.Utils.Conversions.DateTimes;
+using PMS_ClinicAPI.Common.Utils.Conversions.Enums;
 using PMS_ClinicAPI.Common.Utils.Returns;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -100,6 +101,9 @@ builder.Services
         // Configuring enum converter
         options.JsonSerializerOptions.Converters.Add(new StrictEnumConverterFactory());
 
+        // Configuring utc date time converter
+        options.JsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
+        
         // Configuring loop handling 
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 

@@ -13,6 +13,7 @@ using PMS_ClinicAPI.Common.Authorization;
 using PMS_ClinicAPI.Common.Base;
 using PMS_ClinicAPI.Common.InputModels.AppointmentInputModels;
 using PMS_ClinicAPI.Common.Mappings.AppointmentMappings;
+using PMS_ClinicAPI.Common.Utils.Conversions.DateTimes;
 using PMS_ClinicAPI.Common.Utils.Returns;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -49,8 +50,9 @@ public class AppointmentController(
         [FromQuery] DateTime endDateTime)
     {
         return await Execute(
-            new ReadAppointmentsQuery(startDate,
-                endDate),
+            new ReadAppointmentsQuery(
+                startDateTime.EnsureUtc(), 
+                endDateTime.EnsureUtc()),
             HttpStatusCode.OK,
             nameof(ReadAppointmentsByDateRange),
             payloadSelector: result => result);
