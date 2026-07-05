@@ -11,7 +11,7 @@ public class ReadAppointmentsQueryHandler(
     public async Task<List<AppointmentOverviewOutputModel>> Handle(ReadAppointmentsQuery request, CancellationToken cancellationToken)
     {
         // Querying appointments
-        var appointments = await appointmentRepository.GetByClinicIdAndDatesAsync(
+        var appointments = await appointmentRepository.GetByClinicIdAndDateTimesAsync(
             request.Clinic.Id, 
             request.StartDate,
             request.EndDate, 

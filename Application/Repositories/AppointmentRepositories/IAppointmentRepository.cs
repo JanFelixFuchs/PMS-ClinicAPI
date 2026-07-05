@@ -14,10 +14,10 @@ public interface IAppointmentRepository
         CancellationToken cancellationToken, 
         params Expression<Func<Appointment, object?>>[] includeProperties);
 
-    Task<ICollection<Appointment>> GetByClinicIdAndDatesAsync(
+    Task<ICollection<Appointment>> GetByClinicIdAndDateTimesAsync(
         Guid clinicId,
-        DateOnly startDate,
-        DateOnly endDate,
+        DateTime startDateTime,
+        DateTime endDateTime,
         CancellationToken cancellationToken,
         params Expression<Func<Appointment, object?>>[] includeProperties);
     

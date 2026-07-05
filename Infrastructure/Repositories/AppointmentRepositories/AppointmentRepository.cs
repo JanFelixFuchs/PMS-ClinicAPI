@@ -53,10 +53,10 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
         }
     }
     
-    public async Task<ICollection<Appointment>> GetByClinicIdAndDatesAsync(
+    public async Task<ICollection<Appointment>> GetByClinicIdAndDateTimesAsync(
         Guid clinicId, 
-        DateOnly startDate, 
-        DateOnly endDate,
+        DateTime startDateTime, 
+        DateTime endDateTime,
         CancellationToken cancellationToken, 
         params Expression<Func<Appointment, object?>>[] includeProperties)
     {
@@ -73,8 +73,8 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
             return await query
                 .Where(
                     appointment => appointment.ClinicId == clinicId && 
-                                   appointment.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && 
-                                   appointment.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))
+                                   appointment.StartTime >= startDateTime && 
+                                   appointment.EndTime <= endDateTime)
                 .ToListAsync(cancellationToken);
         }
         catch (Exception exception)
