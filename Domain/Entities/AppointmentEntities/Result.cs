@@ -104,7 +104,7 @@ public class Result : IEntity, IDeletable
         // Validating
         ValidationHelper.ConstructPropertyValidation(
             ValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
-            ValidationConditions.IsDateInThePast(dateOfCreation, nameof(DateOfCreation)));
+            ValidationConditions.IsDateTimeInThePast(dateOfCreation, nameof(DateOfCreation)));
         
         // Setting property
         DateOfCreation = dateOfCreation.Date;

@@ -261,7 +261,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Validating
         ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrDateInThePast(dateOfPurchase, nameof(DateOfPurchase)));
+            ValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, nameof(DateOfPurchase)));
         
         // Setting property
         DateOfPurchase = dateOfPurchase?.Date;
@@ -272,7 +272,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Validating
         ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrDateInThePast(dateOfLastMaintenance, nameof(DateOfLastMaintenance)));
+            ValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, nameof(DateOfLastMaintenance)));
         
         // Setting property
         DateOfLastMaintenance = dateOfLastMaintenance?.Date;

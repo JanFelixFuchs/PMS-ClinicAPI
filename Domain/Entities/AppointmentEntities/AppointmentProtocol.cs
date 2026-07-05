@@ -96,7 +96,7 @@ public class AppointmentProtocol : IEntity
             
         // Setting properties
         Status = AppointmentProtocolStatus.Started;
-        DateOfProcessingStart = DateTime.UtcNow.Date; 
+        DateOfProcessingStart = DateTime.UtcNow; 
     }
     
     // Method to set the status to completed
@@ -107,7 +107,7 @@ public class AppointmentProtocol : IEntity
             throw new InvalidOperationException($"Cannot complete an {nameof(AppointmentProtocol)} that is not {nameof(AppointmentProtocolStatus.Started)}");
         
         // Setting properties
-        DateOfProcessingCompletion = DateTime.UtcNow.Date;
+        DateOfProcessingCompletion = DateTime.UtcNow;
         Status = AppointmentProtocolStatus.Completed;
     }
     
@@ -131,7 +131,7 @@ public class AppointmentProtocol : IEntity
         // Validating
         ValidationHelper.ConstructPropertyValidation(
             ValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
-            ValidationConditions.IsDateInThePast(appointmentDate, nameof(DateOfAppointment)));
+            ValidationConditions.IsDateTimeInThePast(appointmentDate, nameof(DateOfAppointment)));
         
         // Setting property
         DateOfAppointment = appointmentDate.Date;

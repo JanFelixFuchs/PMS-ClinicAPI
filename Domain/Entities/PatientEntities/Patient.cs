@@ -59,7 +59,7 @@ public class Patient : IEntity, IDeletable, IArchivable
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
-        DateOfCreation = DateTime.UtcNow.Date;
+        DateOfCreation = DateTime.UtcNow;
         ValidateAndSetFirstName(firstName);
         ValidateAndSetLastName(lastName);
         ValidateAndSetDateOfBirth(dateOfBirth);
@@ -201,7 +201,7 @@ public class Patient : IEntity, IDeletable, IArchivable
         // Validating
         ValidationHelper.ConstructPropertyValidation(
             ValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
-            ValidationConditions.IsDateInThePast(dateOfBirth, nameof(DateOfBirth)));
+            ValidationConditions.IsDateTimeInThePast(dateOfBirth, nameof(DateOfBirth)));
         
         // Setting property
         DateOfBirth = dateOfBirth.Date;
