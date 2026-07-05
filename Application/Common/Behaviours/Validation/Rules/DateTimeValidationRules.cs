@@ -38,19 +38,4 @@ public static class DateTimeValidationRules
         ruleBuilder
             .Must(value => value == null || value <= DateTime.UtcNow)
             .WithMessage("{PropertyName} must be null or in the past");
-    
-    public static IRuleBuilderOptions<T, DateOnly> ValidRequiredDate<T>(this IRuleBuilder<T, DateOnly> ruleBuilder) =>
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("{PropertyName} must be not empty");
-    
-    public static IRuleBuilderOptions<T, DateOnly> ValidRequiredBeforeDate<T>(this IRuleBuilder<T, DateOnly> ruleBuilder, Func<T, DateOnly> maxDateSelector) =>
-        ruleBuilder
-            .Must((request, dateTime) => dateTime <= maxDateSelector(request))
-            .WithMessage("{PropertyName} must be before than or equal to to the maximum allowed date");
-    
-    public static IRuleBuilderOptions<T, DateOnly> ValidRequiredAfterDate<T>(this IRuleBuilder<T, DateOnly> ruleBuilder, Func<T, DateOnly> minDateSelector) =>
-        ruleBuilder
-            .Must((request, dateTime) => dateTime >= minDateSelector(request))
-            .WithMessage("{PropertyName} must be after than or equal to to the minimum allowed date");
 }
