@@ -13,8 +13,8 @@ public class ReadAppointmentsQueryHandler(
         // Querying appointments
         var appointments = await appointmentRepository.GetByClinicIdAndDateTimesAsync(
             request.Clinic.Id, 
-            request.StartDate,
-            request.EndDate, 
+            request.StartDateTime,
+            request.EndDateTime, 
             cancellationToken);
         
         // Returning output model

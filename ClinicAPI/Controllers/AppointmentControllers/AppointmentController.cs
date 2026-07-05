@@ -45,8 +45,8 @@ public class AppointmentController(
     [SwaggerOperation("Reads appointments by date range")]
     [SwaggerResponse((int)HttpStatusCode.OK, "Reading succeeded", typeof(HttpResult<List<AppointmentOverviewOutputModel>>))]
     public async Task<ActionResult<HttpResult<List<AppointmentOverviewOutputModel>>>> ReadAppointmentsByDateRange(
-        [FromQuery] DateOnly startDate,
-        [FromQuery] DateOnly endDate)
+        [FromQuery] DateTime startDateTime,
+        [FromQuery] DateTime endDateTime)
     {
         return await Execute(
             new ReadAppointmentsQuery(startDate,

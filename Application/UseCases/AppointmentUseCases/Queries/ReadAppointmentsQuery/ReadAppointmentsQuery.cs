@@ -6,8 +6,8 @@ using MediatR;
 namespace Application.UseCases.AppointmentUseCases.Queries.ReadAppointmentsQuery;
 
 public record ReadAppointmentsQuery(
-    DateOnly StartDate,
-    DateOnly EndDate) 
+    DateTime StartDateTime,
+    DateTime EndDateTime) 
     : IRequest<List<AppointmentOverviewOutputModel>>, IRequireRequestContext
 {
     public Clinic Clinic { get; set; } = null!;

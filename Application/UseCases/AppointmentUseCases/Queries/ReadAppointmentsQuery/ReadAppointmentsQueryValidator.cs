@@ -7,12 +7,12 @@ public class ReadAppointmentsQueryValidator : AbstractValidator<ReadAppointments
 {
     public ReadAppointmentsQueryValidator()
     {
-        RuleFor(query => query.StartDate)
-            .ValidRequiredDate()
-            .ValidRequiredBeforeDate(query => query.EndDate);
+        RuleFor(query => query.StartDateTime)
+            .ValidRequiredDateTime()
+            .ValidRequiredBeforeDateTime(query => query.EndDateTime);
         
-        RuleFor(query => query.EndDate)
-            .ValidRequiredDate()
-            .ValidRequiredAfterDate(query => query.StartDate);
+        RuleFor(query => query.EndDateTime)
+            .ValidRequiredDateTime()
+            .ValidRequiredAfterDateTime(query => query.StartDateTime);
     }
 }
