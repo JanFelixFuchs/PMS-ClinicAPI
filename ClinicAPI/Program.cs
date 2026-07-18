@@ -272,6 +272,9 @@ app.UseHttpsRedirection();
 // Using routing
 app.UseRouting();
 
+// Using request logging context middleware
+app.UseMiddleware<RequestLoggingContextMiddleware>();
+
 // Using global exception handler
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
