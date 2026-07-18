@@ -15,14 +15,23 @@ public class LoggingBehaviour<TRequest, TResponse>(
     {
         // Logging request start
         logger.LogInformation(LogMessages.RequestStarted, typeof(TRequest).Name);
-        
-        // Executing request
-        var response = await next(cancellationToken);
-        
-        // Logging request completion
-        logger.LogInformation(LogMessages.RequestCompleted, typeof(TRequest).Name);
-        
-        // Returning response
-        return response;
+
+        try
+        {
+            // Executing request
+            var response = await next(cancellationToken);
+
+            // Logging request completion
+            logger.LogInformation(LogMessages.RequestCompleted, typeof(TRequest).Name);
+
+            // Returning response
+            return response;
+        }
+        catch (Exception)
+        {
+            // Logging request failure
+            logger.LogInformation(LogMessages.RequestFailed, typeof(TRequest).Name);
+            throw;
+        }
     }
 }
