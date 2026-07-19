@@ -224,7 +224,7 @@ using (var scope = app.Services.CreateScope())
     {
         // Migrating database
         await databaseContext.Database.MigrateAsync();
-        Log.Logger.Information(LogMessages.DatabaseMigrationsSucceeded);
+        Log.Information(LogMessages.DatabaseMigrationsSucceeded);
     }
     catch (Exception)
     {
