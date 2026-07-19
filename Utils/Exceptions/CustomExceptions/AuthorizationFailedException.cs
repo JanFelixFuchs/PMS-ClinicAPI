@@ -1,7 +1,7 @@
 using System.Net;
 using Utils.Exceptions.Base;
 
-namespace Application.Common.Exceptions;
+namespace Utils.Exceptions.CustomExceptions;
 
 public class AuthorizationFailedException()
     : CustomExceptionBase("Authorization failed", HttpStatusCode.Unauthorized);

@@ -1,5 +1,5 @@
 using System.Net;
-using Application.Common.Exceptions;
+using Utils.Exceptions.CustomExceptions;
 using Infrastructure.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

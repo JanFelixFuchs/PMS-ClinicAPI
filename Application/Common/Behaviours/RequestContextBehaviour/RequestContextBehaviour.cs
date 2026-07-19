@@ -1,10 +1,10 @@
 using Application.Common.Contexts;
-using Application.Common.Exceptions;
 using Application.Common.Logging;
 using Application.Repositories.IdentityRepositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Utils.Authentication;
+using Utils.Exceptions.CustomExceptions;
 
 namespace Application.Common.Behaviours.RequestContextBehaviour;
 

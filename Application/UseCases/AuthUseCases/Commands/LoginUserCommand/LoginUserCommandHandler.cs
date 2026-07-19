@@ -1,5 +1,4 @@
 using Application.Common.Configuration;
-using Application.Common.Exceptions;
 using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Services;
@@ -10,6 +9,7 @@ using Domain.Commons.Utils.Helper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Utils.Exceptions.CustomExceptions;
 
 namespace Application.UseCases.AuthUseCases.Commands.LoginUserCommand;
 
