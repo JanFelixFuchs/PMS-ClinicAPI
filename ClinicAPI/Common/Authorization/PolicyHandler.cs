@@ -16,7 +16,7 @@ public class PolicyHandler(ILogger<PolicyHandler> logger)
         var claim = authorizationHandlerContext.User.FindFirst($"{ClaimNames.PermissionPrefix}{policyRequirement.Resource}");
         if (claim == null)
         {
-            logger.LogError(LogMessages.MissingPolicyClaim, policyRequirement.Resource.ToString());
+            logger.LogWarning(LogMessages.MissingPolicyClaim, policyRequirement.Resource.ToString());
             authorizationHandlerContext.Fail();
             return Task.CompletedTask;
         }
@@ -24,7 +24,7 @@ public class PolicyHandler(ILogger<PolicyHandler> logger)
         // Checking for valid access level
         if (!Enum.TryParse<ClaimValue>(claim.Value, true, out var accessLevel))
         {
-            logger.LogError(LogMessages.InvalidPolicyClaim, claim.Value, policyRequirement.Resource.ToString());  
+            logger.LogWarning(LogMessages.InvalidPolicyClaim, claim.Value, policyRequirement.Resource.ToString());  
             authorizationHandlerContext.Fail();
             return Task.CompletedTask;
         }
@@ -37,7 +37,7 @@ public class PolicyHandler(ILogger<PolicyHandler> logger)
         }
         else
         {
-            logger.LogError(LogMessages.InsufficientAccessLevel, accessLevel.ToString(), policyRequirement.MinimumAccessLevel.ToString(), policyRequirement.Resource.ToString());
+            logger.LogWarning(LogMessages.InsufficientAccessLevel, accessLevel.ToString(), policyRequirement.MinimumAccessLevel.ToString(), policyRequirement.Resource.ToString());
             authorizationHandlerContext.Fail();
         }
         
