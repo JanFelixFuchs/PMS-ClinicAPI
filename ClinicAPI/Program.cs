@@ -156,7 +156,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 if (clinicIdClaim == null || !Guid.TryParse(clinicIdClaim.Value, out _) ||
                     userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out _))
                 {
-                    Log.Error(LogMessages.MissingMandatoryClaim, ClaimNames.ClinicId, ClaimNames.UserId);
+                    Log.Warning(LogMessages.MissingMandatoryClaim, ClaimNames.ClinicId, ClaimNames.UserId);
                     context.Fail($"Required claims {ClaimNames.ClinicId} and {ClaimNames.UserId} are missing");
                 }
 
