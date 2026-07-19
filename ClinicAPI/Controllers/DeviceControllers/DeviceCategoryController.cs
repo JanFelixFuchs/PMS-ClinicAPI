@@ -34,8 +34,7 @@ public class DeviceCategoryController(
     {
         return await Execute(
             createDeviceCategoryInputModel.ToCreateDeviceCategoryCommand(), 
-            HttpStatusCode.Created, 
-            nameof(CreateDeviceCategory),
+            HttpStatusCode.Created,
             payloadSelector: result => result);
     }
     
@@ -48,7 +47,6 @@ public class DeviceCategoryController(
         return await Execute(
             new ReadDeviceCategoriesQuery(),
             HttpStatusCode.OK,
-            nameof(ReadDeviceCategories),
             payloadSelector: result => result);
     }
     
@@ -61,7 +59,6 @@ public class DeviceCategoryController(
         return await Execute(
             new ReadDeviceCategoryQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadDeviceCategory),
             payloadSelector: result => result);
     }
     
@@ -76,7 +73,6 @@ public class DeviceCategoryController(
         return await Execute(
             updateDeviceCategoryInputModel.ToUpdateDeviceCategoryCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdateDeviceCategory),
             payloadSelector: result => result);
     }
     
@@ -86,9 +82,6 @@ public class DeviceCategoryController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteDeviceCategory([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteDeviceCategoryCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteDeviceCategory));
+        return await Execute(new DeleteDeviceCategoryCommand(id), HttpStatusCode.OK);
     }
 }

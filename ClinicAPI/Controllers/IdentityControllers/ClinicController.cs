@@ -31,8 +31,7 @@ public class ClinicController(
     {
         return await Execute(
             updateClinicInputModel.ToUpdateClinicCommand(), 
-            HttpStatusCode.OK, 
-            nameof(UpdateClinic),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
 }

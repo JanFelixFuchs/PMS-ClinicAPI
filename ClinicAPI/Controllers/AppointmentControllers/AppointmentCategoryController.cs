@@ -34,8 +34,7 @@ public class AppointmentCategoryController(
     {
         return await Execute(
             createAppointmentCategoryInputModel.ToCreateAppointmentCategoryCommand(), 
-            HttpStatusCode.Created, 
-            nameof(CreateAppointmentCategory),
+            HttpStatusCode.Created,
             payloadSelector: result => result);
     }
     
@@ -47,8 +46,7 @@ public class AppointmentCategoryController(
     {
         return await Execute(new 
             ReadAppointmentCategoriesQuery(), 
-            HttpStatusCode.OK, 
-            nameof(ReadAppointmentCategories),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -60,8 +58,7 @@ public class AppointmentCategoryController(
     {
         return await Execute(
             new ReadAppointmentCategoryQuery(id), 
-            HttpStatusCode.OK, 
-            nameof(ReadAppointmentCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -75,8 +72,7 @@ public class AppointmentCategoryController(
     {
         return await Execute(
             updateAppointmentCategoryInputModel.ToUpdateAppointmentCategoryCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateAppointmentCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -86,9 +82,6 @@ public class AppointmentCategoryController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteAppointmentCategory([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteAppointmentCategoryCommand(id), 
-            HttpStatusCode.OK,
-            nameof(DeleteAppointmentCategory));
+        return await Execute(new DeleteAppointmentCategoryCommand(id), HttpStatusCode.OK);
     }
 }

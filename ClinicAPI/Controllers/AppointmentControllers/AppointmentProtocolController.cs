@@ -34,8 +34,7 @@ public class AppointmentProtocolController(
     {
         return await Execute(
             new ReadAppointmentProtocolQuery(id), 
-            HttpStatusCode.OK, 
-            nameof(ReadAppointmentProtocol),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -49,8 +48,7 @@ public class AppointmentProtocolController(
     {
         return await Execute(
             updateAppointmentProtocolInputModel.ToUpdateAppointmentProtocolCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateAppointmentProtocol),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -62,8 +60,7 @@ public class AppointmentProtocolController(
     {
         return await Execute(
             new StartAppointmentProtocolCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(StartAppointmentProtocol),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -75,8 +72,7 @@ public class AppointmentProtocolController(
     {
         return await Execute(
             new CompleteAppointmentProtocolCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(CompleteAppointmentProtocol),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
 }

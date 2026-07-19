@@ -37,7 +37,6 @@ public class UserController(
         return await Execute(
             createUserInputModel.ToCreateUserCommand(),
             HttpStatusCode.Created,
-            nameof(CreateUser),
             payloadSelector: result => result);
     }
     
@@ -50,7 +49,6 @@ public class UserController(
         return await Execute(
             new ReadUsersQuery(archived),
             HttpStatusCode.OK,
-            nameof(ReadUsers),
             payloadSelector: result => result);
     }
     
@@ -63,7 +61,6 @@ public class UserController(
         return await Execute(
             new ReadUserQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadUser),
             payloadSelector: result => result);
     }
     
@@ -78,7 +75,6 @@ public class UserController(
         return await Execute(
             updateUserInputModel.ToUpdateUserCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdateUser),
             payloadSelector: result => result);
     }
     
@@ -91,7 +87,6 @@ public class UserController(
         return await Execute(
             new ArchiveUserCommand(id),
             HttpStatusCode.OK,
-            nameof(ArchiveUser),
             payloadSelector: result => result);
     }
     
@@ -104,7 +99,6 @@ public class UserController(
         return await Execute(
             new UnarchiveUserCommand(id),
             HttpStatusCode.OK,
-            nameof(UnarchiveUser),
             payloadSelector: result => result);
     }
     
@@ -114,9 +108,6 @@ public class UserController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteUser([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteUserCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteUser));
+        return await Execute(new DeleteUserCommand(id), HttpStatusCode.OK);
     }
 }

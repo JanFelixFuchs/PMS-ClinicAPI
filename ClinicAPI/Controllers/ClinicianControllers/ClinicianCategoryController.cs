@@ -35,7 +35,6 @@ public class ClinicianCategoryController(
         return await Execute(
             createClinicianCategoryInputModel.ToCreateClinicianCategoryCommand(),
             HttpStatusCode.Created,
-            nameof(CreateClinicianCategory),
             payloadSelector: result => result);
     }
     
@@ -48,7 +47,6 @@ public class ClinicianCategoryController(
         return await Execute(
             new ReadClinicianCategoriesQuery(),
             HttpStatusCode.OK,
-            nameof(ReadClinicianCategories),
             payloadSelector: result => result);
     }
     
@@ -60,8 +58,7 @@ public class ClinicianCategoryController(
     {
         return await Execute(
             new ReadClinicianCategoryQuery(id), 
-            HttpStatusCode.OK, 
-            nameof(ReadClinicianCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -75,8 +72,7 @@ public class ClinicianCategoryController(
     {
         return await Execute(
             updateClinicianCategoryInputModel.ToUpdateClinicianCategoryCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateClinicianCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -86,9 +82,6 @@ public class ClinicianCategoryController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteClinicianCategory([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteClinicianCategoryCommand(id), 
-            HttpStatusCode.OK,
-            nameof(DeleteClinicianCategory));
+        return await Execute(new DeleteClinicianCategoryCommand(id), HttpStatusCode.OK);
     }
 }

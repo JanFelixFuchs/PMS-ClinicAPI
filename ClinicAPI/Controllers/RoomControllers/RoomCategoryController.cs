@@ -35,7 +35,6 @@ public class RoomCategoryController(
         return await Execute(
             createRoomCategoryInputModel.ToCreateRoomCategoryCommand(),
             HttpStatusCode.Created,
-            nameof(CreateRoomCategory),
             payloadSelector: result => result);
     }
     
@@ -47,8 +46,7 @@ public class RoomCategoryController(
     {
         return await Execute(
             new ReadRoomCategoriesQuery(), 
-            HttpStatusCode.OK, 
-            nameof(ReadRoomCategories),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -60,8 +58,7 @@ public class RoomCategoryController(
     {
         return await Execute(
             new ReadRoomCategoryQuery(id), 
-            HttpStatusCode.OK, 
-            nameof(ReadRoomCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -75,8 +72,7 @@ public class RoomCategoryController(
     {
         return await Execute(
             updateRoomCategoryInputModel.ToUpdateRoomCategoryCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateRoomCategory),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -86,9 +82,6 @@ public class RoomCategoryController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteRoomCategory([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteRoomCategoryCommand(id), 
-            HttpStatusCode.OK,
-            nameof(DeleteRoomCategory));
+        return await Execute(new DeleteRoomCategoryCommand(id), HttpStatusCode.OK);
     }
 }

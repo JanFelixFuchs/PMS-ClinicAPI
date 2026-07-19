@@ -36,8 +36,7 @@ public class RoomController(
     {
         return await Execute(
             createRoomInputModel.ToCreateRoomCommand(), 
-            HttpStatusCode.Created, 
-            nameof(CreateRoom),
+            HttpStatusCode.Created,
             payloadSelector: result => result);
     }
     
@@ -49,8 +48,7 @@ public class RoomController(
     {
         return await Execute(
             new ReadRoomsQuery(archived), 
-            HttpStatusCode.OK, 
-            nameof(ReadRooms),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -62,8 +60,7 @@ public class RoomController(
     {
         return await Execute(
             new ReadRoomQuery(id), 
-            HttpStatusCode.OK, 
-            nameof(ReadRoom),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -77,8 +74,7 @@ public class RoomController(
     {
         return await Execute(
             updateRoomInputModel.ToUpdateRoomCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateRoom),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -90,8 +86,7 @@ public class RoomController(
     {
         return await Execute(
             new ArchiveRoomCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(ArchiveRoom),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -103,8 +98,7 @@ public class RoomController(
     {
         return await Execute(
             new UnarchiveRoomCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UnarchiveRoom),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -114,9 +108,6 @@ public class RoomController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteRoom([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteRoomCommand(id), 
-            HttpStatusCode.OK,
-            nameof(DeleteRoom));
+        return await Execute(new DeleteRoomCommand(id), HttpStatusCode.OK);
     }
 }

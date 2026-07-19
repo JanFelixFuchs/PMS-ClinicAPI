@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PMS_ClinicAPI.Common.Logging;
+using PMS_ClinicAPI.Common.Utils.Helper;
 using PMS_ClinicAPI.Common.Utils.Returns;
 
 namespace PMS_ClinicAPI.Common.Base;
@@ -22,10 +23,12 @@ public abstract class CustomControllerBase<TController>(
     protected async Task<ActionResult<HttpResult<TPayload>>> Execute<TResult, TPayload>(
         IRequest<TResult> request,
         HttpStatusCode statusCode,
-        string endpointName,
         Func<TResult, TPayload> payloadSelector,
         Action<TResult>? postProcessingAction = null)
     {
+        // Getting endpoint name
+        var endpointName = EndpointHelper.GetEndpointName(HttpContext);
+        
         // Logging endpoint execution start
         logger.LogInformation(LogMessages.EndpointCallStarted, endpointName);
         
@@ -44,9 +47,11 @@ public abstract class CustomControllerBase<TController>(
     protected async Task<ActionResult<HttpResult<EmptyPayload>>> Execute(
         IRequest request,
         HttpStatusCode statusCode,
-        string endpointName,
         Action? postProcessingAction = null)
     {
+        // Getting endpoint name
+        var endpointName = EndpointHelper.GetEndpointName(HttpContext);
+        
         // Logging endpoint executing start
         logger.LogInformation(LogMessages.EndpointCallStarted, endpointName);
 

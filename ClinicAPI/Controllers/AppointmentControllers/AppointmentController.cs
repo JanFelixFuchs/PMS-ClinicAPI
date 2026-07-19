@@ -37,7 +37,6 @@ public class AppointmentController(
         return await Execute(
             createAppointmentInputModel.ToCreateAppointmentCommand(),
             HttpStatusCode.Created,
-            nameof(CreateAppointment),
             payloadSelector: result => result);
     }
     
@@ -54,7 +53,6 @@ public class AppointmentController(
                 startDateTime.EnsureUtc(), 
                 endDateTime.EnsureUtc()),
             HttpStatusCode.OK,
-            nameof(ReadAppointmentsByDateRange),
             payloadSelector: result => result);
     }
     
@@ -67,7 +65,6 @@ public class AppointmentController(
         return await Execute(
             new ReadAppointmentQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadAppointment),
             payloadSelector: result => result);
     }
     
@@ -81,8 +78,7 @@ public class AppointmentController(
     {
         return await Execute(
             updateAppointmentInputModel.ToUpdateAppointmentCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(UpdateAppointment),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -94,8 +90,7 @@ public class AppointmentController(
     {
         return await Execute(
             new MarkAppointmentAsAttendedCommand(id), 
-            HttpStatusCode.OK, 
-            nameof(MarkAppointmentAsAttended),
+            HttpStatusCode.OK,
             payloadSelector: result => result);
     }
     
@@ -105,9 +100,6 @@ public class AppointmentController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteAppointment([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteAppointmentCommand(id), 
-            HttpStatusCode.OK,
-            nameof(DeleteAppointment));
+        return await Execute(new DeleteAppointmentCommand(id), HttpStatusCode.OK);
     }
 }

@@ -36,8 +36,7 @@ public class ClinicianController(
     {
         return await Execute(
             createClinicianInputModel.ToCreateClinicianCommand(), 
-            HttpStatusCode.Created, 
-            nameof(CreateClinician),
+            HttpStatusCode.Created,
             payloadSelector: result => result);
     }
     
@@ -50,7 +49,6 @@ public class ClinicianController(
         return await Execute(
             new ReadCliniciansQuery(archived),
             HttpStatusCode.OK,
-            nameof(ReadClinicians),
             payloadSelector: result => result);
     }
     
@@ -63,7 +61,6 @@ public class ClinicianController(
         return await Execute(
             new ReadClinicianQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadClinician),
             payloadSelector: result => result);
     }
     
@@ -78,7 +75,6 @@ public class ClinicianController(
         return await Execute(
             updateClinicianInputModel.ToUpdateClinicianCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdateClinician),
             payloadSelector: result => result);
     }
     
@@ -92,7 +88,6 @@ public class ClinicianController(
         return await Execute(
             new ArchiveClinicianCommand(id),
             HttpStatusCode.OK,
-            nameof(ArchiveClinician),
             payloadSelector: result => result);
     }
     
@@ -105,7 +100,6 @@ public class ClinicianController(
         return await Execute(
             new UnarchiveClinicianCommand(id),
             HttpStatusCode.OK,
-            nameof(UnarchiveClinician),
             payloadSelector: result => result);
     }
     
@@ -115,9 +109,6 @@ public class ClinicianController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteClinician([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteClinicianCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteClinician));
+        return await Execute(new DeleteClinicianCommand(id), HttpStatusCode.OK);
     }
 }

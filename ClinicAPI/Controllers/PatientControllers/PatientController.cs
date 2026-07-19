@@ -37,7 +37,6 @@ public class PatientController(
         return await Execute(
             createPatientInputModel.ToCreatePatientCommand(),
             HttpStatusCode.Created,
-            nameof(CreatePatient),
             payloadSelector: result => result);
     }
     
@@ -50,7 +49,6 @@ public class PatientController(
         return await Execute(
             new ReadPatientsQuery(archived),
             HttpStatusCode.OK,
-            nameof(ReadPatients),
             payloadSelector: result => result);
     }
     
@@ -63,7 +61,6 @@ public class PatientController(
         return await Execute(
             new ReadPatientQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadPatient),
             payloadSelector: result => result);
     }
     
@@ -78,7 +75,6 @@ public class PatientController(
         return await Execute(
             updatePatientInputModel.ToUpdatePatientCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdatePatient),
             payloadSelector: result => result);
     }
     
@@ -91,7 +87,6 @@ public class PatientController(
         return await Execute(
             new ArchivePatientCommand(id),
             HttpStatusCode.OK,
-            nameof(ArchivePatient),
             payloadSelector: result => result);
     }
     
@@ -104,7 +99,6 @@ public class PatientController(
         return await Execute(
             new UnarchivePatientCommand(id),
             HttpStatusCode.OK,
-            nameof(UnarchivePatient),
             payloadSelector: result => result);
     }
     
@@ -114,9 +108,6 @@ public class PatientController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeletePatient([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeletePatientCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeletePatient));
+        return await Execute(new DeletePatientCommand(id), HttpStatusCode.OK);
     }
 }

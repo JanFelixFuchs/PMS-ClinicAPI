@@ -33,8 +33,7 @@ public class AuthController(
     {
         return await Execute(
             registerClinicInputModel.ToRegisterClinicCommand(), 
-            HttpStatusCode.Created, 
-            nameof(RegisterClinic),
+            HttpStatusCode.Created,
             payloadSelector: result => result.Payload,
             postProcessingAction: result => SetRefreshTokenCookie(result.RefreshToken));
     }
@@ -47,8 +46,7 @@ public class AuthController(
     {
         return await Execute(
             loginUserInputModel.ToLoginUserCommand(), 
-            HttpStatusCode.OK, 
-            nameof(LoginUser),
+            HttpStatusCode.OK,
             payloadSelector: result => result.Payload,
             postProcessingAction: result => SetRefreshTokenCookie(result.RefreshToken));
     }
@@ -61,8 +59,7 @@ public class AuthController(
     {
         return await Execute(
             new RefreshTokensCommand(GetRefreshTokenCookie()),
-            HttpStatusCode.OK, 
-            nameof(RefreshTokens),
+            HttpStatusCode.OK,
             payloadSelector: result => result.Payload,
             postProcessingAction: result => SetRefreshTokenCookie(result.RefreshToken));
     }
@@ -73,10 +70,7 @@ public class AuthController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Updating succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> UpdateClinicCode([FromBody] UpdateClinicCodeInputModel updateClinicCodeInputModel)
     {
-        return await Execute(
-            updateClinicCodeInputModel.ToUpdateClinicCodeCommand(),
-            HttpStatusCode.OK,
-            nameof(UpdateClinicCode));
+        return await Execute(updateClinicCodeInputModel.ToUpdateClinicCodeCommand(), HttpStatusCode.OK);
     }
     
     [HttpPut("username")]
@@ -88,7 +82,6 @@ public class AuthController(
         return await Execute(
             updateUsernameInputModel.ToUpdateUsernameCommand(),
             HttpStatusCode.OK,
-            nameof(UpdateUsername),
             payloadSelector: result => result);
     }
     
@@ -100,8 +93,7 @@ public class AuthController(
     {
         return await Execute(
             updatePasswordInputModel.ToUpdatePasswordCommand(), 
-            HttpStatusCode.OK, 
-            nameof(UpdatePassword),
+            HttpStatusCode.OK,
             payloadSelector: result => result.Payload,
             postProcessingAction: result => SetRefreshTokenCookie(result.RefreshToken));
     }
@@ -115,7 +107,6 @@ public class AuthController(
         return await Execute(
             new LogoutUserCommand(), 
             HttpStatusCode.OK,
-            nameof(LogoutUser),
             DeleteRefreshTokenCookie);
     }
 }

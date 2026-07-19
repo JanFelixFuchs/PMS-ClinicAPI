@@ -34,7 +34,6 @@ public class ResultController(
         return await Execute(
             createResultInputModel.ToCreateResultCommand(),
             HttpStatusCode.Created,
-            nameof(CreateResult),
             payloadSelector: result => result);
     }
     
@@ -47,7 +46,6 @@ public class ResultController(
         return await Execute(
             new ReadResultQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadResult),
             payloadSelector: result => result);
     }
     
@@ -57,9 +55,6 @@ public class ResultController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteResult([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteResultCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteResult));
+        return await Execute(new DeleteResultCommand(id), HttpStatusCode.OK);
     }
 }

@@ -34,8 +34,7 @@ public class RoleController(
     {
         return await Execute(
             createRoleInputModel.ToCreateRoleCommand(), 
-            HttpStatusCode.Created, 
-            nameof(CreateRole),
+            HttpStatusCode.Created,
             payloadSelector: result => result);
     }
     
@@ -48,7 +47,6 @@ public class RoleController(
         return await Execute(
             new ReadRolesQuery(),
             HttpStatusCode.OK,
-            nameof(ReadRoles),
             payloadSelector: result => result);
     }
     
@@ -61,7 +59,6 @@ public class RoleController(
         return await Execute(
             new ReadRoleQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadRole),
             payloadSelector: result => result);
     }
     
@@ -76,7 +73,6 @@ public class RoleController(
         return await Execute(
             updateRoleInputModel.ToUpdateRoleCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdateRole),
             payloadSelector: result => result);
     }
     
@@ -86,9 +82,6 @@ public class RoleController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteRole([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteRoleCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteRole));
+        return await Execute(new DeleteRoleCommand(id), HttpStatusCode.OK);
     }
 }

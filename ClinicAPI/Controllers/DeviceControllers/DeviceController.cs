@@ -39,7 +39,6 @@ public class DeviceController(
         return await Execute(
             createDeviceInputModel.ToCreateDeviceCommand(),
             HttpStatusCode.Created,
-            nameof(CreateDevice),
             payloadSelector: result => result);
     }
     
@@ -52,7 +51,6 @@ public class DeviceController(
         return await Execute(
             new ReadDevicesQuery(archived),
             HttpStatusCode.OK,
-            nameof(ReadDevices),
             payloadSelector: result => result);
     }
     
@@ -65,7 +63,6 @@ public class DeviceController(
         return await Execute(
             new ReadDeviceQuery(id),
             HttpStatusCode.OK,
-            nameof(ReadDevice),
             payloadSelector: result => result);
     }
     
@@ -80,7 +77,6 @@ public class DeviceController(
         return await Execute(
             updateDeviceInputModel.ToUpdateDeviceCommand(id),
             HttpStatusCode.OK,
-            nameof(UpdateDevice),
             payloadSelector: result => result);
     }
     
@@ -96,7 +92,6 @@ public class DeviceController(
             new UpdateDeviceStatusCommand(id,
                 status),
             HttpStatusCode.OK,
-            nameof(UpdateDeviceStatus),
             payloadSelector: result => result);
     }
     
@@ -109,7 +104,6 @@ public class DeviceController(
         return await Execute(
             new ArchiveDeviceCommand(id),
             HttpStatusCode.OK,
-            nameof(ArchiveDevice),
             payloadSelector: result => result);
     }
     
@@ -122,7 +116,6 @@ public class DeviceController(
         return await Execute(
             new UnarchiveDeviceCommand(id),
             HttpStatusCode.OK,
-            nameof(UnarchiveDevice),
             payloadSelector: result => result);
     }
     
@@ -132,9 +125,6 @@ public class DeviceController(
     [SwaggerResponse((int)HttpStatusCode.OK, "Deleting succeeded", typeof(HttpResult<EmptyPayload>))]
     public async Task<ActionResult<HttpResult<EmptyPayload>>> DeleteDevice([FromRoute] Guid id)
     {
-        return await Execute(
-            new DeleteDeviceCommand(id),
-            HttpStatusCode.OK,
-            nameof(DeleteDevice));
+        return await Execute(new DeleteDeviceCommand(id), HttpStatusCode.OK);
     }
 }
