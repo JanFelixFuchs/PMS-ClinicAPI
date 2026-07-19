@@ -2,9 +2,9 @@ namespace PMS_ClinicAPI.Common.Logging;
 
 public static class LogMessages
 {
-    public const string EndpointCallStarted = "Started endpoint call {Endpoint}";
-    public const string EndpointCallSucceeded = "Sucessfully completed endpoint call {Endpoint} with status code {StatusCode}";
-    public const string EndpointCallFailed = "Failed to process endpoint call with status code {StatusCode}";
+    public const string EndpointCallStarted = "{Endpoint} endpoint call started";
+    public const string EndpointCallSucceeded = "{Endpoint} endpoint call completed successfully with status code {StatusCode}";
+    public const string EndpointCallFailed = "{Endpoint} endpoint call failed with status code {StatusCode}, error type {ErrorType} and message {Message}";
     
     public const string AuthorizationSucceeded = "Completed authorization for resource {Resource} with access level {AccessLevel} >= required {MinimumAccessLevel}";
     
