@@ -1,5 +1,5 @@
-using System.Net;
-using Application.Common.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PMS_ClinicAPI.Common.Logging;
 using PMS_ClinicAPI.Common.Utils.Returns;
 using Utils.Exceptions.Base;
@@ -7,6 +7,7 @@ using Utils.Exceptions.Base;
 namespace PMS_ClinicAPI.Common.Middleware;
 
 public class GlobalExceptionHandlerMiddleware(
+    IOptions<JsonOptions> jsonOptions,
     ILogger<GlobalExceptionHandlerMiddleware> logger,
     RequestDelegate next)
 {
@@ -44,7 +45,7 @@ public class GlobalExceptionHandlerMiddleware(
             context.Response.StatusCode = httpResult.HttpStatusCode;
             
             // Setting response body
-            await context.Response.WriteAsJsonAsync(httpResult);
+            await context.Response.WriteAsJsonAsync(httpResult, jsonOptions.Value.JsonSerializerOptions);
         }
     }
 }
