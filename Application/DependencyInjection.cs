@@ -17,9 +17,9 @@ public static class DependencyInjection
             serviceConfiguration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         // Adding pipeline behaviors
-        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestContextBehaviour<,>));
-        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestContextBehaviour<,>));
 
         // Adding validators
         serviceCollection.AddValidatorsFromAssembly(Assembly.Load("Application"));
