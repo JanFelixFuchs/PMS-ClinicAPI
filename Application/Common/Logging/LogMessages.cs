@@ -2,9 +2,9 @@ namespace Application.Common.Logging;
 
 public static class LogMessages
 {
-    public const string RequestStarted = "Started request {Request}";
-    public const string RequestCompleted = "Completed request {Request}";
-    public const string RequestFailed = "Failed request {Request}";
+    public const string RequestStarted = "{Request} request started";
+    public const string RequestCompleted = "{Request} request completed successfully";
+    public const string RequestFailed = "{Request} request failed";
     
     public const string EntityNotFound = "Failed to find {Entity} with id {Id}";
     public const string EntitiesNotFound = "Failed to find {Entities} with ids {Ids}";
