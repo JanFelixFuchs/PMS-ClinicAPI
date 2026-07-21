@@ -28,6 +28,11 @@ using Utils.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 
 // Registering configuration classes
+builder.Services.AddOptions<CorsSettings>()
+    .BindConfiguration(CorsSettings.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
 builder.Services.AddOptions<TokenLifetimeSettings>()
     .BindConfiguration(TokenLifetimeSettings.SectionName)
     .ValidateDataAnnotations()
@@ -40,6 +45,11 @@ builder.Services.AddOptions<CookieSettings>()
 
 builder.Services.AddOptions<JwtSettings>()
     .BindConfiguration(JwtSettings.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddOptions<DatabaseSettings>()
+    .BindConfiguration(DatabaseSettings.SectionName)
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
