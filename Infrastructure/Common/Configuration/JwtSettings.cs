@@ -7,17 +7,17 @@ public class JwtSettings
     public const string SectionName = "JwtSettings";
     
     [Required]
-    public string Issuer { get; init; } = string.Empty;
+    public required string Issuer { get; init; }
     
     [Required]
-    public string Audience { get; init; } = string.Empty;
+    public required string Audience { get; init; }
     
     [Required]
-    public string Secret { get; init; } = string.Empty;
+    public required string Secret { get; init; }
     
     [Required, Range(1, 1440)]
-    public int AccessTokenLifetimeInMinutes { get; init; }
+    public required int AccessTokenLifetimeInMinutes { get; init; }
     
     [Required, Range(1, 365)]
-    public int RefreshTokenLifetimeInDays { get; init; }
+    public required int RefreshTokenLifetimeInDays { get; init; }
 }

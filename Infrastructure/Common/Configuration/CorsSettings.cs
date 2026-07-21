@@ -7,5 +7,5 @@ public class CorsSettings
     public const string SectionName = "CorsSettings";
     
     [Required]
-    public string[] AllowedOrigins { get; init; } = [];
+    public required string[] AllowedOrigins { get; init; }
 }

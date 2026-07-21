@@ -8,11 +8,11 @@ public class CookieSettings
     public const string SectionName = "CookieSettings";
     
     [Required]
-    public bool Secure { get; init; }
+    public required bool Secure { get; init; }
     
     [Required]
-    public SameSiteMode SameSiteMode { get; init; }
+    public required SameSiteMode SameSiteMode { get; init; }
         
     [Required]
-    public bool RestrictPath { get; init; }
+    public required bool RestrictPath { get; init; }
 }

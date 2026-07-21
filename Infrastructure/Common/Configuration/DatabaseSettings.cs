@@ -7,20 +7,20 @@ public class DatabaseSettings
     public const string SectionName = "DatabaseSettings";
     
     [Required]
-    public string Server { get; init; } = string.Empty;
+    public required string Server { get; init; }
     
     [Required]
-    public string Database { get; init; } = string.Empty;
+    public required string Database { get; init; }
     
     [Required]
-    public string User { get; init; } = string.Empty;
+    public required string User { get; init; }
     
     [Required]
-    public string Password { get; init; } = string.Empty;
+    public required string Password { get; init; }
     
     [Required]
-    public string Port { get; init; } = string.Empty;
+    public required string Port { get; init; }
     
     [Required]
-    public string Version { get; init; } = string.Empty;
+    public required string Version { get; init; }
 }
