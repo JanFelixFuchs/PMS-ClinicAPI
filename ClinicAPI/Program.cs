@@ -109,6 +109,9 @@ builder.Services
 
         // Configuring camel casing
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        
+        // Configuring trailing commas
+        options.JsonSerializerOptions.AllowTrailingCommas = true;
     });
 
 // Adding layer dependencies
