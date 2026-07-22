@@ -18,7 +18,7 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Device), exception.Message);
+            throw new DatabaseException(nameof(Device), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Device), exception.Message);
+            throw new DatabaseException(nameof(Device), exception);
         }
     }
     
@@ -72,7 +72,7 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Device), exception.Message);
+            throw new DatabaseException(nameof(Device), exception);
         }
     }
 
@@ -99,7 +99,7 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Device), exception.Message);
+            throw new DatabaseException(nameof(Device), exception);
         }
     }
 }

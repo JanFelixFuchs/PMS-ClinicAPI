@@ -18,7 +18,7 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(RoomCategory), exception.Message);
+            throw new DatabaseException(nameof(RoomCategory), exception);
         }
     }
 
@@ -44,7 +44,7 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(RoomCategory), exception.Message);
+            throw new DatabaseException(nameof(RoomCategory), exception);
         }
     }
 
@@ -71,7 +71,7 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(RoomCategory), exception.Message);
+            throw new DatabaseException(nameof(RoomCategory), exception);
         }
     }
     
@@ -98,7 +98,7 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(RoomCategory), exception.Message);
+            throw new DatabaseException(nameof(RoomCategory), exception);
         }
     }
 }

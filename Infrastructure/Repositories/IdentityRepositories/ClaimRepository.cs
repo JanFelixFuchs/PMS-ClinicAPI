@@ -19,7 +19,7 @@ public class ClaimRepository(DatabaseContext databaseContext) : IClaimRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Claim), exception.Message);
+            throw new DatabaseException(nameof(Claim), exception);
         } 
     }
     
@@ -45,7 +45,7 @@ public class ClaimRepository(DatabaseContext databaseContext) : IClaimRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Claim), exception.Message);
+            throw new DatabaseException(nameof(Claim), exception);
         }
     }
     
@@ -61,7 +61,7 @@ public class ClaimRepository(DatabaseContext databaseContext) : IClaimRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseDeleteException(nameof(Claim), exception.Message);
+            throw new DatabaseException(nameof(Claim), exception);
         }
     }
 }

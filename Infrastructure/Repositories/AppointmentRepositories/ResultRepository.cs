@@ -18,7 +18,7 @@ public class ResultRepository(DatabaseContext databaseContext) : IResultReposito
         catch (Exception exception)
         {   
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Result), exception.Message);
+            throw new DatabaseException(nameof(Result), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class ResultRepository(DatabaseContext databaseContext) : IResultReposito
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Result), exception.Message);
+            throw new DatabaseException(nameof(Result), exception);
         }
     }
 }

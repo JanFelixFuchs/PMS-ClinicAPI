@@ -18,7 +18,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception 
-            throw new DatabaseReadException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
     
@@ -72,7 +72,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
     
@@ -99,7 +99,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
 
@@ -126,7 +126,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
 
@@ -152,7 +152,7 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(User), exception.Message);
+            throw new DatabaseException(nameof(User), exception);
         }
     }
 }

@@ -18,7 +18,7 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(AppointmentCategory), exception.Message);
+            throw new DatabaseException(nameof(AppointmentCategory), exception);
         }
     }
 
@@ -44,7 +44,7 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(AppointmentCategory), exception.Message);
+            throw new DatabaseException(nameof(AppointmentCategory), exception);
         }
     }
 
@@ -71,7 +71,7 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(AppointmentCategory), exception.Message);
+            throw new DatabaseException(nameof(AppointmentCategory), exception);
         }
     }
 
@@ -98,7 +98,7 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(AppointmentCategory), exception.Message);
+            throw new DatabaseException(nameof(AppointmentCategory), exception);
         }
     }
 }

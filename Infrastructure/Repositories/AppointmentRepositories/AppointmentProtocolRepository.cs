@@ -18,7 +18,7 @@ public class AppointmentProtocolRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(AppointmentProtocol), exception.Message);
+            throw new DatabaseException(nameof(AppointmentProtocol), exception);
         }
     }
     
@@ -45,7 +45,7 @@ public class AppointmentProtocolRepository(DatabaseContext databaseContext) : IA
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(AppointmentProtocol), exception.Message);
+            throw new DatabaseException(nameof(AppointmentProtocol), exception);
         }
     }
 }

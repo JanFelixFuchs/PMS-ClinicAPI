@@ -18,7 +18,7 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Appointment), exception.Message);
+            throw new DatabaseException(nameof(Appointment), exception);
         }
     }
 
@@ -49,7 +49,7 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Appointment), exception.Message);
+            throw new DatabaseException(nameof(Appointment), exception);
         }
     }
     
@@ -80,7 +80,7 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Appointment), exception.Message);
+            throw new DatabaseException(nameof(Appointment), exception);
         }
     }
     
@@ -107,7 +107,7 @@ public class AppointmentRepository(DatabaseContext databaseContext) : IAppointme
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Appointment), exception.Message);
+            throw new DatabaseException(nameof(Appointment), exception);
         }
     }
 }

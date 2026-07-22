@@ -18,7 +18,7 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Role), exception.Message);
+            throw new DatabaseException(nameof(Role), exception);
         }
     }
     
@@ -44,7 +44,7 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Role), exception.Message);
+            throw new DatabaseException(nameof(Role), exception);
         }
     }
 
@@ -71,7 +71,7 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Role), exception.Message);
+            throw new DatabaseException(nameof(Role), exception);
         }
     }
     
@@ -98,7 +98,7 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Role), exception.Message);
+            throw new DatabaseException(nameof(Role), exception);
         }
     }
 }

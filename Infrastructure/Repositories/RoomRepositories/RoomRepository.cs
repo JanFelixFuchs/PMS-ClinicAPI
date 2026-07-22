@@ -18,7 +18,7 @@ public class RoomRepository(DatabaseContext databaseContext) : IRoomRepository
         catch (Exception exception)
         {   
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Room), exception.Message);
+            throw new DatabaseException(nameof(Room), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class RoomRepository(DatabaseContext databaseContext) : IRoomRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Room), exception.Message);
+            throw new DatabaseException(nameof(Room), exception);
         }
     }
     
@@ -72,7 +72,7 @@ public class RoomRepository(DatabaseContext databaseContext) : IRoomRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Room), exception.Message);
+            throw new DatabaseException(nameof(Room), exception);
         }
     }
 
@@ -99,7 +99,7 @@ public class RoomRepository(DatabaseContext databaseContext) : IRoomRepository
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Room), exception.Message);
+            throw new DatabaseException(nameof(Room), exception);
         }
     }
 }

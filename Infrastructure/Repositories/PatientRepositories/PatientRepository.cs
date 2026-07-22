@@ -18,7 +18,7 @@ public class PatientRepository(DatabaseContext databaseContext) : IPatientReposi
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Patient), exception.Message);
+            throw new DatabaseException(nameof(Patient), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class PatientRepository(DatabaseContext databaseContext) : IPatientReposi
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Patient), exception.Message);
+            throw new DatabaseException(nameof(Patient), exception);
         }
     }
     
@@ -72,7 +72,7 @@ public class PatientRepository(DatabaseContext databaseContext) : IPatientReposi
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Patient), exception.Message);
+            throw new DatabaseException(nameof(Patient), exception);
         }
     }
 }

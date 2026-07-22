@@ -18,7 +18,7 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(Clinician), exception.Message);
+            throw new DatabaseException(nameof(Clinician), exception);
         }
     }
 
@@ -45,7 +45,7 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Clinician), exception.Message);
+            throw new DatabaseException(nameof(Clinician), exception);
         }
     }
     
@@ -72,7 +72,7 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Clinician), exception.Message);
+            throw new DatabaseException(nameof(Clinician), exception);
         }
     }
 
@@ -99,7 +99,7 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(Clinician), exception.Message);
+            throw new DatabaseException(nameof(Clinician), exception);
         }
     }
 }

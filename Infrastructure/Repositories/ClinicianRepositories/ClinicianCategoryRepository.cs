@@ -18,7 +18,7 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseCreateException(nameof(ClinicianCategory), exception.Message);
+            throw new DatabaseException(nameof(ClinicianCategory), exception);
         }
     }
 
@@ -44,7 +44,7 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(ClinicianCategory), exception.Message);
+            throw new DatabaseException(nameof(ClinicianCategory), exception);
         }
     }
 
@@ -71,7 +71,7 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(ClinicianCategory), exception.Message);
+            throw new DatabaseException(nameof(ClinicianCategory), exception);
         }
     }
 
@@ -98,7 +98,7 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
         catch (Exception exception)
         {
             // Throwing exception
-            throw new DatabaseReadException(nameof(ClinicianCategory), exception.Message);
+            throw new DatabaseException(nameof(ClinicianCategory), exception);
         }
     }
 }
