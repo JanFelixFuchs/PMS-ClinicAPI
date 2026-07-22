@@ -1,22 +1,23 @@
 using System.Net;
 using Utils.Exceptions.Base;
+using Utils.Exceptions.Errors.Field;
+using Utils.Exceptions.Errors.Types;
 
 namespace PMS_ClinicAPI.Common.Utils.Returns;
 
 public class HttpResult<T>
 {
     public int HttpStatusCode { get; set; }
-    public string? Exception { get; set; }
-    public string Message { get; set; }
-    public ICollection<string>? Errors { get; set; }
+    public ErrorType ErrorType { get; set; }
+    public ICollection<FieldError>? FieldErrors { get; set; }
     public T? Payload { get; set; }
 
     // Standard constructor used to initialize objects with a payload
     public HttpResult(HttpStatusCode httpStatusCode, T? payload = default)
     {
-        // Assigning status code, message and payload
+        // Assigning status code, error code and payload
         HttpStatusCode = (int) httpStatusCode;
-        Message = "Request proceeded successfully";
+        ErrorType = ErrorType.SUCCESS;
         Payload = payload;
     }
 
@@ -28,12 +29,11 @@ public class HttpResult<T>
         {
             // Assigning properties from custom exception
             HttpStatusCode = (int) customExceptionBase.HttpStatusCode;
-            Exception = GetCleanExceptionName(customExceptionBase.GetType());
-            Message = customExceptionBase.Message;
+            ErrorType = customExceptionBase.ErrorType;
             
-            // Checking if custom exception contains errors
-            if (customExceptionBase.Errors != null && customExceptionBase.Errors.Count != 0)
-                Errors = customExceptionBase.Errors;
+            // Checking if custom exception contains field errors
+            if (customExceptionBase.FieldErrors != null && customExceptionBase.FieldErrors.Count != 0)
+                FieldErrors = customExceptionBase.FieldErrors;
             
             // Returning
             return;
@@ -41,13 +41,6 @@ public class HttpResult<T>
         
         // Assigning properties from exception
         HttpStatusCode = (int) System.Net.HttpStatusCode.InternalServerError;
-        Exception = GetCleanExceptionName(exception.GetType());
-        Message = exception.Message;
-    }
-
-    private static string GetCleanExceptionName(Type type)
-    {
-        var typeName = type.Name;
-        return typeName.Contains('`') ? typeName[..typeName.IndexOf('`')] : typeName;
+        ErrorType = ErrorType.INTERNAL_ERROR;
     }
 }
