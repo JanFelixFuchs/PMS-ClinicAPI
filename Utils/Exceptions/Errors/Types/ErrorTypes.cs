@@ -5,6 +5,7 @@ public enum ErrorType
 {
     SUCCESS,
     
-
+    AUTHORIZATION_FAILED,
+    
     INTERNAL_ERROR
 }
