@@ -24,7 +24,7 @@ public class PolicyHandler(ILogger<PolicyHandler> logger)
         // Checking for valid access level
         if (!Enum.TryParse<ClaimValue>(claim.Value, true, out var accessLevel))
         {
-            logger.LogWarning(LogMessages.InvalidPolicyClaim, claim.Value, policyRequirement.Resource.ToString());  
+            logger.LogWarning(LogMessages.InvalidPolicyClaimValue, policyRequirement.Resource.ToString(), claim.Value);  
             authorizationHandlerContext.Fail();
             return Task.CompletedTask;
         }
@@ -32,12 +32,12 @@ public class PolicyHandler(ILogger<PolicyHandler> logger)
         // Verifying access level
         if (accessLevel >= policyRequirement.MinimumAccessLevel)
         {
-            logger.LogInformation(LogMessages.AuthorizationSucceeded, policyRequirement.Resource.ToString(), accessLevel.ToString(), policyRequirement.MinimumAccessLevel.ToString());
+            logger.LogInformation(LogMessages.AuthorizationSucceeded, policyRequirement.Resource.ToString(), policyRequirement.MinimumAccessLevel.ToString(),  accessLevel.ToString());
             authorizationHandlerContext.Succeed(policyRequirement);
         }
         else
         {
-            logger.LogWarning(LogMessages.InsufficientAccessLevel, accessLevel.ToString(), policyRequirement.MinimumAccessLevel.ToString(), policyRequirement.Resource.ToString());
+            logger.LogWarning(LogMessages.InsufficientAccessLevel, policyRequirement.Resource.ToString(), policyRequirement.MinimumAccessLevel.ToString(), accessLevel.ToString());
             authorizationHandlerContext.Fail();
         }
         
