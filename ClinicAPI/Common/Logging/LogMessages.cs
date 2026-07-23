@@ -2,22 +2,24 @@ namespace PMS_ClinicAPI.Common.Logging;
 
 public static class LogMessages
 {
+    // Endpoints
     public const string EndpointCallStarted = "{Endpoint} endpoint call started";
     public const string EndpointCallSucceeded = "{Endpoint} endpoint call completed successfully with status code {StatusCode}";
-    public const string EndpointCallFailed = "{Endpoint} endpoint call failed with status code {StatusCode}, error type {ErrorType} and message {Message}";
+    public const string EndpointCallFailed = "{Endpoint} endpoint call failed with status code {StatusCode}, error type {ErrorType} and message '{Message}'";
     
-    public const string AuthorizationSucceeded = "Completed authorization for resource {Resource} with access level {AccessLevel} >= required {MinimumAccessLevel}";
+    // Jwt bearer validation
+    public const string MissingMandatoryClaim = "Authorization failed: missing mandatory claims {ClinicIdClaim} and/or {UserIdClaim}";
     
-    public const string DatabaseMigrationsSucceeded = "Successfully applied database migrations";
+    // Policy handler
+    public const string AuthorizationSucceeded = "Authorization succeeded: resource {Resource} requires access level {MinimumAccessLevel}, user has access level {AccessLevel}";
+    public const string MissingPolicyClaim = "Authorization failed: resource {Resource} is missing the required claim";
+    public const string InvalidPolicyClaimValue = "Authorization failed: resource {Resource} has invalid claim value {Value}";
+    public const string InsufficientAccessLevel = "Authorization failed: resource {Resource} requires access level {MinimumAccessLevel}, user has access level {AccessLevel}";
     
-    public const string InputModelValidationFailed = "Failed to validate input model with messages {Messages}";
+    // Database
+    public const string DatabaseMigrationsSucceeded = "Database migration succeeded";
+    public const string DatabaseConnectionFailed = "Database connection failed: application startup aborted";
     
-    public const string MissingMandatoryClaim = "Failed to authorize due to missing mandatory claims {ClinicIdClaim} or {UserIdClaim}";
-    public const string MissingPolicyClaim = "Failed to authorize due to missing claim for resource {Resource}";
-    public const string InvalidPolicyClaim = "Failed to authorize due to invalid claim value {Value} for resource {Resource}";
-    public const string InsufficientAccessLevel = "Failed to authorize due to insufficient access level {AccessLevel} < required {MinimumAccessLevel} for resource {Resource}";
-    
+    // Unexpected exception
     public const string UnexpectedException = "Unexpected exception occurred";
-    
-    public const string DatabaseConnectionFailed = "Establishing a database connection failed. Application will not start";
 }
