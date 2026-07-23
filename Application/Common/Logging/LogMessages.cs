@@ -14,7 +14,6 @@ public static class LogMessages
     
     public const string ValidationFailed = "Failed to validate request {Request} with messages {Messages}";
     
-    public const string InvalidMandatoryClaim = "Failed to authorize due to invalid mandatory claim {Claim}";
     public const string InvalidRefreshToken = "Failed to authorize due to invalid or expired refresh token for user with id {UserId}";
     
     public const string InvalidPassword = "Failed to authorize due to invalid password for user with id {UserId}";

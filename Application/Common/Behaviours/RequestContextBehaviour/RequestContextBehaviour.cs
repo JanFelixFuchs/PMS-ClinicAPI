@@ -1,15 +1,12 @@
 using Application.Common.Contexts;
-using Application.Common.Logging;
 using Application.Repositories.IdentityRepositories;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Utils.Authentication;
 using Utils.Exceptions.CustomExceptions;
 
 namespace Application.Common.Behaviours.RequestContextBehaviour;
 
 public class RequestContextBehaviour<TRequest, TResponse>(
-    ILogger<RequestContextBehaviour<TRequest, TResponse>> logger,
     IRequestContext requestContext,
     IClinicRepository clinicRepository,
     IUserRepository userRepository)
@@ -27,10 +24,7 @@ public class RequestContextBehaviour<TRequest, TResponse>(
         // Validating clinic id
         var clinic = await clinicRepository.GetByIdAsync(requestContext.ClinicId, cancellationToken);
         if (clinic == null)
-        {
-            logger.LogWarning(LogMessages.InvalidMandatoryClaim, ClaimNames.ClinicId);
-            throw new AuthorizationFailedException();
-        }
+            throw AuthorizationFailedException.DueToInvalidMandatoryClaim(ClaimNames.ClinicId);
         
         // Validating user id
         var user = await userRepository.GetByClinicIdAndUserIdAsync(
@@ -38,10 +32,7 @@ public class RequestContextBehaviour<TRequest, TResponse>(
             requestContext.UserId, 
             cancellationToken);
         if (user == null || user.IsArchived || user.IsDeleted)
-        {
-            logger.LogWarning(LogMessages.InvalidMandatoryClaim, ClaimNames.UserId);
-            throw new AuthorizationFailedException();
-        }
+            throw AuthorizationFailedException.DueToInvalidMandatoryClaim(ClaimNames.UserId);
         
         // Populating entities
         requestWithRequestContext.Clinic = clinic;
