@@ -7,6 +7,9 @@ public static class LogMessages
     public const string EndpointCallSucceeded = "{Endpoint} endpoint call completed successfully with status code {StatusCode}";
     public const string EndpointCallFailed = "{Endpoint} endpoint call failed with status code {StatusCode}, error type {ErrorType} and message '{Message}'";
     
+    // Input model validation
+    public const string InputModelValidationFailed = "Input model validation failed: '{Messages}'";
+    
     // Jwt bearer validation
     public const string MissingMandatoryClaim = "Authorization failed: missing mandatory claims {ClinicIdClaim} and/or {UserIdClaim}";
     

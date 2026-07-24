@@ -6,6 +6,9 @@ public enum ErrorType
     SUCCESS,
     
     AUTHORIZATION_FAILED,
+
+    VALIDATION_ERROR,
+    
     
     INTERNAL_ERROR
 }

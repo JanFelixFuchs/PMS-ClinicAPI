@@ -21,6 +21,8 @@ using PMS_ClinicAPI.Common.Utils.Returns;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Utils.Authentication;
+using Utils.Exceptions.Errors.Codes;
+using Utils.Exceptions.Errors.Field;
 
 /* - - - Configuring services  - - - */
 
@@ -89,13 +91,26 @@ builder.Services
             // Extracting model binding errors
             var modelBindingErrors = context.ModelState
                 .Where(modelState => modelState.Value?.Errors.Count > 0)
-                .SelectMany(modelStateEntry => modelStateEntry.Value!.Errors.Select(error => $"{modelStateEntry.Key}: {error.ErrorMessage}"))
+                .SelectMany(modelStateEntry => modelStateEntry.Value!.Errors.Select(error =>
+                {
+                    // Constructing field error
+                    var fieldError = new FieldError(modelStateEntry.Key, ErrorCode.INVALID_INPUT_MODEL_FORMAT);
+                    
+                    // Constructing log message
+                    var logMessage = $"{modelStateEntry.Key}: {error.ErrorMessage.TrimEnd('.')}";
+                    
+                    // Returning tuple
+                    return (FieldError: fieldError, LogMessage: logMessage);
+                }))
                 .ToList();
-
+            
             // Creating exception and http result   
-            var inputModelValidationException = new InputModelValidationException(modelBindingErrors);
+            var inputModelValidationException = new InputModelValidationException(
+                modelBindingErrors.Select(modelBindingError => modelBindingError.FieldError).ToList());
             var httpResult = new HttpResult<EmptyPayload>(inputModelValidationException);
-            Log.Warning(LogMessages.InputModelValidationFailed, string.Join(", ", modelBindingErrors));
+            Log.Warning(
+                LogMessages.InputModelValidationFailed,
+                string.Join(", ", modelBindingErrors.Select(modelBindingError => modelBindingError.LogMessage)));
             
             // Returning result
             return new JsonResult(httpResult)
