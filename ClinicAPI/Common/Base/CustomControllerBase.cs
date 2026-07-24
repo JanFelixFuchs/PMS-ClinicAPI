@@ -71,7 +71,7 @@ public abstract class CustomControllerBase<TController>(
     {
         // Getting and checking refresh token from cookie
         if (!Request.Cookies.TryGetValue(RefreshTokenCookieName, out var refreshToken))
-            throw new AuthorizationFailedException();
+            throw AuthorizationFailedException.DueToMissingRefreshTokenCookie();
         
         // Returning refresh token
         return refreshToken;

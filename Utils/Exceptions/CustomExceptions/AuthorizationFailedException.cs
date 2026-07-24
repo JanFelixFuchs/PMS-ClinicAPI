@@ -11,4 +11,7 @@ public class AuthorizationFailedException : CustomExceptionBase
     
     public static AuthorizationFailedException DueToInvalidMandatoryClaim(string claimName) =>
         new ($"Invalid mandatory claim {claimName}");
+    
+    public static AuthorizationFailedException DueToMissingRefreshTokenCookie() =>
+        new ("Missing refresh token cookie");
 }
