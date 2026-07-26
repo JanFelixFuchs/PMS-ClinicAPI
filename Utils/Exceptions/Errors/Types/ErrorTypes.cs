@@ -9,6 +9,7 @@ public enum ErrorType
 
     VALIDATION_ERROR,
     
+    NOT_FOUND,
     
     INTERNAL_ERROR
 }
