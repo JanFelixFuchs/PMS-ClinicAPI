@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AppointmentUseCases.Commands.MarkAppointmentAsAttendedCommand;
 
 public class MarkAppointmentAsAttendedCommandHandler(
-    ILogger<MarkAppointmentAsAttendedCommandHandler> logger,
     IAppointmentProtocolRepository appointmentProtocolRepository,
     IAppointmentRepository appointmentRepository,
     IUnitOfWork unitOfWork) 
@@ -31,10 +28,7 @@ public class MarkAppointmentAsAttendedCommandHandler(
                 appointment => appointment.Devices,
                 appointment => appointment.Clinicians);
             if (appointment == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(appointment), request.Id);
                 throw new NotFoundException(nameof(Appointment), request.Id);
-            }
             
             // Marking appointment as attended
             appointment.MarkAsAttended();

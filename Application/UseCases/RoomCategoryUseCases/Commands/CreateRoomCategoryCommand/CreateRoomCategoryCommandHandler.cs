@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.RoomOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.RoomRepositories;
 using Domain.Entities.RoomEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.RoomCategoryUseCases.Commands.CreateRoomCategoryCommand;
 
 public class CreateRoomCategoryCommandHandler(
-    ILogger<CreateRoomCategoryCommandHandler> logger,
     IRoomRepository roomRepository,
     IRoomCategoryRepository roomCategoryRepository,
     IUnitOfWork unitOfWork) 
@@ -33,10 +30,7 @@ public class CreateRoomCategoryCommandHandler(
                 cancellationToken);
             var missingRoomIds = request.RoomIds.Except(rooms.Select(room => room.Id)).ToList();
             if (missingRoomIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(rooms), missingRoomIds);
                 throw new NotFoundException(nameof(Room), missingRoomIds);
-            }
             
             // Adding room category to rooms
             foreach (var room in rooms)

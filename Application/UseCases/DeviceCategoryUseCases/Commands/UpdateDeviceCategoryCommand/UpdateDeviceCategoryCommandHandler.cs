@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.DeviceOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.DeviceCategoryUseCases.Commands.UpdateDeviceCategoryCommand;
 
 public class UpdateDeviceCategoryCommandHandler(
-    ILogger<UpdateDeviceCategoryCommandHandler> logger,
     IDeviceRepository deviceRepository,
     IDeviceCategoryRepository deviceCategoryRepository,
     IUnitOfWork unitOfWork) 
@@ -27,10 +24,7 @@ public class UpdateDeviceCategoryCommandHandler(
                 cancellationToken,
                 deviceCategory => deviceCategory.Devices);
             if (deviceCategory == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(deviceCategory), request.Id);  
                 throw new NotFoundException(nameof(DeviceCategory), request.Id);
-            }
             
             // Updating device category
             deviceCategory.Update(request.Name, request.Abbreviation, request.Color);
@@ -61,10 +55,7 @@ public class UpdateDeviceCategoryCommandHandler(
                     cancellationToken);
                 var missingDeviceIds = deviceIdsToAddTo.Except(devicesToAddTo.Select(device => device.Id)).ToList();
                 if (missingDeviceIds.Count > 0)
-                {
-                    logger.LogWarning(LogMessages.EntitiesNotFound, nameof(devicesToAddTo), missingDeviceIds);
                     throw new NotFoundException(nameof(Device), missingDeviceIds);
-                }
         
                 foreach (var device in devicesToAddTo)
                     device.AddDeviceCategory(deviceCategory);

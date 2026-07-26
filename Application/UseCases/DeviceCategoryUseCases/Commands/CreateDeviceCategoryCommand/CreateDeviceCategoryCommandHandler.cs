@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.DeviceOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.DeviceCategoryUseCases.Commands.CreateDeviceCategoryCommand;
 
 public class CreateDeviceCategoryCommandHandler(
-    ILogger<CreateDeviceCategoryCommandHandler> logger,
     IDeviceRepository deviceRepository,
     IDeviceCategoryRepository deviceCategoryRepository,
     IUnitOfWork unitOfWork) 
@@ -33,10 +30,7 @@ public class CreateDeviceCategoryCommandHandler(
                 cancellationToken);
             var missingDeviceIds = request.DeviceIds.Except(devices.Select(device => device.Id)).ToList();
             if (missingDeviceIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(devices), missingDeviceIds);
                 throw new NotFoundException(nameof(Device), missingDeviceIds);
-            }
             
             // Adding device category to devices
             foreach (var device in devices)

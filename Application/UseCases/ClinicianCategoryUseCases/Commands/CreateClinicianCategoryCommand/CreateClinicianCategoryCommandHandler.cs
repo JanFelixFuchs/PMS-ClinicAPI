@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.ClinicianOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.ClinicianRepositories;
 using Domain.Entities.ClinicianEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.ClinicianCategoryUseCases.Commands.CreateClinicianCategoryCommand;
 
 public class CreateClinicianCategoryCommandHandler(
-    ILogger<CreateClinicianCategoryCommandHandler> logger,
     IClinicianRepository clinicianRepository,
     IClinicianCategoryRepository clinicianCategoryRepository,
     IUnitOfWork unitOfWork) 
@@ -37,10 +34,7 @@ public class CreateClinicianCategoryCommandHandler(
                 cancellationToken);
             var missingClinicianIds = request.ClinicianIds.Except(clinicians.Select(clinician => clinician.Id)).ToList();
             if (missingClinicianIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(clinicians), missingClinicianIds);
                 throw new NotFoundException(nameof(Clinician), missingClinicianIds);
-            }
             
             // Adding clinician category to clinicians
             foreach (var clinician in clinicians)

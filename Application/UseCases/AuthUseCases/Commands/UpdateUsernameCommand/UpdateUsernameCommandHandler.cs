@@ -1,5 +1,4 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.ClinicianRepositories;
@@ -8,12 +7,10 @@ using Domain.Commons.Utils.Helper;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.IdentityEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AuthUseCases.Commands.UpdateUsernameCommand;
 
 public class UpdateUsernameCommandHandler(
-    ILogger<UpdateUsernameCommand> logger,
     IClinicianRepository clinicianRepository,
     IRoleRepository roleRepository,
     IUserRepository userRepository,
@@ -51,10 +48,7 @@ public class UpdateUsernameCommandHandler(
                 request.User.RoleId, 
                 cancellationToken);
             if (role == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(role), request.User.RoleId);
                 throw new NotFoundException(nameof(Role), request.User.RoleId);
-            }
             
             // Querying and checking clinician
             Clinician? clinician = null;
@@ -65,10 +59,7 @@ public class UpdateUsernameCommandHandler(
                     clinicianId, 
                     cancellationToken);
                 if (clinician == null)
-                {
-                    logger.LogWarning(LogMessages.EntityNotFound, nameof(clinician), clinicianId);
                     throw new NotFoundException(nameof(Clinician), clinicianId);
-                }
             }
             
             // Returning output model

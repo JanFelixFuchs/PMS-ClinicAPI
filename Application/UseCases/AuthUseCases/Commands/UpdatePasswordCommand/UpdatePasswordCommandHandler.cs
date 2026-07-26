@@ -1,6 +1,5 @@
 using Application.Common.Configuration;
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Services;
 using Application.Common.Transactions;
@@ -8,13 +7,11 @@ using Application.Common.Utils;
 using Application.Repositories.IdentityRepositories;
 using Domain.Entities.IdentityEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Application.UseCases.AuthUseCases.Commands.UpdatePasswordCommand;
 
 public class UpdatePasswordCommandHandler(
-    ILogger<UpdatePasswordCommandHandler> logger,
     IOptions<TokenLifetimeSettings> tokenLifetimeSettings,
     IClaimRepository claimRepository,
     IRoleRepository roleRepository,
@@ -46,10 +43,7 @@ public class UpdatePasswordCommandHandler(
                 request.User.RoleId, 
                 cancellationToken);
             if (role == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(role), request.User.RoleId);
                 throw new NotFoundException(nameof(Role), request.User.RoleId);
-            }
             
             // Querying and filling claims
             var claims = await claimRepository.GetByRoleIdAsync(role.Id, cancellationToken);

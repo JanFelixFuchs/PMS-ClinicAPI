@@ -1,5 +1,4 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Transactions;
 using Application.Common.Utils;
@@ -7,12 +6,10 @@ using Application.Repositories.IdentityRepositories;
 using Domain.Commons.Utils.Helper;
 using Domain.Entities.IdentityEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.RoleUseCases.Commands.CreateRoleCommand;
 
 public class CreateRoleCommandHandler(
-    ILogger<CreateRoleCommandHandler> logger,
     IClaimRepository claimRepository,
     IRoleRepository roleRepository,
     IUserRepository userRepository,
@@ -40,10 +37,7 @@ public class CreateRoleCommandHandler(
                 user => user.Role);
             var missingUserIds = request.UserIds.Except(users.Select(user => user.Id)).ToList();
             if (missingUserIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(users), missingUserIds);
                 throw new NotFoundException(nameof(User), missingUserIds);
-            }
             
             // Creating role
             var role = new Role(request.Clinic, request.Name,false);

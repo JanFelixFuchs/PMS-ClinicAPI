@@ -6,8 +6,5 @@ public static class LogMessages
     public const string RequestCompleted = "{Request} request completed successfully";
     public const string RequestFailed = "{Request} request failed";
     
-    public const string EntityNotFound = "Failed to find {Entity} with id {Id}";
-    public const string EntitiesNotFound = "Failed to find {Entities} with ids {Ids}";
-    
     public const string ValidationFailed = "Failed to validate request {Request} with messages {Messages}";
 }

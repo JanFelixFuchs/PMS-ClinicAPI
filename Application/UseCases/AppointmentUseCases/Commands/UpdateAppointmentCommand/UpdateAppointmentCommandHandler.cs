@@ -1,5 +1,4 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
@@ -13,12 +12,10 @@ using Domain.Entities.DeviceEntities;
 using Domain.Entities.PatientEntities;
 using Domain.Entities.RoomEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AppointmentUseCases.Commands.UpdateAppointmentCommand;
 
 public class UpdateAppointmentCommandHandler(
-    ILogger<UpdateAppointmentCommandHandler> logger,
     IAppointmentCategoryRepository appointmentCategoryRepository,
     IAppointmentRepository appointmentRepository,
     IClinicianRepository  clinicianRepository,
@@ -43,10 +40,7 @@ public class UpdateAppointmentCommandHandler(
                 appointment => appointment.Devices,
                 appointment => appointment.Clinicians);
             if (appointment == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(appointment), request.Id);
                 throw new NotFoundException(nameof(Appointment), request.Id);
-            }
             
             // Querying and checking appointment categories
             var appointmentCategories = await appointmentCategoryRepository.GetByClinicIdAndAppointmentCategoryIdsAsync(
@@ -55,10 +49,7 @@ public class UpdateAppointmentCommandHandler(
                 cancellationToken);
             var missingAppointmentCategoryIds = request.AppointmentCategoryIds.Except(appointmentCategories.Select(appointmentCategory => appointmentCategory.Id)).ToList();
             if (missingAppointmentCategoryIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(appointmentCategories), missingAppointmentCategoryIds);
                 throw new NotFoundException(nameof(AppointmentCategory), missingAppointmentCategoryIds);
-            }
             
             // Querying and checking patient
             var patient = await patientRepository.GetByClinicIdAndPatientIdAsync(
@@ -66,10 +57,7 @@ public class UpdateAppointmentCommandHandler(
                 request.PatientId, 
                 cancellationToken);
             if (patient == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(patient), request.PatientId);
                 throw new NotFoundException(nameof(Patient), request.PatientId);
-            }
             
             // Querying overlapping appointments
             var overlappingAppointments = await appointmentRepository.GetOverlappingByClinicIdAndDateTimesAsync(
@@ -88,10 +76,7 @@ public class UpdateAppointmentCommandHandler(
                 request.RoomId, 
                 cancellationToken);
             if (room == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(room), request.RoomId);
                 throw new NotFoundException(nameof(Room), request.RoomId);
-            }
             
             // Checking overlapping rooms
             if (overlappingAppointments.Any(overlappingAppointment => overlappingAppointment.RoomId == request.RoomId))
@@ -104,10 +89,7 @@ public class UpdateAppointmentCommandHandler(
                 cancellationToken);
             var missingDeviceIds = request.DeviceIds.Except(devices.Select(device => device.Id)).ToList();
             if (missingDeviceIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(devices), missingDeviceIds);
                 throw new NotFoundException(nameof(Device), missingDeviceIds);
-            }
             
             // Checking overlapping devices
             if (overlappingAppointments.Any(overlappingAppointment => overlappingAppointment.Devices.Any(device => request.DeviceIds.Contains(device.Id))))
@@ -120,10 +102,7 @@ public class UpdateAppointmentCommandHandler(
                 cancellationToken);
             var missingClinicianIds = request.ClinicianIds.Except(clinicians.Select(clinician => clinician.Id)).ToList();
             if (missingClinicianIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(clinicians), missingClinicianIds);
                 throw new NotFoundException(nameof(Clinician), missingClinicianIds);
-            }
             
             // Checking overlapping clinicians
             if (overlappingAppointments.Any(overlappingAppointment => overlappingAppointment.Clinicians.Any(clinician => request.ClinicianIds.Contains(clinician.Id))))

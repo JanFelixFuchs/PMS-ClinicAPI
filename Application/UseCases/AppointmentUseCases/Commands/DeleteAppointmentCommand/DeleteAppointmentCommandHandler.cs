@@ -3,13 +3,10 @@ using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
-using LogMessages = Application.Common.Logging.LogMessages;
 
 namespace Application.UseCases.AppointmentUseCases.Commands.DeleteAppointmentCommand;
 
 public class DeleteAppointmentCommandHandler(
-    ILogger<DeleteAppointmentCommandHandler> logger,
     IAppointmentRepository appointmentRepository,
     IUnitOfWork unitOfWork) 
     : IRequestHandler<DeleteAppointmentCommand>
@@ -24,10 +21,7 @@ public class DeleteAppointmentCommandHandler(
                 request.Id, 
                 cancellationToken);
             if (appointment == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(appointment), request.Id);
                 throw new NotFoundException(nameof(Appointment), request.Id);
-            }
             
             // Deleting appointment
             appointment.Delete();

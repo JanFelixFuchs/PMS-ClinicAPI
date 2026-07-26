@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AppointmentProtocolUseCases.Commands.CompleteAppointmentProtocolCommand;
 
 public class CompleteAppointmentProtocolCommandHandler(
-    ILogger<CompleteAppointmentProtocolCommandHandler> logger,
     IAppointmentProtocolRepository appointmentProtocolRepository,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CompleteAppointmentProtocolCommand, AppointmentProtocolDetailedOutputModel>
@@ -30,10 +27,7 @@ public class CompleteAppointmentProtocolCommandHandler(
                 appointmentProtocol => appointmentProtocol.Room,
                 appointmentProtocol => appointmentProtocol.Devices);
             if (appointmentProtocol == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(appointmentProtocol), request.Id);
                 throw new NotFoundException(nameof(AppointmentProtocol), request.Id);
-            }
             
             // Completing appointment protocol
             appointmentProtocol.Complete();

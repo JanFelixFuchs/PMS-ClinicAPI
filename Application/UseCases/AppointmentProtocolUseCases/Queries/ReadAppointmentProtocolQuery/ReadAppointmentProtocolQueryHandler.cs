@@ -1,16 +1,12 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AppointmentProtocolUseCases.Queries.ReadAppointmentProtocolQuery;
 
-public class ReadAppointmentProtocolQueryHandler(
-    ILogger<ReadAppointmentProtocolQueryHandler> logger,
-    IAppointmentProtocolRepository appointmentProtocolRepository) 
+public class ReadAppointmentProtocolQueryHandler(IAppointmentProtocolRepository appointmentProtocolRepository) 
     : IRequestHandler<ReadAppointmentProtocolQuery, AppointmentProtocolDetailedOutputModel>
 {
     public async Task<AppointmentProtocolDetailedOutputModel> Handle(ReadAppointmentProtocolQuery request, CancellationToken cancellationToken)
@@ -26,10 +22,7 @@ public class ReadAppointmentProtocolQueryHandler(
             appointmentProtocol => appointmentProtocol.Room,
             appointmentProtocol => appointmentProtocol.Devices);
         if (appointmentProtocol == null)
-        {
-            logger.LogWarning(LogMessages.EntityNotFound, nameof(appointmentProtocol), request.Id);
             throw new NotFoundException(nameof(AppointmentProtocol), request.Id);
-        }
         
         // Returning output model
         return new AppointmentProtocolDetailedOutputModel(

@@ -1,6 +1,5 @@
 using Application.Common.Configuration;
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Services;
 using Application.Common.Transactions;
@@ -9,13 +8,11 @@ using Application.Repositories.IdentityRepositories;
 using Domain.Commons.Utils.Helper;
 using Domain.Entities.IdentityEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Application.UseCases.AuthUseCases.Commands.RegisterClinicCommand;
 
 public class RegisterClinicCommandHandler(
-    ILogger<RegisterClinicCommandHandler> logger,
     IOptions<TokenLifetimeSettings> tokenLifetimeSettings,
     IClaimRepository claimRepository,
     IClinicRepository clinicRepository,
@@ -34,19 +31,13 @@ public class RegisterClinicCommandHandler(
             var normalizedCode = StringHelper.Normalize(request.Code);
             var existingClinic = await clinicRepository.GetByNormalizedCodeAsync(normalizedCode, cancellationToken);
             if (existingClinic != null)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.Code), nameof(Clinic));
-                throw new PropertyAlreadyInUseException<string>(nameof(Clinic), nameof(Clinic.Code), request.Code);
-            }
+                throw new PropertyValueAlreadyInUseException<string>(nameof(Clinic), nameof(Clinic.Code), request.Code);
             
             // Checking role names for uniqueness
             var normalizedRoleNameWithNoRights = StringHelper.Normalize(request.RoleNameWithNoRights);
             var normalizedRoleNameWithAllRights = StringHelper.Normalize(request.RoleNameWithAllRights);
             if (normalizedRoleNameWithNoRights.Equals(normalizedRoleNameWithAllRights))
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(Role.Name), nameof(Role));
-                throw new PropertyAlreadyInUseException<string>(nameof(Role), nameof(Role.Name), request.RoleNameWithAllRights);
-            }
+                throw new PropertyValueAlreadyInUseException<string>(nameof(Role), nameof(Role.Name), request.RoleNameWithAllRights);
             
             // Creating clinic
             var clinic = new Clinic(

@@ -1,16 +1,12 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.DeviceOutputModels;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.DeviceUseCases.Queries.ReadDeviceQuery;
 
-public class ReadDeviceQueryHandler(
-    ILogger<ReadDeviceQueryHandler> logger,
-    IDeviceRepository deviceRepository)
+public class ReadDeviceQueryHandler(IDeviceRepository deviceRepository)
     : IRequestHandler<ReadDeviceQuery, DeviceDetailedOutputModel>
 {
     public async Task<DeviceDetailedOutputModel> Handle(ReadDeviceQuery request, CancellationToken cancellationToken)
@@ -25,10 +21,7 @@ public class ReadDeviceQueryHandler(
             device => device.AppointmentProtocols,
             device => device.Results);
         if (device == null)
-        {
-            logger.LogWarning(LogMessages.EntityNotFound, nameof(device), request.Id);
             throw new NotFoundException(nameof(Device), request.Id);
-        }
         
         // Returning output model
         return new DeviceDetailedOutputModel(

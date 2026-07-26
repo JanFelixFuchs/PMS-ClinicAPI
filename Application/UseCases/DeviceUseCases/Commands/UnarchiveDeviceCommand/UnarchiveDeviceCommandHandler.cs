@@ -1,16 +1,13 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.DeviceOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.DeviceUseCases.Commands.UnarchiveDeviceCommand;
 
 public class UnarchiveDeviceCommandHandler(
-    ILogger<UnarchiveDeviceCommandHandler> logger,
     IDeviceRepository deviceRepository,
     IUnitOfWork unitOfWork)
     : IRequestHandler<UnarchiveDeviceCommand, DeviceDetailedOutputModel>
@@ -29,10 +26,7 @@ public class UnarchiveDeviceCommandHandler(
                 device => device.AppointmentProtocols,
                 device => device.Results);
             if (device == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(device), request.Id);
                 throw new NotFoundException(nameof(Device), request.Id);
-            }
             
             // Unarchiving device
             device.Unarchive();

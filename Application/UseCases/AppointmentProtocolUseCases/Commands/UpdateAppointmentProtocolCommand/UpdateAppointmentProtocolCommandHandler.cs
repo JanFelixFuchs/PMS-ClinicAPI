@@ -1,5 +1,4 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
@@ -11,12 +10,10 @@ using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
 using Domain.Entities.RoomEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.AppointmentProtocolUseCases.Commands.UpdateAppointmentProtocolCommand;
 
 public class UpdateAppointmentProtocolCommandHandler(
-    ILogger<UpdateAppointmentProtocolCommandHandler> logger,
     IAppointmentProtocolRepository appointmentProtocolRepository,
     IClinicianRepository clinicianRepository,
     IRoomRepository roomRepository,
@@ -39,10 +36,7 @@ public class UpdateAppointmentProtocolCommandHandler(
                 appointmentProtocol => appointmentProtocol.Room,
                 appointmentProtocol => appointmentProtocol.Devices);
             if (appointmentProtocol == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(appointmentProtocol), request.Id);
                 throw new NotFoundException(nameof(AppointmentProtocol), request.Id);
-            }
             
             // Querying and checking clinician
             var clinician = await clinicianRepository.GetByClinicIdAndClinicianIdAsync(
@@ -50,10 +44,7 @@ public class UpdateAppointmentProtocolCommandHandler(
                 request.ClinicianId,
                 cancellationToken);
             if (clinician == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(clinician), request.ClinicianId);
                 throw new NotFoundException(nameof(Clinician), request.ClinicianId);
-            }
             
             // Querying and checking room
             var room = await roomRepository.GetByClinicIdAndRoomIdAsync(
@@ -61,10 +52,7 @@ public class UpdateAppointmentProtocolCommandHandler(
                 request.RoomId, 
                 cancellationToken);
             if (room == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(room), request.RoomId);
                 throw new NotFoundException(nameof(Room), request.RoomId);
-            }
             
             // Querying and checking devices
             var devices = await deviceRepository.GetByClinicIdAndDeviceIdsAsync(
@@ -73,10 +61,7 @@ public class UpdateAppointmentProtocolCommandHandler(
                 cancellationToken);
             var missingDeviceIds = request.DeviceIds.Except(devices.Select(device => device.Id)).ToList();
             if (missingDeviceIds.Count > 0)
-            {
-                logger.LogWarning(LogMessages.EntitiesNotFound, nameof(devices), missingDeviceIds);
                 throw new NotFoundException(nameof(Device), missingDeviceIds);
-            }
             
             // Updating appointment protocol
             appointmentProtocol.Update(

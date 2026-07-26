@@ -1,5 +1,4 @@
 using Application.Common.Exceptions;
-using Application.Common.Logging;
 using Application.Common.OutputModels.IdentityOutputModels;
 using Application.Common.Transactions;
 using Application.Common.Utils;
@@ -7,12 +6,10 @@ using Application.Repositories.IdentityRepositories;
 using Domain.Commons.Utils.Helper;
 using Domain.Entities.IdentityEntities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.RoleUseCases.Commands.UpdateRoleCommand;
 
 public class UpdateRoleCommandHandler(
-    ILogger<UpdateRoleCommandHandler> logger,
     IClaimRepository claimRepository,
     IRoleRepository roleRepository,
     IUnitOfWork unitOfWork)
@@ -29,10 +26,7 @@ public class UpdateRoleCommandHandler(
                 cancellationToken,
                 role => role.Users);
             if (role == null)
-            {
-                logger.LogWarning(LogMessages.EntityNotFound, nameof(role), request.Id);
                 throw new NotFoundException(nameof(Role), request.Id);
-            }
             
             // Checking role name for uniqueness
             var normalizedRoleName = StringHelper.Normalize(request.Name);
