@@ -4,4 +4,5 @@ namespace Utils.Exceptions.Errors.Codes;
 public enum ErrorCode
 {
     
+    INCORRECT_VALUE,
 }
