@@ -22,10 +22,7 @@ public class UpdateClinicCodeCommandHandler(
             // Checking old code for correctness
             var normalizedOldCode = StringHelper.Normalize(request.OldCode);
             if (normalizedOldCode != request.Clinic.NormalizedCode)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyInvalid, nameof(request.OldCode), nameof(Clinic));
-                throw new InvalidPropertyValueException(nameof(Clinic), nameof(Clinic.Code));
-            }
+                throw new IncorrectPropertyValueException(nameof(Clinic), nameof(Clinic.Code));
             
             // Checking codes for equality
             var normalizedNewCode = StringHelper.Normalize(request.NewCode);

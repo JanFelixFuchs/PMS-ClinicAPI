@@ -27,10 +27,7 @@ public class UpdateUsernameCommandHandler(
             // Checking old username for correctness
             var normalizedOldUsername = StringHelper.Normalize(request.OldUsername);
             if (normalizedOldUsername != request.User.NormalizedUsername)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyInvalid, nameof(request.OldUsername), nameof(User));
-                throw new InvalidPropertyValueException(nameof(User), nameof(User.Username));
-            }
+                throw new IncorrectPropertyValueException(nameof(User), nameof(User.Username));
             
             // Checking usernames for equality
             var normalizedNewUsername = StringHelper.Normalize(request.NewUsername);

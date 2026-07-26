@@ -30,10 +30,7 @@ public class UpdatePasswordCommandHandler(
             // Checking old password for correctness
             var oldPasswordIsCorrect = authenticationService.CheckPassword(request.User.PasswordHash, request.OldPassword);
             if (!oldPasswordIsCorrect)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyInvalid, nameof(request.OldPassword), nameof(User));
-                throw new InvalidPropertyValueException(nameof(User), nameof(User.PasswordHash));
-            }
+                throw new IncorrectPropertyValueException(nameof(User), nameof(User.PasswordHash));
             
             // Checking passwords for equality
             var passwordsAreEqual = authenticationService.CheckPassword(request.User.PasswordHash, request.NewPassword);
