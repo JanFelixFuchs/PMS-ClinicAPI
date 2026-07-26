@@ -35,10 +35,7 @@ public class UpdateClinicCodeCommandHandler(
             // Checking new code for uniqueness
             var existingClinic = await clinicRepository.GetByNormalizedCodeAsync(normalizedNewCode, cancellationToken);
             if (existingClinic != null)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.NewCode), nameof(Clinic));
-                throw new PropertyAlreadyInUseException<string>(nameof(Clinic), nameof(Clinic.Code), request.NewCode);
-            }
+                throw new PropertyValueAlreadyInUseException<string>(nameof(Clinic), nameof(Clinic.Code), request.NewCode);
             
             // Updating clinic code
             request.Clinic.UpdateCode(request.NewCode);

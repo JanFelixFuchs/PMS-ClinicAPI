@@ -8,7 +8,6 @@ public static class LogMessages
     
     public const string EntityNotFound = "Failed to find {Entity} with id {Id}";
     public const string EntitiesNotFound = "Failed to find {Entities} with ids {Ids}";
-    public const string EntityPropertyAlreadyInUse = "Provided {Property} of {Entity} is already in use";
     public const string EntityPropertyUnchanged = "Provided {Property} of {Entity} is unchanged";
     
     public const string ValidationFailed = "Failed to validate request {Request} with messages {Messages}";

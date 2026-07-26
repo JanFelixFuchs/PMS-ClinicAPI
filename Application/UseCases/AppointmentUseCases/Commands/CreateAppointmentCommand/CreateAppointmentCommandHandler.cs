@@ -78,10 +78,7 @@ public class CreateAppointmentCommandHandler(
             
             // Checking overlapping rooms
             if (overlappingAppointments.Any(appointment => appointment.RoomId == request.RoomId))
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.RoomId), nameof(Appointment));
-                throw new PropertyAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Room), request.RoomId);
-            }
+                throw new PropertyValueAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Room), request.RoomId);
             
             // Querying and checking devices
             var devices = await deviceRepository.GetByClinicIdAndDeviceIdsAsync(
@@ -97,10 +94,7 @@ public class CreateAppointmentCommandHandler(
             
             // Checking overlapping devices
             if (overlappingAppointments.Any(appointment => appointment.Devices.Any(device => request.DeviceIds.Contains(device.Id))))
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.DeviceIds), nameof(Appointment));
-                throw new PropertyAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Devices), request.DeviceIds);
-            }
+                throw new PropertyValueAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Devices), request.DeviceIds);
             
             // Querying and checking clinicians
             var clinicians = await clinicianRepository.GetByClinicIdAndClinicianIdsAsync(
@@ -116,10 +110,7 @@ public class CreateAppointmentCommandHandler(
             
             // Checking overlapping clinicians
             if (overlappingAppointments.Any(appointment => appointment.Clinicians.Any(clinician => request.ClinicianIds.Contains(clinician.Id))))
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.ClinicianIds), nameof(Appointment));
-                throw new PropertyAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Clinicians), request.ClinicianIds);
-            }
+                throw new PropertyValueAlreadyInUseException<Guid>(nameof(Appointment), nameof(Appointment.Clinicians), request.ClinicianIds);
             
             // Creating appointment
             var appointment = new Appointment(

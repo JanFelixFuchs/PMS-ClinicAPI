@@ -43,10 +43,7 @@ public class UpdateUsernameCommandHandler(
                 normalizedNewUsername, 
                 cancellationToken);
             if (existingUsername != null)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.NewUsername), nameof(User));
-                throw new PropertyAlreadyInUseException<string>(nameof(User), nameof(User.Username), request.NewUsername);
-            }
+                throw new PropertyValueAlreadyInUseException<string>(nameof(User), nameof(User.Username), request.NewUsername);
             
             // Updating username
             request.User.UpdateUsername(request.NewUsername);

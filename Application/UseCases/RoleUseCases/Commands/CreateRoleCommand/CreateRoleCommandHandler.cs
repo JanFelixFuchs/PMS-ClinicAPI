@@ -30,10 +30,7 @@ public class CreateRoleCommandHandler(
                 normalizedRoleName, 
                 cancellationToken);
             if (existingRole != null)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyAlreadyInUse, nameof(request.Name), nameof(Role));
-                throw new PropertyAlreadyInUseException<string>(nameof(Role), nameof(Role.Name), request.Name);
-            }
+                throw new PropertyValueAlreadyInUseException<string>(nameof(Role), nameof(Role.Name), request.Name);
             
             // Querying and checking users
             var users = await userRepository.GetByClinicIdAndUserIdsAsync(
