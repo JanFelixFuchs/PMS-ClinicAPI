@@ -1,4 +1,5 @@
 using FluentValidation;
+using Utils.Exceptions.Errors.Codes;
 
 namespace Application.Common.Behaviours.Validation.Rules;
 
@@ -8,5 +9,6 @@ public static class EnumValidationRules
         where TProperty : struct, Enum =>
         ruleBuilder
             .IsInEnum()
+            .WithState(_ => ErrorCode.INVALID_ENUM_VALUE)
             .WithMessage("{PropertyName} must be a valid option");
 }
