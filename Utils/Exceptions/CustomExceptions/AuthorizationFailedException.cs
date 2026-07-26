@@ -12,6 +12,12 @@ public class AuthorizationFailedException : CustomExceptionBase
     public static AuthorizationFailedException DueToInvalidMandatoryClaim(string claimName) =>
         new ($"Invalid mandatory claim {claimName}");
     
+    public static AuthorizationFailedException DueToInvalidCredentials(Guid? userId = null) => 
+        new ($"Invalid credentials for user with id {userId?.ToString() ?? "unknown"}");
+    
+    public static AuthorizationFailedException DueToInvalidRefreshToken(Guid? userId = null) =>
+        new ($"Invalid or expired refresh token for user with id {userId?.ToString() ?? "unknown"}");
+    
     public static AuthorizationFailedException DueToMissingRefreshTokenCookie() =>
         new ("Missing refresh token cookie");
 }

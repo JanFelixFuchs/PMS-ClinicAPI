@@ -10,8 +10,4 @@ public static class LogMessages
     public const string EntitiesNotFound = "Failed to find {Entities} with ids {Ids}";
     
     public const string ValidationFailed = "Failed to validate request {Request} with messages {Messages}";
-    
-    public const string InvalidRefreshToken = "Failed to authorize due to invalid or expired refresh token for user with id {UserId}";
-    
-    public const string InvalidPassword = "Failed to authorize due to invalid password for user with id {UserId}";
 }
