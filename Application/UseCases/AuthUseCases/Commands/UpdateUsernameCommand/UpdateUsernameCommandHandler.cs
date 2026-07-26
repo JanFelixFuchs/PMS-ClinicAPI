@@ -32,10 +32,7 @@ public class UpdateUsernameCommandHandler(
             // Checking usernames for equality
             var normalizedNewUsername = StringHelper.Normalize(request.NewUsername);
             if (normalizedNewUsername == normalizedOldUsername)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyUnchanged, nameof(request.NewUsername), nameof(User));
-                throw new PropertyUnchangedException(nameof(User), nameof(User.Username));
-            }
+                throw new UnchangedPropertyValueException(nameof(User), nameof(User.Username));
             
             // Checking new username for uniqueness
             var existingUsername = await userRepository.GetByClinicIdAndNormalizedUsernameAsync(

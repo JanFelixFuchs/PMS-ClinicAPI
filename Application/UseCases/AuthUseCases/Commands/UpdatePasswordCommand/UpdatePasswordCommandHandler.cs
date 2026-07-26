@@ -35,10 +35,7 @@ public class UpdatePasswordCommandHandler(
             // Checking passwords for equality
             var passwordsAreEqual = authenticationService.CheckPassword(request.User.PasswordHash, request.NewPassword);
             if (passwordsAreEqual)
-            {
-                logger.LogWarning(LogMessages.EntityPropertyUnchanged, nameof(request.NewPassword), nameof(User));
-                throw new PropertyUnchangedException(nameof(User), nameof(User.PasswordHash));
-            }
+                throw new UnchangedPropertyValueException(nameof(User), nameof(User.PasswordHash));
             
             // Validating and hashing new password
             var newPasswordHash = authenticationService.ValidateAndHashPassword(request.NewPassword);
