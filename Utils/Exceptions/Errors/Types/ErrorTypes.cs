@@ -12,6 +12,7 @@ public enum ErrorType
     NOT_FOUND,
     
     INCORRECT_PROPERTY_VALUE,
+    PROPERTY_VALUE_ALREADY_IN_USE,
     
     INTERNAL_ERROR
 }

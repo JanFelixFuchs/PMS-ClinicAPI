@@ -5,4 +5,5 @@ public enum ErrorCode
 {
     
     INCORRECT_VALUE,
+    VALUE_ALREADY_IN_USE,
 }
