@@ -24,4 +24,6 @@ public enum ErrorCode
     INCORRECT_VALUE,
     VALUE_ALREADY_IN_USE,
     UNCHANGED_VALUE,
+    
+    UNKNOWN_ERROR
 }
