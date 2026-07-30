@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
-using Domain.Commons.Interfaces;
+using Utils.Exceptions.Errors.Codes;
 
 namespace Domain.Commons.Utils.Validation;
 
-public static class ValidationConditions
+public static class PropertyValidationConditions
 {
     // Generic conditions
     public static (bool, string) IsNotNull<T>(T input, string propertyName, string? customErrorMessage = null) =>
