@@ -5,6 +5,8 @@ public enum ErrorType
 {
     SUCCESS,
     
+    INVALID_OPERATION,
+    
     AUTHORIZATION_FAILED,
 
     VALIDATION_ERROR,
