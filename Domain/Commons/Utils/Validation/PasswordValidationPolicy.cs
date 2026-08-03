@@ -6,7 +6,7 @@ public static class PasswordValidationPolicy
 {
     public static void Validate(string rawPassword)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsMatchingRegex(rawPassword, RegexPatterns.Password, "Password"));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsMatchingRegex(rawPassword, RegexPatterns.Password, "Password"));
     }
 }
