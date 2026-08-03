@@ -5,16 +5,27 @@ namespace Domain.Commons.Utils.Validation;
 
 public static class PropertyValidationHelper
 {
-    public static void ConstructPropertyValidation(params (bool condition, string errorMessage)[] validations)
+    public static void ConstructPropertyValidation(params PropertyValidationResult[] fieldValidations)
     {
-        // Checking conditions and collecting error messages
-        var validationErrors = validations.
-            Where(validation => !validation.condition).
-            Select(validation => validation.errorMessage)
+        // Checking conditions
+        var validationErrors = fieldValidations
+            .Where(fieldValidation => !fieldValidation.IsValid)
+            .Select(fieldValidation =>
+            {
+                // Constructing field error
+                var fieldError = new FieldError(
+                    fieldValidation.Field,
+                    fieldValidation.ErrorCode);
+                
+                // Returning tuple
+                return (FieldError: fieldError, LogMessage: fieldValidation.ValidationMessage);
+            })
             .ToList();
-
+        
         // Throwing exception
         if (validationErrors.Count > 0)
-            throw new ValidationException(validationErrors);
+            throw new ValidationException(
+                string.Join(", ", validationErrors.Select(validationError => validationError.LogMessage).ToList()),
+                validationErrors.Select(validationError => validationError.FieldError).ToList());
     }
 }
