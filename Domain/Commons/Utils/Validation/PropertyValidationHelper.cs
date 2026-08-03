@@ -1,8 +1,9 @@
 using Utils.Exceptions.CustomExceptions;
+using Utils.Exceptions.Errors.Field;
 
 namespace Domain.Commons.Utils.Validation;
 
-public static class ValidationHelper
+public static class PropertyValidationHelper
 {
     public static void ConstructPropertyValidation(params (bool condition, string errorMessage)[] validations)
     {
