@@ -1,6 +1,7 @@
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
 using Domain.Commons.Utils.Helper;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using InvalidOperationException = Domain.Commons.Exceptions.InvalidOperationException;
@@ -179,9 +180,9 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -191,10 +192,10 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the username
     private void ValidateAndSetUsername(string username)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(username, nameof(Username)),
-            ValidationConditions.IsMatchingRegex(username, RegexPatterns.Username, nameof(Username)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(username, nameof(Username)),
+            PropertyValidationConditions.IsMatchingRegex(username, RegexPatterns.Username, nameof(Username)));
         
         // Setting properties
         Username = username;
@@ -204,10 +205,10 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the password hash
     private void ValidateAndSetPasswordHash(string passwordHash)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(passwordHash, nameof(PasswordHash)),
-            ValidationConditions.HasMaximumLength(passwordHash, Lengths.PasswordHash, nameof(PasswordHash)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(passwordHash, nameof(PasswordHash)),
+            PropertyValidationConditions.HasMaximumLength(passwordHash, Lengths.PasswordHash, nameof(PasswordHash)));
         
         // Setting property
         PasswordHash = passwordHash;
@@ -223,10 +224,10 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the refresh token hash
     private void ValidateAndSetRefreshTokenHash(string? refreshTokenHash)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(refreshTokenHash, nameof(RefreshTokenHash)),
-            ValidationConditions.IsNullOrHasMaximumLength(refreshTokenHash, Lengths.RefreshTokenHash, nameof(RefreshTokenHash)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(refreshTokenHash, nameof(RefreshTokenHash)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(refreshTokenHash, Lengths.RefreshTokenHash, nameof(RefreshTokenHash)));
         
         // Setting property
         RefreshTokenHash = refreshTokenHash;
@@ -235,9 +236,9 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the refresh token expiration time
     private void ValidateAndSetRefreshTokenExpirationTime(DateTime? refreshTokenExpirationTime)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, nameof(RefreshTokenExpirationTime)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, nameof(RefreshTokenExpirationTime)));
         
         // Setting property
         RefreshTokenExpirationTime = refreshTokenExpirationTime;
@@ -246,10 +247,13 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the role
     private void ValidateAndSetRole(Role role)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(role, nameof(Role)), 
-            ValidationConditions.IsNotDeleted(role, nameof(Role)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(role, nameof(Role)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties
         Role = role;
@@ -259,13 +263,16 @@ public class User : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinician
     private void ValidateAndSetClinician(Clinician? clinician, bool isAdmin)
     {
-        // Validating
         if (!isAdmin)
         {
-            ValidationHelper.ConstructPropertyValidation(
-                ValidationConditions.IsNotNull(clinician, nameof(Clinician)),
-                ValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)),
-                ValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)));
+            // Property validation
+            PropertyValidationHelper.ConstructPropertyValidation(
+                PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+            
+            // Invariant validation
+            InvariantValidationHelper.ConstructionInvariantValidation(
+                InvariantValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)),
+                InvariantValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)));
         }
         
         // Setting properties
