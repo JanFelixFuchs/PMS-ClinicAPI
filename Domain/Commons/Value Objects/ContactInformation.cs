@@ -33,17 +33,17 @@ public class ContactInformation
     // Method to validate the email
     private static void ValidateEmail(string email)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(email, nameof(Email)),
-            ValidationConditions.IsMatchingRegex(email, RegexPatterns.Email, nameof(Email)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(email, nameof(Email)),
+            PropertyValidationConditions.IsMatchingRegex(email, RegexPatterns.Email, nameof(Email)));
     }
 
     // Method to validate the phone number
     private static void ValidatePhoneNumber(string phoneNumber, Country country)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(phoneNumber, nameof(PhoneNumber)),
-            ValidationConditions.IsMatchingRegex(phoneNumber,  RegexPatterns.GetPhoneNumberRegexPattern(country), nameof(PhoneNumber)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(phoneNumber, nameof(PhoneNumber)),
+            PropertyValidationConditions.IsMatchingRegex(phoneNumber,  RegexPatterns.GetPhoneNumberRegexPattern(country), nameof(PhoneNumber)));
     }
 
 

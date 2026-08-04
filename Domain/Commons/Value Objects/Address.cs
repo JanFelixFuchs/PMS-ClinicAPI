@@ -41,38 +41,43 @@ public class Address
     
     
     /* - - - Validation methods - - - */
+    // Method to validate the street
     private static void ValidateStreet(string street)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(street, nameof(Street)),
-            ValidationConditions.HasMaximumLength(street, Lengths.Street, nameof(Street)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(street, nameof(Street)),
+            PropertyValidationConditions.HasMaximumLength(street, Lengths.Street, nameof(Street)));
     }
     
+    // Method to validate the house number
     private static void ValidateHouseNumber(string houseNumber)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(houseNumber, nameof(HouseNumber)),
-            ValidationConditions.HasMaximumLength(houseNumber, Lengths.HouseNumber, nameof(HouseNumber)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(houseNumber, nameof(HouseNumber)),
+            PropertyValidationConditions.HasMaximumLength(houseNumber, Lengths.HouseNumber, nameof(HouseNumber)));
     }
     
+    // Method to validate the city
     private static void ValidateCity(string city)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(city, nameof(City)),
-            ValidationConditions.HasMaximumLength(city, Lengths.City, nameof(City)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(city, nameof(City)),
+            PropertyValidationConditions.HasMaximumLength(city, Lengths.City, nameof(City)));
     }
     
+    // Method to validate the zip code
     private static void ValidateZipCode(string zipCode, Country country)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(zipCode, nameof(ZipCode)),
-            ValidationConditions.IsMatchingRegex(zipCode, RegexPatterns.GetZipCodeRegexPattern(country), nameof(ZipCode)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(zipCode, nameof(ZipCode)),
+            PropertyValidationConditions.IsMatchingRegex(zipCode, RegexPatterns.GetZipCodeRegexPattern(country), nameof(ZipCode)));
     }
 
+    // Method to validate the country
     private static void ValidateCountry(Country country)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(country, nameof(Country)));
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(country, nameof(Country)));
     }
     
     
