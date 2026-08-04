@@ -1,6 +1,7 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
@@ -122,9 +123,9 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
 
         // Setting properties
         Clinic = clinic;
@@ -134,10 +135,10 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the title
     private void ValidateAndSetTitle(string title)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
-            ValidationConditions.HasMaximumLength(title, Lengths.AppointmentTitle, nameof(Title)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
+            PropertyValidationConditions.HasMaximumLength(title, Lengths.AppointmentTitle, nameof(Title)));
         
         // Setting property
         Title = title;
@@ -146,14 +147,14 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the start time and end time
     private void ValidateAndSetDateTimes(DateTime startTime, DateTime endTime)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(startTime, nameof(StartTime)),
-            ValidationConditions.IsNotNull(endTime, nameof(EndTime)),
-            ValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
-            ValidationConditions.IsDateTimeInTheFuture(startTime, nameof(StartTime)),
-            ValidationConditions.IsDateTimeInTheFuture(endTime, nameof(EndTime)),
-            ValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(startTime, nameof(StartTime)),
+            PropertyValidationConditions.IsNotNull(endTime, nameof(EndTime)),
+            PropertyValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
+            PropertyValidationConditions.IsDateTimeInTheFuture(startTime, nameof(StartTime)),
+            PropertyValidationConditions.IsDateTimeInTheFuture(endTime, nameof(EndTime)),
+            PropertyValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
 
         // Setting properties
         StartTime = startTime;
@@ -163,11 +164,14 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the appointment categories
     private void ValidateAndSetAppointmentCategories(ICollection<AppointmentCategory> appointmentCategories)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(appointmentCategories, nameof(AppointmentCategories)),
-            ValidationConditions.IsNotContainingDuplicates(appointmentCategories, nameof(AppointmentCategories)),
-            ValidationConditions.IsNotContainingDeletedElements(appointmentCategories, nameof(AppointmentCategories)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(appointmentCategories, nameof(AppointmentCategories)),
+            PropertyValidationConditions.IsNotContainingDuplicates(appointmentCategories, nameof(AppointmentCategories)));
+
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(appointmentCategories, nameof(AppointmentCategories)));
 
         // Setting property
         AppointmentCategories = appointmentCategories;
@@ -176,11 +180,14 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the patient
     private void ValidateAndSetPatient(Patient patient)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(patient, nameof(Patient)),
-            ValidationConditions.IsNotDeleted(patient, nameof(Patient)),
-            ValidationConditions.IsNotArchived(patient, nameof(Patient)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
+            InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
 
         // Setting properties
         Patient = patient;
@@ -190,11 +197,14 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the room
     private void ValidateAndSetRoom(Room room)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(room, nameof(Room)),
-            ValidationConditions.IsNotDeleted(room, nameof(Room)),
-            ValidationConditions.IsNotArchived(room, nameof(Room)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(room, nameof(Room)));
+
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
+            InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
 
         // Setting properties
         Room = room;
@@ -204,12 +214,16 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the devices
     private void ValidateAndSetDevices(ICollection<Device> devices)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)),
-            ValidationConditions.IsContainingElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
+
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
+            InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)),
+            InvariantValidationConditions.IsContainingElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
 
         // Setting property
         Devices = devices;
@@ -218,12 +232,16 @@ public class Appointment : IEntity, IDeletable
     // Method to validate and set the clinicians
     private void ValidateAndSetClinicians(ICollection<Clinician> clinicians)
     {
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinicians, nameof(Clinicians)),
-            ValidationConditions.IsNotEmpty(clinicians, nameof(Clinicians)),
-            ValidationConditions.IsNotContainingDuplicates(clinicians, nameof(Clinicians)),
-            ValidationConditions.IsNotContainingDeletedElements(clinicians, nameof(Clinicians)),
-            ValidationConditions.IsNotContainingArchivedElements(clinicians, nameof(Clinicians)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinicians, nameof(Clinicians)),
+            PropertyValidationConditions.IsNotEmpty(clinicians, nameof(Clinicians)),
+            PropertyValidationConditions.IsNotContainingDuplicates(clinicians, nameof(Clinicians)));
+
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(clinicians, nameof(Clinicians)),
+            InvariantValidationConditions.IsNotContainingArchivedElements(clinicians, nameof(Clinicians)));
 
         // Setting property
         Clinicians = clinicians;
