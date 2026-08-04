@@ -1,6 +1,7 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
@@ -175,9 +176,9 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -187,10 +188,10 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the name
     private void ValidateAndSetName(string name)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            ValidationConditions.HasMaximumLength(name, Lengths.DeviceName, nameof(Name)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            PropertyValidationConditions.HasMaximumLength(name, Lengths.DeviceName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -199,10 +200,10 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the abbreviation
     private void ValidateAndSetAbbreviation(string abbreviation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            ValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -211,10 +212,10 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the serial number
     private void ValidateAndSetSerialNumber(string serialNumber)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(serialNumber, nameof(SerialNumber)),
-            ValidationConditions.HasMaximumLength(serialNumber, Lengths.SerialNumber, nameof(SerialNumber)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(serialNumber, nameof(SerialNumber)),
+            PropertyValidationConditions.HasMaximumLength(serialNumber, Lengths.SerialNumber, nameof(SerialNumber)));
         
         // Setting property
         SerialNumber = serialNumber;
@@ -223,9 +224,9 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the status
     private void ValidateAndSetStatus(DeviceStatus status)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(status, nameof(Status)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(status, nameof(Status)));
         
         // Setting property
         Status = status;
@@ -234,10 +235,10 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the producer
     private void ValidateAndSetProducer(string producer)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(producer, nameof(Producer)),
-            ValidationConditions.HasMaximumLength(producer, Lengths.Producer, nameof(Producer)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(producer, nameof(Producer)),
+            PropertyValidationConditions.HasMaximumLength(producer, Lengths.Producer, nameof(Producer)));
         
         // Setting property
         Producer = producer;
@@ -246,11 +247,14 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the device categories
     private void ValidateAndSetDeviceCategories(ICollection<DeviceCategory> deviceCategories)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(deviceCategories, nameof(DeviceCategories)),
-            ValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)),
-            ValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(deviceCategories, nameof(DeviceCategories)),
+            PropertyValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
         
         // Setting property
         DeviceCategories = deviceCategories;
@@ -259,9 +263,9 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the date of purchase
     private void ValidateAndSetDateOfPurchase(DateTime? dateOfPurchase)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, nameof(DateOfPurchase)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, nameof(DateOfPurchase)));
         
         // Setting property
         DateOfPurchase = dateOfPurchase?.Date;
@@ -270,9 +274,9 @@ public class Device : IEntity, IDeletable, IArchivable
     // Method to validate and set the date of last maintenance
     private void ValidateAndSetDateOfLastMaintenance(DateTime? dateOfLastMaintenance)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, nameof(DateOfLastMaintenance)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, nameof(DateOfLastMaintenance)));
         
         // Setting property
         DateOfLastMaintenance = dateOfLastMaintenance?.Date;
