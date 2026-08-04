@@ -73,9 +73,9 @@ public class Role : IEntity, IDeletable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -85,10 +85,10 @@ public class Role : IEntity, IDeletable
     // Method to validate and set name
     private void ValidateAndSetName(string name)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            ValidationConditions.HasMaximumLength(name, Lengths.RoleName, nameof(Name)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            PropertyValidationConditions.HasMaximumLength(name, Lengths.RoleName, nameof(Name)));
             
         // Setting properties
         Name = name;
