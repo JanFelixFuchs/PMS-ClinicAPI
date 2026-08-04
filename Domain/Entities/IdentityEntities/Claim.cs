@@ -1,5 +1,6 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using InvalidOperationException = Domain.Commons.Exceptions.InvalidOperationException;
 
@@ -50,10 +51,13 @@ public class Claim : IEntity, IDeletable
     // Method to validate and set the role
     private void ValidateAndSetRole(Role role)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(role, nameof(Role)),
-            ValidationConditions.IsNotDeleted(role, nameof(Role)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(role, nameof(Role)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties
         Role = role;
@@ -63,9 +67,9 @@ public class Claim : IEntity, IDeletable
     // Method to validate and set the type
     private void ValidateAndSetType(ClaimType type)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(type, nameof(Type)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(type, nameof(Type)));
         
         // Setting property
         Type = type;
@@ -74,9 +78,9 @@ public class Claim : IEntity, IDeletable
     // Method to validate and set the value
     private void ValidateAndSetValue(ClaimValue value)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(value, nameof(Value)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(value, nameof(Value)));
         
         // Setting property
         Value = value;
