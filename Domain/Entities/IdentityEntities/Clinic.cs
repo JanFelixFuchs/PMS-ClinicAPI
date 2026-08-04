@@ -112,10 +112,10 @@ public class Clinic : IEntity
     // Method to validate and set the code 
     private void ValidateAndSetCode(string code)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(code, nameof(Code)),
-            ValidationConditions.IsMatchingRegex(code, RegexPatterns.Code, nameof(Code)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(code, nameof(Code)),
+            PropertyValidationConditions.IsMatchingRegex(code, RegexPatterns.Code, nameof(Code)));
         
         // Setting properties
         Code = code;
@@ -125,10 +125,10 @@ public class Clinic : IEntity
     // Method to validate and set the name
     private void ValidateAndSetName(string name)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            ValidationConditions.HasMaximumLength(name, Lengths.ClinicName, nameof(Name)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            PropertyValidationConditions.HasMaximumLength(name, Lengths.ClinicName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -137,10 +137,10 @@ public class Clinic : IEntity
     // Method to validate and set the abbreviation
     private void ValidateAndSetAbbreviation(string abbreviation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            ValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -149,10 +149,10 @@ public class Clinic : IEntity
     // Method to validate and set the owner
     private void ValidateAndSetOwner(string owner)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(owner, nameof(Owner)),
-            ValidationConditions.HasMaximumLength(owner, Lengths.Owner, nameof(Owner)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(owner, nameof(Owner)),
+            PropertyValidationConditions.HasMaximumLength(owner, Lengths.Owner, nameof(Owner)));
         
         // Setting property
         Owner = owner;
@@ -161,9 +161,9 @@ public class Clinic : IEntity
     // Method to validate and set the medical field
     private void ValidateAndSetMedicalField(MedicalField medicalField)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(medicalField, nameof(MedicalField)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(medicalField, nameof(MedicalField)));
         
         // Setting property
         MedicalField = medicalField;
@@ -172,9 +172,9 @@ public class Clinic : IEntity
     // Method to validate and set the address
     private void ValidateAndSetAddress(Address address)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(address, nameof(Address)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(address, nameof(Address)));
         
         // Setting property
         Address = address;
@@ -183,9 +183,9 @@ public class Clinic : IEntity
     // Method to validate and set contact information
     private void ValidateAndSetContactInformation(ContactInformation contactInformation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
         
         // Setting property
         ContactInformation = contactInformation;
