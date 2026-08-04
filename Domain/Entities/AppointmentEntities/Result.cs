@@ -2,6 +2,7 @@ using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
 using Domain.Commons.Utils.Helper;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
@@ -77,9 +78,9 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -89,10 +90,10 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the title
     private void ValidateAndSetTitle(string title)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
-            ValidationConditions.HasMaximumLength(title, Lengths.ResultTitle, nameof(Title)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
+            PropertyValidationConditions.HasMaximumLength(title, Lengths.ResultTitle, nameof(Title)));
         
         // Setting property
         Title = title;
@@ -101,10 +102,10 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the date of creation
     private void ValidateAndSetDateOfCreation(DateTime dateOfCreation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
-            ValidationConditions.IsDateTimeInThePast(dateOfCreation, nameof(DateOfCreation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
+            PropertyValidationConditions.IsDateTimeInThePast(dateOfCreation, nameof(DateOfCreation)));
         
         // Setting property
         DateOfCreation = dateOfCreation.Date;
@@ -113,24 +114,27 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the appendix and appendix content type
     private void ValidateAndSetAppendixAndAppendixContentType(byte[] appendix)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(appendix, nameof(Appendix)),
-            ValidationConditions.IsNotEmpty(appendix, nameof(Appendix)),
-            ValidationConditions.HasMaximumLength(appendix, Lengths.Appendix, nameof(Appendix), $"{nameof(Appendix)} must not exceed maximum file size"));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(appendix, nameof(Appendix)),
+            PropertyValidationConditions.IsNotEmpty(appendix, nameof(Appendix)),
+            PropertyValidationConditions.HasMaximumLength(appendix, Lengths.Appendix, nameof(Appendix)));
 
-        // Inferring appendix content type and setting properties
-        AppendixContentType = FileHelper.InferFileContentType(appendix, nameof(Appendix));
+        // Inferring appendix content type
+        var appendixContentType = FileHelper.InferFileContentType(appendix, nameof(Appendix));
+        
+        // Setting properties
+        AppendixContentType = appendixContentType;
         Appendix = appendix;
     }
     
     // Method to validate and set the remarks
     private void ValidateAndSetRemarks(string? remarks)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            ValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.ResultRemarks, nameof(Remarks)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.ResultRemarks, nameof(Remarks)));
 
         // Setting property
         Remarks = remarks;
@@ -139,11 +143,14 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the patient
     private void ValidateAndSetPatient(Patient patient)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(patient, nameof(Patient)),
-            ValidationConditions.IsNotDeleted(patient, nameof(Patient)),
-            ValidationConditions.IsNotArchived(patient, nameof(Patient)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
+            InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
         // Setting properties
         Patient = patient;
@@ -153,11 +160,14 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the clinician
     private void ValidateAndSetClinician(Clinician clinician)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinician, nameof(Clinician)),
-            ValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
-            ValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
+            InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
         // Setting properties
         Clinician = clinician;
@@ -167,10 +177,10 @@ public class Result : IEntity, IDeletable
     // Method to validate and set the device
     private void ValidateAndSetDevice(Device? device)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullOrNotDeleted(device, nameof(Device)),
-            ValidationConditions.IsNullOrNotArchived(device, nameof(Device)));
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNullOrNotDeleted(device, nameof(Device)),
+            InvariantValidationConditions.IsNullOrNotArchived(device, nameof(Device)));
         
         // Setting properties
         Device = device;
