@@ -1,6 +1,7 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
@@ -144,9 +145,9 @@ public class Clinician : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -156,10 +157,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     // Method to validate and set the first name
     private void ValidateAndSetFirstName(string firstName)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
-            ValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
+            PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
         
         // Setting property
         FirstName = firstName;
@@ -168,10 +169,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     // Method to validate and set the last name
     private void ValidateAndSetLastName(string lastName)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
-            ValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
+            PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
         
         // Setting property
         LastName = lastName;
@@ -180,11 +181,14 @@ public class Clinician : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinician categories
     private void ValidateAndSetClinicianCategories(ICollection<ClinicianCategory> clinicianCategories)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinicianCategories, nameof(ClinicianCategories)),
-            ValidationConditions.IsNotContainingDuplicates(clinicianCategories, nameof(ClinicianCategories)),
-            ValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinicianCategories, nameof(ClinicianCategories)),
+            PropertyValidationConditions.IsNotContainingDuplicates(clinicianCategories, nameof(ClinicianCategories)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
         
         // Setting property
         ClinicianCategories = clinicianCategories;
