@@ -1,6 +1,7 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
@@ -116,9 +117,9 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -128,10 +129,10 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the date of appointment
     private void ValidateAndSetDateOfAppointment(DateTime appointmentDate)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
-            ValidationConditions.IsDateTimeInThePast(appointmentDate, nameof(DateOfAppointment)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
+            PropertyValidationConditions.IsDateTimeInThePast(appointmentDate, nameof(DateOfAppointment)));
         
         // Setting property
         DateOfAppointment = appointmentDate.Date;
@@ -140,10 +141,10 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the symptoms
     private void ValidateAndSetSymptoms(string? symptoms)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(symptoms, nameof(Symptoms)),
-            ValidationConditions.IsNullOrHasMaximumLength(symptoms, Lengths.Symptoms, nameof(Symptoms)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(symptoms, nameof(Symptoms)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(symptoms, Lengths.Symptoms, nameof(Symptoms)));
 
         // Setting property
         Symptoms = symptoms;
@@ -152,10 +153,10 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the diagnosis
     private void ValidateAndSetDiagnosis(string? diagnosis)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(diagnosis, nameof(Diagnosis)),
-            ValidationConditions.IsNullOrHasMaximumLength(diagnosis, Lengths.Diagnosis, nameof(Diagnosis)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(diagnosis, nameof(Diagnosis)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(diagnosis, Lengths.Diagnosis, nameof(Diagnosis)));
 
         // Setting property
         Diagnosis = diagnosis;
@@ -164,10 +165,10 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the treatment
     private void ValidateAndSetTreatment(string? treatment)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(treatment, nameof(Treatment)),
-            ValidationConditions.IsNullOrHasMaximumLength(treatment, Lengths.Treatment, nameof(Treatment)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(treatment, nameof(Treatment)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(treatment, Lengths.Treatment, nameof(Treatment)));
 
         // Setting property
         Treatment = treatment;
@@ -176,10 +177,10 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the remarks
     private void ValidateAndSetRemarks(string? remarks)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            ValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.AppointmentProtocolRemarks, nameof(Remarks)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.AppointmentProtocolRemarks, nameof(Remarks)));
 
         // Setting property
         Remarks = remarks;
@@ -188,11 +189,14 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the appointment
     private void ValidateAndSetAppointment(Appointment appointment)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(appointment, nameof(Appointment)),
-            ValidationConditions.IsNotDeleted(appointment, nameof(Appointment)),
-            ValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Attended, nameof(Appointment)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(appointment, nameof(Appointment)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(appointment, nameof(Appointment)),
+            InvariantValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Attended, nameof(Appointment)));
         
         // Setting properties
         Appointment = appointment;
@@ -202,11 +206,14 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the patient
     private void ValidateAndSetPatient(Patient patient)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(patient, nameof(Patient)),
-            ValidationConditions.IsNotDeleted(patient, nameof(Patient)),
-            ValidationConditions.IsNotArchived(patient, nameof(Patient)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
+            InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
         // Setting properties
         Patient = patient;
@@ -216,11 +223,14 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the clinician
     private void ValidateAndSetClinician(Clinician clinician)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinician, nameof(Clinician)),
-            ValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
-            ValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
+            InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
         // Setting properties
         Clinician = clinician;
@@ -230,11 +240,14 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the room
     private void ValidateAndSetRoom(Room room)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(room, nameof(Room)),
-            ValidationConditions.IsNotDeleted(room, nameof(Room)),
-            ValidationConditions.IsNotArchived(room, nameof(Room)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(room, nameof(Room)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
+            InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
         
         // Setting properties
         Room = room;
@@ -244,12 +257,15 @@ public class AppointmentProtocol : IEntity
     // Method to validate and set the devices
     private void ValidateAndSetDevices(ICollection<Device> devices)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
-            ValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
+            InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)));
         
         // Setting property
         Devices = devices;
