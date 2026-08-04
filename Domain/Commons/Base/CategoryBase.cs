@@ -74,9 +74,9 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -86,10 +86,10 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     // Method to validate and set the name
     private void ValidateAndSetName(string name)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            ValidationConditions.HasMaximumLength(name, Lengths.CategoryName, nameof(Name)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            PropertyValidationConditions.HasMaximumLength(name, Lengths.CategoryName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -98,10 +98,10 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     // Method to validate and set the abbreviation
     private void ValidateAndSetAbbreviation(string abbreviation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            ValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -110,10 +110,10 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     // Method to validate and set the color
     private void ValidateAndSetColor(string color)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(color, nameof(Color)),
-            ValidationConditions.IsMatchingRegex(color, RegexPatterns.Color, nameof(Color)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(color, nameof(Color)),
+            PropertyValidationConditions.IsMatchingRegex(color, RegexPatterns.Color, nameof(Color)));
         
         // Setting property
         Color = color;
