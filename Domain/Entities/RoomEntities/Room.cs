@@ -1,6 +1,7 @@
 using Domain.Commons.Enums;
 using Domain.Commons.Interfaces;
 using Domain.Commons.Utils.Constants;
+using Domain.Commons.Utils.Invariants;
 using Domain.Commons.Utils.Validation;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
@@ -155,9 +156,9 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -167,10 +168,10 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the name
     private void ValidateAndSetName(string name)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            ValidationConditions.HasMaximumLength(name, Lengths.RoomName, nameof(Name)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            PropertyValidationConditions.HasMaximumLength(name, Lengths.RoomName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -179,10 +180,10 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the abbreviation
     private void ValidateAndSetAbbreviation(string abbreviation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            ValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
 
         // Setting abbreviation
         Abbreviation = abbreviation;
@@ -191,11 +192,14 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the room categories
     private void ValidateAndSetRoomCategories(ICollection<RoomCategory> roomCategories)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(roomCategories, nameof(RoomCategories)),
-            ValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)),
-            ValidationConditions.IsNotContainingDeletedElements(roomCategories, nameof(RoomCategories)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(roomCategories, nameof(RoomCategories)),
+            PropertyValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)));
+        
+        // Invariant validation
+        InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationConditions.IsNotContainingDeletedElements(roomCategories, nameof(RoomCategories)));
         
         // Setting property
         RoomCategories = roomCategories;
@@ -204,10 +208,10 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the room number
     private void ValidateAndSetRoomNumber(string? roomNumber)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(roomNumber, nameof(RoomNumber)),
-            ValidationConditions.IsNullOrHasMaximumLength(roomNumber, Lengths.RoomNumber, nameof(RoomNumber)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(roomNumber, nameof(RoomNumber)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(roomNumber, Lengths.RoomNumber, nameof(RoomNumber)));
         
         // Setting property
         RoomNumber = roomNumber;
@@ -216,10 +220,10 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the floor
     private void ValidateAndSetFloor(string? floor)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(floor, nameof(Floor)),
-            ValidationConditions.IsNullOrHasMaximumLength(floor, Lengths.Floor, nameof(Floor)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(floor, nameof(Floor)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(floor, Lengths.Floor, nameof(Floor)));
         
         // Setting property
         Floor = floor;
@@ -228,10 +232,10 @@ public class Room : IEntity, IDeletable, IArchivable
     // Method to validate and set the building
     private void ValidateAndSetBuilding(string? building)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(building, nameof(Building)),
-            ValidationConditions.IsNullOrHasMaximumLength(building, Lengths.Building, nameof(Building)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(building, nameof(Building)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(building, Lengths.Building, nameof(Building)));
         
         // Setting property
         Building = building;
