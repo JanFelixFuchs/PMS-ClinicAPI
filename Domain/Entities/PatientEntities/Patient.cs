@@ -162,9 +162,9 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the clinic
     private void ValidateAndSetClinic(Clinic clinic)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -174,10 +174,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the first name
     private void ValidateAndSetFirstName(string firstName)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
-            ValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
+            PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
         
         // Setting property
         FirstName = firstName;
@@ -186,10 +186,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the last name
     private void ValidateAndSetLastName(string lastName)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
-            ValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
+            PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
         
         // Setting property
         LastName = lastName;
@@ -198,10 +198,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the date of birth
     private void ValidateAndSetDateOfBirth(DateTime dateOfBirth)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
-            ValidationConditions.IsDateTimeInThePast(dateOfBirth, nameof(DateOfBirth)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
+            PropertyValidationConditions.IsDateTimeInThePast(dateOfBirth, nameof(DateOfBirth)));
         
         // Setting property
         DateOfBirth = dateOfBirth.Date;
@@ -210,9 +210,9 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the gender
     private void ValidateAndSetGender(Gender gender)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(gender, nameof(Gender)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(gender, nameof(Gender)));
         
         // Setting property
         Gender = gender;
@@ -221,9 +221,9 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the address
     private void ValidateAndSetAddress(Address address)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(address, nameof(Address)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(address, nameof(Address)));
         
         // Setting property
         Address = address;
@@ -232,9 +232,9 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the contact information
     private void ValidateAndSetContactInformation(ContactInformation contactInformation)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
         
         // Setting property
         ContactInformation = contactInformation;
@@ -243,9 +243,9 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the insurance status
     private void ValidateAndSetInsuranceStatus(InsuranceStatus insuranceStatus)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsDefinedEnum(insuranceStatus, nameof(InsuranceStatus)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsDefinedEnum(insuranceStatus, nameof(InsuranceStatus)));
         
         // Setting property
         InsuranceStatus = insuranceStatus;
@@ -254,10 +254,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the allergies
     private void ValidateAndSetAllergies(string? allergies)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(allergies, nameof(Allergies)),
-            ValidationConditions.IsNullOrHasMaximumLength(allergies, Lengths.Allergies, nameof(Allergies)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(allergies, nameof(Allergies)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(allergies, Lengths.Allergies, nameof(Allergies)));
         
         // Setting property
         Allergies = allergies;
@@ -266,10 +266,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     // Method to validate and set the remarks
     private void ValidateAndSetRemarks(string? remarks)
     {
-        // Validating
-        ValidationHelper.ConstructPropertyValidation(
-            ValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            ValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.PatientRemarks, nameof(Remarks)));
+        // Property validation
+        PropertyValidationHelper.ConstructPropertyValidation(
+            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.PatientRemarks, nameof(Remarks)));
         
         // Setting property
         Remarks = remarks;
