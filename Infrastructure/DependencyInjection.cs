@@ -1,4 +1,5 @@
 using Application.Common.Contexts;
+using Application.Common.Providers;
 using Application.Common.Services;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
@@ -9,6 +10,7 @@ using Application.Repositories.PatientRepositories;
 using Application.Repositories.RoomRepositories;
 using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Contexts;
+using Infrastructure.Common.Providers;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Transactions;
 using Infrastructure.Repositories.AppointmentRepositories;
@@ -19,8 +21,6 @@ using Infrastructure.Repositories.PatientRepositories;
 using Infrastructure.Repositories.RoomRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using AuthenticationService = Infrastructure.Common.Services.AuthenticationService;
-using IAuthenticationService = Application.Common.Services.IAuthenticationService;
 
 namespace Infrastructure;
 
@@ -67,6 +67,9 @@ public static class DependencyInjection
         // Adding transients for services
         serviceCollection.AddTransient<IAuthenticationService, AuthenticationService>();
         serviceCollection.AddTransient<ITokenService, TokenService>();
+        
+        // Adding transients for providers
+        serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
         
         // Adding transient for unit of work
         serviceCollection.AddTransient<IUnitOfWork, UnitOfWork>();
