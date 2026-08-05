@@ -5,6 +5,7 @@ namespace Application.Repositories.IdentityRepositories;
 
 public interface IRoleRepository
 {
+    // Methods
     Task AddAsync(Role role, CancellationToken cancellationToken);
     
     Task<ICollection<Role>> GetByClinicIdAsync(

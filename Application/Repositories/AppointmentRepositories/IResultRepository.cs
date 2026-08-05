@@ -5,6 +5,7 @@ namespace Application.Repositories.AppointmentRepositories;
 
 public interface IResultRepository
 {
+    // Methods
     Task AddAsync(Result result, CancellationToken cancellationToken);
     
     Task<Result?> GetByClinicIdAndResultIdAsync(

@@ -5,6 +5,7 @@ namespace Application.Repositories.IdentityRepositories;
 
 public interface IUserRepository
 { 
+    // Methods
     Task AddAsync(User user, CancellationToken cancellationToken);
     
     Task<ICollection<User>> GetByClinicIdAsync(

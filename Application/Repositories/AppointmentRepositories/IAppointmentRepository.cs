@@ -5,6 +5,7 @@ namespace Application.Repositories.AppointmentRepositories;
 
 public interface IAppointmentRepository
 {
+    // Methods
     Task AddAsync(Appointment appointment, CancellationToken cancellationToken);
     
     Task<ICollection<Appointment>> GetOverlappingByClinicIdAndDateTimesAsync(

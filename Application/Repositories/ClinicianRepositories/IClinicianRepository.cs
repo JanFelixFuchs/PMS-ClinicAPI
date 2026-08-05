@@ -5,6 +5,7 @@ namespace Application.Repositories.ClinicianRepositories;
 
 public interface IClinicianRepository
 {
+    // Methods
     Task AddAsync(Clinician clinician, CancellationToken cancellationToken);
     
     Task<ICollection<Clinician>> GetByClinicIdAsync(

@@ -5,6 +5,7 @@ namespace Application.Repositories.IdentityRepositories;
 
 public interface IClaimRepository
 {
+    // Methods
     Task AddExceptValueEqualsNoneAsync(ICollection<Claim> claims, CancellationToken cancellationToken);
     
     Task<ICollection<Claim>> GetByRoleIdAsync(

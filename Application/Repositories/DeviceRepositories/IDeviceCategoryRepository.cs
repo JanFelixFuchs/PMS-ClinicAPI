@@ -5,6 +5,7 @@ namespace Application.Repositories.DeviceRepositories;
 
 public interface IDeviceCategoryRepository
 {
+    // Methods
     Task AddAsync(DeviceCategory deviceCategory, CancellationToken cancellationToken);
     
     Task<ICollection<DeviceCategory>> GetByClinicIdAsync(

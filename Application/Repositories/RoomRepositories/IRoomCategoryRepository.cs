@@ -5,6 +5,7 @@ namespace Application.Repositories.RoomRepositories;
 
 public interface IRoomCategoryRepository
 {
+    // Methods
     Task AddAsync(RoomCategory roomCategory, CancellationToken cancellationToken);
     
     Task<ICollection<RoomCategory>> GetByClinicIdAsync(

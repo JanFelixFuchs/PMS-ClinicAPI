@@ -5,7 +5,9 @@ namespace Application.Repositories.AppointmentRepositories;
 
 public interface IAppointmentProtocolRepository
 {
+    // Methods
     Task AddAsync(AppointmentProtocol appointmentProtocol, CancellationToken cancellationToken);
+    
     Task<AppointmentProtocol?> GetByClinicIdAndAppointmentProtocolIdAsync(
         Guid clinicId,
         Guid appointmentProtocolId,

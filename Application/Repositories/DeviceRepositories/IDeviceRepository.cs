@@ -5,6 +5,7 @@ namespace Application.Repositories.DeviceRepositories;
 
 public interface IDeviceRepository
 {
+    // Methods
     Task AddAsync(Device device, CancellationToken cancellationToken);
 
     Task<ICollection<Device>> GetByClinicIdAsync(

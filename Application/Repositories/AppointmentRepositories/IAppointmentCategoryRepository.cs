@@ -5,6 +5,7 @@ namespace Application.Repositories.AppointmentRepositories;
 
 public interface IAppointmentCategoryRepository
 {
+    // Methods
     Task AddAsync(
         AppointmentCategory appointmentCategory, 
         CancellationToken cancellationToken);
