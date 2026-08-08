@@ -1,6 +1,6 @@
 using Domain.Common.Interfaces;
 
-namespace Domain.Common.Utils.Invariants;
+namespace Domain.Common.Utils.InvariantValidation;
 
 public static class InvariantValidationConditions
 {

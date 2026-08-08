@@ -1,7 +1,7 @@
 using Domain.Common.Enums;
 using Domain.Common.Interfaces;
 using Domain.Common.Utils.Constants;
-using Domain.Common.Utils.Invariants;
+using Domain.Common.Utils.InvariantValidation;
 using Domain.Common.Utils.Validation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;

@@ -1,6 +1,6 @@
 using Domain.Common.Enums;
 using Domain.Common.Interfaces;
-using Domain.Common.Utils.Invariants;
+using Domain.Common.Utils.InvariantValidation;
 using Domain.Common.Utils.Validation;
 using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;
 

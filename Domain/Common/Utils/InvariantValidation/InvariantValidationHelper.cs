@@ -1,6 +1,6 @@
 using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;
 
-namespace Domain.Common.Utils.Invariants;
+namespace Domain.Common.Utils.InvariantValidation;
 
 public static class InvariantValidationHelper
 {
