@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Application.Common.Services;
-using Domain.Common.Utils.Validation;
+using Domain.Common.Utils.Policies;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Common.Services;

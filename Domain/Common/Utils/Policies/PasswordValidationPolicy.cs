@@ -1,6 +1,7 @@
 using Domain.Common.Utils.Constants;
+using Domain.Common.Utils.Validation;
 
-namespace Domain.Common.Utils.Validation;
+namespace Domain.Common.Utils.Policies;
 
 public static class PasswordValidationPolicy
 {
