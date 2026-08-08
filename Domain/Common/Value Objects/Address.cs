@@ -1,6 +1,6 @@
 using Domain.Common.Enums;
 using Domain.Common.Utils.Constants;
-using Domain.Common.Utils.Validation;
+using Domain.Common.Utils.PropertyValidation;
 
 namespace Domain.Common.Value_Objects;
 

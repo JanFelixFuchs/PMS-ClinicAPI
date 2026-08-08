@@ -3,7 +3,7 @@ using Domain.Common.Interfaces;
 using Domain.Common.Utils.Constants;
 using Domain.Common.Utils.Helper;
 using Domain.Common.Utils.InvariantValidation;
-using Domain.Common.Utils.Validation;
+using Domain.Common.Utils.PropertyValidation;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;
 using Domain.Entities.IdentityEntities;

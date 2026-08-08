@@ -2,7 +2,7 @@ using Domain.Common.Enums;
 using Domain.Common.Interfaces;
 using Domain.Common.Utils.Constants;
 using Domain.Common.Utils.InvariantValidation;
-using Domain.Common.Utils.Validation;
+using Domain.Common.Utils.PropertyValidation;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
 using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;

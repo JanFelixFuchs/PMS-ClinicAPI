@@ -1,7 +1,7 @@
 using Domain.Common.Enums;
 using Domain.Common.Interfaces;
 using Domain.Common.Utils.InvariantValidation;
-using Domain.Common.Utils.Validation;
+using Domain.Common.Utils.PropertyValidation;
 using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;
 
 namespace Domain.Entities.IdentityEntities;

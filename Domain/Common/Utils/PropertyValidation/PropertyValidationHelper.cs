@@ -1,7 +1,7 @@
 using Utils.Exceptions.CustomExceptions;
 using Utils.Exceptions.Errors.Field;
 
-namespace Domain.Common.Utils.Validation;
+namespace Domain.Common.Utils.PropertyValidation;
 
 public static class PropertyValidationHelper
 {

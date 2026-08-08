@@ -1,6 +1,6 @@
 using Utils.Exceptions.Errors.Codes;
 
-namespace Domain.Common.Utils.Validation;
+namespace Domain.Common.Utils.PropertyValidation;
 
 public record PropertyValidationResult(
     bool IsValid,

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Utils.Exceptions.Errors.Codes;
 
-namespace Domain.Common.Utils.Validation;
+namespace Domain.Common.Utils.PropertyValidation;
 
 public static class PropertyValidationConditions
 {
