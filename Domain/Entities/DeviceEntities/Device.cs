@@ -42,7 +42,8 @@ public class Device : IEntity, IDeletable, IArchivable
         string producer,
         ICollection<DeviceCategory> deviceCategories,
         DateTime? dateOfPurchase,
-        DateTime? dateOfLastMaintenance)
+        DateTime? dateOfLastMaintenance,
+        DateTime currentDateTime)
     {
         // Initializing properties
         Id = Guid.NewGuid();
@@ -55,8 +56,8 @@ public class Device : IEntity, IDeletable, IArchivable
         IsArchived = false;
         IsDeleted = false;
         ValidateAndSetDeviceCategories(deviceCategories);
-        ValidateAndSetDateOfPurchase(dateOfPurchase);
-        ValidateAndSetDateOfLastMaintenance(dateOfLastMaintenance);
+        ValidateAndSetDateOfPurchase(dateOfPurchase, currentDateTime);
+        ValidateAndSetDateOfLastMaintenance(dateOfLastMaintenance, currentDateTime);
     }
     
     
@@ -66,7 +67,8 @@ public class Device : IEntity, IDeletable, IArchivable
         string name,
         string abbreviation,
         ICollection<DeviceCategory> deviceCategories,
-        DateTime? dateOfLastMaintenance)
+        DateTime? dateOfLastMaintenance,
+        DateTime currentDateTime)
     {
         // Checking archive and deletion flag
         if (IsArchived)
@@ -78,7 +80,7 @@ public class Device : IEntity, IDeletable, IArchivable
         ValidateAndSetName(name);
         ValidateAndSetAbbreviation(abbreviation);
         ValidateAndSetDeviceCategories(deviceCategories);
-        ValidateAndSetDateOfLastMaintenance(dateOfLastMaintenance);
+        ValidateAndSetDateOfLastMaintenance(dateOfLastMaintenance, currentDateTime);
     }
     
     // Method to add a device category
@@ -108,14 +110,14 @@ public class Device : IEntity, IDeletable, IArchivable
     }
     
     // Method to change the status
-    public void ChangeStatus(DeviceStatus status, ICollection<Appointment> appointments)
+    public void ChangeStatus(DeviceStatus status, ICollection<Appointment> appointments, DateTime currentDateTime)
     {
         // Checking archive and deletion flag and future appointments
         if (IsArchived)
             throw new InvalidOperationException($"Cannot update an archived {nameof(Device)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Device)}");
-        if (status != DeviceStatus.Operational && appointments.Any(appointment => appointment.EndTime > DateTime.UtcNow))
+        if (status != DeviceStatus.Operational && appointments.Any(appointment => appointment.EndTime > currentDateTime))
             throw new InvalidOperationException($"Cannot change the status of a {nameof(Device)} that has future {nameof(Appointments)}");
         
         // Setting property
@@ -261,22 +263,22 @@ public class Device : IEntity, IDeletable, IArchivable
     }
     
     // Method to validate and set the date of purchase
-    private void ValidateAndSetDateOfPurchase(DateTime? dateOfPurchase)
+    private void ValidateAndSetDateOfPurchase(DateTime? dateOfPurchase, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, nameof(DateOfPurchase)));
+            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, currentDateTime, nameof(DateOfPurchase)));
         
         // Setting property
         DateOfPurchase = dateOfPurchase?.Date;
     }
         
     // Method to validate and set the date of last maintenance
-    private void ValidateAndSetDateOfLastMaintenance(DateTime? dateOfLastMaintenance)
+    private void ValidateAndSetDateOfLastMaintenance(DateTime? dateOfLastMaintenance, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, nameof(DateOfLastMaintenance)));
+            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, currentDateTime, nameof(DateOfLastMaintenance)));
         
         // Setting property
         DateOfLastMaintenance = dateOfLastMaintenance?.Date;
