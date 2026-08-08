@@ -187,7 +187,7 @@ public class Clinician : IEntity, IDeletable, IArchivable
             PropertyValidationConditions.IsNotContainingDuplicates(clinicianCategories, nameof(ClinicianCategories)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
         
         // Setting property

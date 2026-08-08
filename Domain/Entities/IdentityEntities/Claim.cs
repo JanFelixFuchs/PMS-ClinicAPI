@@ -56,7 +56,7 @@ public class Claim : IEntity, IDeletable
             PropertyValidationConditions.IsNotNull(role, nameof(Role)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties

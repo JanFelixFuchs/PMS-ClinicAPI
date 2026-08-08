@@ -255,7 +255,7 @@ public class Device : IEntity, IDeletable, IArchivable
             PropertyValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
         
         // Setting property

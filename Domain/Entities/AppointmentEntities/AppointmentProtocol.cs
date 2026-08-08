@@ -195,7 +195,7 @@ public class AppointmentProtocol : IEntity
             PropertyValidationConditions.IsNotNull(appointment, nameof(Appointment)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(appointment, nameof(Appointment)),
             InvariantValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Attended, nameof(Appointment)));
         
@@ -212,7 +212,7 @@ public class AppointmentProtocol : IEntity
             PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
             InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
@@ -229,7 +229,7 @@ public class AppointmentProtocol : IEntity
             PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
             InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
@@ -246,7 +246,7 @@ public class AppointmentProtocol : IEntity
             PropertyValidationConditions.IsNotNull(room, nameof(Room)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
             InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
         
@@ -264,7 +264,7 @@ public class AppointmentProtocol : IEntity
             PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
             InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)));
         

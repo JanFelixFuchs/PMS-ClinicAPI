@@ -149,7 +149,7 @@ public class Result : IEntity, IDeletable
             PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
             InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
@@ -166,7 +166,7 @@ public class Result : IEntity, IDeletable
             PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
             InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
@@ -179,7 +179,7 @@ public class Result : IEntity, IDeletable
     private void ValidateAndSetDevice(Device? device)
     {
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNullOrNotDeleted(device, nameof(Device)),
             InvariantValidationConditions.IsNullOrNotArchived(device, nameof(Device)));
         

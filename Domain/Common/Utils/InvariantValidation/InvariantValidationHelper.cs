@@ -4,7 +4,7 @@ namespace Domain.Common.Utils.InvariantValidation;
 
 public static class InvariantValidationHelper
 {
-    public static void ConstructionInvariantValidation(params InvariantValidationResult[] invariantValidations)
+    public static void ConstructInvariantValidation(params InvariantValidationResult[] invariantValidations)
     {
         // Checking conditions
         var validationError = invariantValidations.FirstOrDefault(invariantValidation => !invariantValidation.IsValid);

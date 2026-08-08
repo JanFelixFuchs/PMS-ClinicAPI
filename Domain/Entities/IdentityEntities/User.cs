@@ -253,7 +253,7 @@ public class User : IEntity, IDeletable, IArchivable
             PropertyValidationConditions.IsNotNull(role, nameof(Role)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties
@@ -271,7 +271,7 @@ public class User : IEntity, IDeletable, IArchivable
                 PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
             
             // Invariant validation
-            InvariantValidationHelper.ConstructionInvariantValidation(
+            InvariantValidationHelper.ConstructInvariantValidation(
                 InvariantValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)),
                 InvariantValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)));
         }

@@ -198,7 +198,7 @@ public class Room : IEntity, IDeletable, IArchivable
             PropertyValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)));
         
         // Invariant validation
-        InvariantValidationHelper.ConstructionInvariantValidation(
+        InvariantValidationHelper.ConstructInvariantValidation(
             InvariantValidationConditions.IsNotContainingDeletedElements(roomCategories, nameof(RoomCategories)));
         
         // Setting property
