@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Application.Repositories.IdentityRepositories;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.IdentityEntities;
 using Infrastructure.Common.Exceptions.Database;
 using Microsoft.EntityFrameworkCore;

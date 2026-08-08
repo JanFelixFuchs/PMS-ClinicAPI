@@ -1,4 +1,4 @@
-using Domain.Commons.Base;
+using Domain.Common.Base;
 using Domain.Entities.IdentityEntities;
 
 namespace Domain.Entities.RoomEntities;

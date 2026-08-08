@@ -1,11 +1,11 @@
-using Domain.Commons.Enums;
-using Domain.Commons.Interfaces;
-using Domain.Commons.Utils.Constants;
-using Domain.Commons.Utils.Invariants;
-using Domain.Commons.Utils.Validation;
+using Domain.Common.Enums;
+using Domain.Common.Interfaces;
+using Domain.Common.Utils.Constants;
+using Domain.Common.Utils.Invariants;
+using Domain.Common.Utils.Validation;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
-using InvalidOperationException = Domain.Commons.Exceptions.InvalidOperationException;
+using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;
 
 namespace Domain.Entities.ClinicianEntities;
 

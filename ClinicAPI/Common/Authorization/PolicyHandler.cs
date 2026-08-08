@@ -1,4 +1,4 @@
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using PMS_ClinicAPI.Common.Logging;
 using Utils.Authentication;

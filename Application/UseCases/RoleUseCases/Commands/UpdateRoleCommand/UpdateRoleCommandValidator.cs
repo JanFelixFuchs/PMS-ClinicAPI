@@ -1,6 +1,6 @@
 using Application.Common.Behaviours.Validation.Rules;
-using Domain.Commons.Enums;
-using Domain.Commons.Utils.Constants;
+using Domain.Common.Enums;
+using Domain.Common.Utils.Constants;
 using FluentValidation;
 
 namespace Application.UseCases.RoleUseCases.Commands.UpdateRoleCommand;

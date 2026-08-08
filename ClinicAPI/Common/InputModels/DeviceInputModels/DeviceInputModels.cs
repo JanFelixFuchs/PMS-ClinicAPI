@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 
 namespace PMS_ClinicAPI.Common.InputModels.DeviceInputModels;
 

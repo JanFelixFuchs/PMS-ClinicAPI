@@ -1,5 +1,5 @@
 using Application.Common.OutputModels.IdentityOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using MediatR;
 
 namespace Application.UseCases.AuthUseCases.Commands.RegisterClinicCommand;

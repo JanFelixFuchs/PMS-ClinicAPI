@@ -1,4 +1,4 @@
-using Domain.Commons.Utils.Constants;
+using Domain.Common.Utils.Constants;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;

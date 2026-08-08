@@ -1,6 +1,6 @@
 using Application.Common.OutputModels.AppointmentOutputModels;
 using Application.Common.OutputModels.SharedOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.PatientEntities;
 

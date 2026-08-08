@@ -1,5 +1,5 @@
 using Application.Common.Behaviours.Validation.Rules;
-using Domain.Commons.Utils.Constants;
+using Domain.Common.Utils.Constants;
 using FluentValidation;
 
 namespace Application.UseCases.AppointmentCategoryUseCases.Commands.UpdateAppointmentCategoryCommand;

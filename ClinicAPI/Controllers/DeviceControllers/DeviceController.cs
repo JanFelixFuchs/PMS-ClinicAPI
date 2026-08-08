@@ -6,7 +6,7 @@ using Application.UseCases.DeviceUseCases.Commands.UnarchiveDeviceCommand;
 using Application.UseCases.DeviceUseCases.Commands.UpdateDeviceStatusCommand;
 using Application.UseCases.DeviceUseCases.Queries.ReadDeviceQuery;
 using Application.UseCases.DeviceUseCases.Queries.ReadDevicesQuery;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Infrastructure.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

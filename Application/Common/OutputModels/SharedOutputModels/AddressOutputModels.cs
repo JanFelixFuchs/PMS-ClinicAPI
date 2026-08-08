@@ -1,5 +1,5 @@
-using Domain.Commons.Enums;
-using Domain.Commons.Value_Objects;
+using Domain.Common.Enums;
+using Domain.Common.Value_Objects;
 
 namespace Application.Common.OutputModels.SharedOutputModels;
 

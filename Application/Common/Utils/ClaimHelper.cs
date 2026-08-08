@@ -1,5 +1,5 @@
-using Domain.Commons.Enums;
-using Domain.Commons.Utils.Constants;
+using Domain.Common.Enums;
+using Domain.Common.Utils.Constants;
 using Domain.Entities.IdentityEntities;
 
 namespace Application.Common.Utils;

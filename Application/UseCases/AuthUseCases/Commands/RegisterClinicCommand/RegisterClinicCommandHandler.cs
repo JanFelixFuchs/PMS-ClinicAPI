@@ -5,7 +5,7 @@ using Application.Common.Services;
 using Application.Common.Transactions;
 using Application.Common.Utils;
 using Application.Repositories.IdentityRepositories;
-using Domain.Commons.Utils.Helper;
+using Domain.Common.Utils.Helper;
 using Domain.Entities.IdentityEntities;
 using MediatR;
 using Microsoft.Extensions.Options;

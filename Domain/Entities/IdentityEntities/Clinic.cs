@@ -1,9 +1,9 @@
-using Domain.Commons.Enums;
-using Domain.Commons.Interfaces;
-using Domain.Commons.Utils.Constants;
-using Domain.Commons.Utils.Helper;
-using Domain.Commons.Utils.Validation;
-using Domain.Commons.Value_Objects;
+using Domain.Common.Enums;
+using Domain.Common.Interfaces;
+using Domain.Common.Utils.Constants;
+using Domain.Common.Utils.Helper;
+using Domain.Common.Utils.Validation;
+using Domain.Common.Value_Objects;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;

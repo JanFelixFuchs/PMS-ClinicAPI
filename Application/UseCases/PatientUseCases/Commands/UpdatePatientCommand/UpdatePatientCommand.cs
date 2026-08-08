@@ -1,6 +1,6 @@
 using Application.Common.Behaviours.RequestContextBehaviour;
 using Application.Common.OutputModels.PatientOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.IdentityEntities;
 using MediatR;
 

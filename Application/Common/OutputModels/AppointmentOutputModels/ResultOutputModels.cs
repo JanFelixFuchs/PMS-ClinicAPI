@@ -1,7 +1,7 @@
 using Application.Common.OutputModels.ClinicianOutputModels;
 using Application.Common.OutputModels.DeviceOutputModels;
 using Application.Common.OutputModels.PatientOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.DeviceEntities;

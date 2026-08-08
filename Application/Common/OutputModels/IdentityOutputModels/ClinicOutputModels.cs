@@ -1,5 +1,5 @@
 using Application.Common.OutputModels.SharedOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.IdentityEntities;
 
 namespace Application.Common.OutputModels.IdentityOutputModels;

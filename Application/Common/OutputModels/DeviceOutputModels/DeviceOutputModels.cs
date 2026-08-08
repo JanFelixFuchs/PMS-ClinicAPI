@@ -1,5 +1,5 @@
 using Application.Common.OutputModels.AppointmentOutputModels;
-using Domain.Commons.Enums;
+using Domain.Common.Enums;
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.DeviceEntities;
 

@@ -1,0 +1,9 @@
+using Utils.Exceptions.Errors.Codes;
+
+namespace Domain.Common.Utils.Validation;
+
+public record PropertyValidationResult(
+    bool IsValid,
+    string Field,
+    ErrorCode ErrorCode,
+    string ValidationMessage);
