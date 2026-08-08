@@ -43,13 +43,14 @@ public class Result : IEntity, IDeletable
         string? remarks,
         Patient patient,
         Clinician clinician,
-        Device? device)
+        Device? device,
+        DateTime currentDateTime)
     {
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
         ValidateAndSetTitle(title);
-        ValidateAndSetDateOfCreation(dateOfCreation);
+        ValidateAndSetDateOfCreation(dateOfCreation, currentDateTime);
         ValidateAndSetAppendixAndAppendixContentType(appendix);
         IsDeleted = false;
         ValidateAndSetRemarks(remarks);
@@ -100,12 +101,12 @@ public class Result : IEntity, IDeletable
     }
     
     // Method to validate and set the date of creation
-    private void ValidateAndSetDateOfCreation(DateTime dateOfCreation)
+    private void ValidateAndSetDateOfCreation(DateTime dateOfCreation, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             PropertyValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
-            PropertyValidationConditions.IsDateTimeInThePast(dateOfCreation, nameof(DateOfCreation)));
+            PropertyValidationConditions.IsDateTimeInThePast(dateOfCreation, currentDateTime, nameof(DateOfCreation)));
         
         // Setting property
         DateOfCreation = dateOfCreation.Date;

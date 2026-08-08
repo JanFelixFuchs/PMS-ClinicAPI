@@ -42,7 +42,8 @@ public class AppointmentProtocol : IEntity
     // Standard constructor used to initialize objects
     public AppointmentProtocol(
         Clinic clinic,
-        Appointment appointment)
+        Appointment appointment,
+        DateTime currentDateTime)
     {
         // Initializing properties
         Id = Guid.NewGuid();
@@ -59,7 +60,7 @@ public class AppointmentProtocol : IEntity
         ValidateAndSetClinician(appointment.Clinicians.First());
         ValidateAndSetRoom(appointment.Room);
         ValidateAndSetDevices(appointment.Devices);
-        ValidateAndSetDateOfAppointment(appointment.EndTime);
+        ValidateAndSetDateOfAppointment(appointment.EndTime, currentDateTime);
     }
     
     
@@ -89,7 +90,7 @@ public class AppointmentProtocol : IEntity
     }
     
     // Method to set the status to started
-    public void Start()
+    public void Start(DateTime currentDateTime)
     {
         // Checking status
         if (Status != AppointmentProtocolStatus.Undealt)
@@ -97,18 +98,18 @@ public class AppointmentProtocol : IEntity
             
         // Setting properties
         Status = AppointmentProtocolStatus.Started;
-        DateOfProcessingStart = DateTime.UtcNow; 
+        DateOfProcessingStart = currentDateTime;
     }
     
     // Method to set the status to completed
-    public void Complete()
+    public void Complete(DateTime currentDateTime)
     {
         // Checking status
         if (Status != AppointmentProtocolStatus.Started)
             throw new InvalidOperationException($"Cannot complete an {nameof(AppointmentProtocol)} that is not {nameof(AppointmentProtocolStatus.Started)}");
         
         // Setting properties
-        DateOfProcessingCompletion = DateTime.UtcNow;
+        DateOfProcessingCompletion = currentDateTime;
         Status = AppointmentProtocolStatus.Completed;
     }
     
@@ -127,12 +128,12 @@ public class AppointmentProtocol : IEntity
     }
     
     // Method to validate and set the date of appointment
-    private void ValidateAndSetDateOfAppointment(DateTime appointmentDate)
+    private void ValidateAndSetDateOfAppointment(DateTime appointmentDate, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             PropertyValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
-            PropertyValidationConditions.IsDateTimeInThePast(appointmentDate, nameof(DateOfAppointment)));
+            PropertyValidationConditions.IsDateTimeInThePast(appointmentDate, currentDateTime, nameof(DateOfAppointment)));
         
         // Setting property
         DateOfAppointment = appointmentDate.Date;

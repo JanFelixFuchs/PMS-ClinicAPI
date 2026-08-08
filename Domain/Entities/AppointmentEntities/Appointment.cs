@@ -45,13 +45,14 @@ public class Appointment : IEntity, IDeletable
         Patient patient,
         Room room,
         ICollection<Device> devices,
-        ICollection<Clinician> clinicians)
+        ICollection<Clinician> clinicians,
+        DateTime currentDateTime)
     {
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
         ValidateAndSetTitle(title);
-        ValidateAndSetDateTimes(startTime, endTime);
+        ValidateAndSetDateTimes(startTime, endTime, currentDateTime);
         Status = AppointmentStatus.Planned;
         IsDeleted = false;
         ValidateAndSetAppointmentCategories(appointmentCategories);
@@ -72,7 +73,8 @@ public class Appointment : IEntity, IDeletable
         Patient patient,
         Room room,
         ICollection<Device> devices,
-        ICollection<Clinician> clinicians)
+        ICollection<Clinician> clinicians,
+        DateTime currentDateTime)
     {
         // Checking deletion flag and status
         if (IsDeleted)
@@ -82,7 +84,7 @@ public class Appointment : IEntity, IDeletable
 
         // Updating properties
         ValidateAndSetTitle(title);
-        ValidateAndSetDateTimes(startTime, endTime);
+        ValidateAndSetDateTimes(startTime, endTime, currentDateTime);
         ValidateAndSetAppointmentCategories(appointmentCategories);
         ValidateAndSetPatient(patient);
         ValidateAndSetRoom(room);
@@ -91,14 +93,14 @@ public class Appointment : IEntity, IDeletable
     }
     
     // Method to set the status to attended
-    public void MarkAsAttended()
+    public void MarkAsAttended(DateTime currentDateTime)
     {
         // Checking deletion flag status and time
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot complete a deleted {nameof(Appointment)}");
         if (Status == AppointmentStatus.Attended)
             throw new InvalidOperationException($"Cannot mark an {nameof(Appointment)} as attended that is {nameof(AppointmentStatus.Attended)}");
-        if (StartTime > DateTime.UtcNow)
+        if (StartTime > currentDateTime)
             throw new InvalidOperationException($"Cannot mark an {nameof(Appointment)} as attended that has not started");
 
         // Setting property
@@ -145,15 +147,15 @@ public class Appointment : IEntity, IDeletable
     }
     
     // Method to validate and set the start time and end time
-    private void ValidateAndSetDateTimes(DateTime startTime, DateTime endTime)
+    private void ValidateAndSetDateTimes(DateTime startTime, DateTime endTime, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             PropertyValidationConditions.IsNotNull(startTime, nameof(StartTime)),
             PropertyValidationConditions.IsNotNull(endTime, nameof(EndTime)),
             PropertyValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
-            PropertyValidationConditions.IsDateTimeInTheFuture(startTime, nameof(StartTime)),
-            PropertyValidationConditions.IsDateTimeInTheFuture(endTime, nameof(EndTime)),
+            PropertyValidationConditions.IsDateTimeInTheFuture(startTime, currentDateTime, nameof(StartTime)),
+            PropertyValidationConditions.IsDateTimeInTheFuture(endTime, currentDateTime, nameof(EndTime)),
             PropertyValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
 
         // Setting properties
