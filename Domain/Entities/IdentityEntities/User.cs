@@ -37,7 +37,8 @@ public class User : IEntity, IDeletable, IArchivable
         string passwordHash,
         bool isAdmin, 
         Role role,
-        Clinician? clinician)
+        Clinician? clinician,
+        DateTime currentDateTime)
     {
         // Initializing properties
         Id = Guid.NewGuid();
@@ -48,7 +49,7 @@ public class User : IEntity, IDeletable, IArchivable
         IsArchived = false;
         IsDeleted = false;
         ValidateAndSetRefreshTokenHash(null);
-        ValidateAndSetRefreshTokenExpirationTime(null);
+        ValidateAndSetRefreshTokenExpirationTime(null, currentDateTime);
         ValidateAndSetRole(role);
         ValidateAndSetClinician(clinician, isAdmin);
     }
@@ -97,7 +98,7 @@ public class User : IEntity, IDeletable, IArchivable
     }
     
     // Method to update the refresh token hash and refresh token expiration time
-    public void UpdateRefreshTokenHashAndExpirationTime(string refreshTokenHash, DateTime refreshTokenExpirationTime)
+    public void UpdateRefreshTokenHashAndExpirationTime(string refreshTokenHash, DateTime refreshTokenExpirationTime, DateTime currentDateTime)
     {
         // Validating
         if (IsArchived)
@@ -107,11 +108,11 @@ public class User : IEntity, IDeletable, IArchivable
         
         // Updating properties
         ValidateAndSetRefreshTokenHash(refreshTokenHash);
-        ValidateAndSetRefreshTokenExpirationTime(refreshTokenExpirationTime);
+        ValidateAndSetRefreshTokenExpirationTime(refreshTokenExpirationTime, currentDateTime);
     }
     
     // Method to mark the refresh token as expired
-    public void MarkRefreshTokenHashAsExpired()
+    public void MarkRefreshTokenHashAsExpired(DateTime currentDateTime)
     {
         // Validating
         if (IsArchived)
@@ -121,11 +122,11 @@ public class User : IEntity, IDeletable, IArchivable
         
         // Updating properties
         ValidateAndSetRefreshTokenHash(null);
-        ValidateAndSetRefreshTokenExpirationTime(null);
+        ValidateAndSetRefreshTokenExpirationTime(null, currentDateTime);
     }
     
     // Method to archive the entity
-    public void Archive()
+    public void Archive(DateTime currentDateTime)
     {
         // Validating
         if (IsArchived)
@@ -137,7 +138,7 @@ public class User : IEntity, IDeletable, IArchivable
         
         // Invalidating refresh token
         ValidateAndSetRefreshTokenHash(null);
-        ValidateAndSetRefreshTokenExpirationTime(null);
+        ValidateAndSetRefreshTokenExpirationTime(null, currentDateTime);
         
         // Setting property
         IsArchived = true;
@@ -234,11 +235,11 @@ public class User : IEntity, IDeletable, IArchivable
     }
     
     // Method to validate and set the refresh token expiration time
-    private void ValidateAndSetRefreshTokenExpirationTime(DateTime? refreshTokenExpirationTime)
+    private void ValidateAndSetRefreshTokenExpirationTime(DateTime? refreshTokenExpirationTime, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, nameof(RefreshTokenExpirationTime)));
+            PropertyValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, currentDateTime, nameof(RefreshTokenExpirationTime)));
         
         // Setting property
         RefreshTokenExpirationTime = refreshTokenExpirationTime;
