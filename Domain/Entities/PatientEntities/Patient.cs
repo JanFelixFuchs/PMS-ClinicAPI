@@ -50,7 +50,8 @@ public class Patient : IEntity, IDeletable, IArchivable
         string phoneNumber,
         InsuranceStatus insuranceStatus,
         string? allergies,
-        string? remarks)
+        string? remarks,
+        DateTime currentDateTime)
     {
         // Constructing value objects
         var address = new Address(street, houseNumber, city, zipCode, country);
@@ -59,10 +60,10 @@ public class Patient : IEntity, IDeletable, IArchivable
         // Initializing properties
         Id = Guid.NewGuid();
         ValidateAndSetClinic(clinic);
-        DateOfCreation = DateTime.UtcNow;
+        DateOfCreation = currentDateTime;
         ValidateAndSetFirstName(firstName);
         ValidateAndSetLastName(lastName);
-        ValidateAndSetDateOfBirth(dateOfBirth);
+        ValidateAndSetDateOfBirth(dateOfBirth, currentDateTime);
         ValidateAndSetGender(gender);
         ValidateAndSetAddress(address);
         ValidateAndSetContactInformation(contactInformation);
@@ -196,12 +197,12 @@ public class Patient : IEntity, IDeletable, IArchivable
     }
     
     // Method to validate and set the date of birth
-    private void ValidateAndSetDateOfBirth(DateTime dateOfBirth)
+    private void ValidateAndSetDateOfBirth(DateTime dateOfBirth, DateTime currentDateTime)
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             PropertyValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
-            PropertyValidationConditions.IsDateTimeInThePast(dateOfBirth, nameof(DateOfBirth)));
+            PropertyValidationConditions.IsDateTimeInThePast(dateOfBirth, currentDateTime, nameof(DateOfBirth)));
         
         // Setting property
         DateOfBirth = dateOfBirth.Date;
