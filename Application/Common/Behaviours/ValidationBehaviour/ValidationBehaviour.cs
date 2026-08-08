@@ -4,7 +4,7 @@ using Utils.Exceptions.Errors.Codes;
 using Utils.Exceptions.Errors.Field;
 using ValidationException = Utils.Exceptions.CustomExceptions.ValidationException;
 
-namespace Application.Common.Behaviours.Validation;
+namespace Application.Common.Behaviours.ValidationBehaviour;
 
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

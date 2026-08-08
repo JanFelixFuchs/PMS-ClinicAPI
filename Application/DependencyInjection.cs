@@ -1,7 +1,7 @@
 using System.Reflection;
 using Application.Common.Behaviours.LoggingBehaviour;
 using Application.Common.Behaviours.RequestContextBehaviour;
-using Application.Common.Behaviours.Validation;
+using Application.Common.Behaviours.ValidationBehaviour;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

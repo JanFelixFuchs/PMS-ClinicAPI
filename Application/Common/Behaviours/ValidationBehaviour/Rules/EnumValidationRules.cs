@@ -1,7 +1,7 @@
 using FluentValidation;
 using Utils.Exceptions.Errors.Codes;
 
-namespace Application.Common.Behaviours.Validation.Rules;
+namespace Application.Common.Behaviours.ValidationBehaviour.Rules;
 
 public static class EnumValidationRules
 {

@@ -1,4 +1,4 @@
-using Application.Common.Behaviours.Validation.Rules;
+using Application.Common.Behaviours.ValidationBehaviour.Rules;
 using FluentValidation;
 
 namespace Application.UseCases.ClinicianCategoryUseCases.Queries.ReadClinicianCategoryQuery;

@@ -1,4 +1,4 @@
-using Application.Common.Behaviours.Validation.Rules;
+using Application.Common.Behaviours.ValidationBehaviour.Rules;
 using Domain.Common.Enums;
 using Domain.Common.Utils.Constants;
 using FluentValidation;
