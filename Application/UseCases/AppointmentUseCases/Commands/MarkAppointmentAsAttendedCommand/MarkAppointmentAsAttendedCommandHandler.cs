@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
@@ -10,6 +11,7 @@ namespace Application.UseCases.AppointmentUseCases.Commands.MarkAppointmentAsAtt
 public class MarkAppointmentAsAttendedCommandHandler(
     IAppointmentProtocolRepository appointmentProtocolRepository,
     IAppointmentRepository appointmentRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork) 
     : IRequestHandler<MarkAppointmentAsAttendedCommand, AppointmentDetailedOutputModel> 
 {
@@ -31,12 +33,13 @@ public class MarkAppointmentAsAttendedCommandHandler(
                 throw new NotFoundException(nameof(Appointment), request.Id);
             
             // Marking appointment as attended
-            appointment.MarkAsAttended();
+            appointment.MarkAsAttended(dateTimeProvider.UtcNow);
             
             // Creating appointment protocol
             var appointmentProtocol = new AppointmentProtocol(
                 request.Clinic,
-                appointment);
+                appointment,
+                dateTimeProvider.UtcNow);
             
             // Saving appointment protocol
             await appointmentProtocolRepository.AddAsync(appointmentProtocol, cancellationToken);

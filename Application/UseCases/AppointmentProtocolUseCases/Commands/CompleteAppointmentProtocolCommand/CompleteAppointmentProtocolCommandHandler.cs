@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Domain.Entities.AppointmentEntities;
@@ -9,6 +10,7 @@ namespace Application.UseCases.AppointmentProtocolUseCases.Commands.CompleteAppo
 
 public class CompleteAppointmentProtocolCommandHandler(
     IAppointmentProtocolRepository appointmentProtocolRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CompleteAppointmentProtocolCommand, AppointmentProtocolDetailedOutputModel>
 {
@@ -30,7 +32,7 @@ public class CompleteAppointmentProtocolCommandHandler(
                 throw new NotFoundException(nameof(AppointmentProtocol), request.Id);
             
             // Completing appointment protocol
-            appointmentProtocol.Complete();
+            appointmentProtocol.Complete(dateTimeProvider.UtcNow);
             
             // Returning output model
             return new AppointmentProtocolDetailedOutputModel(

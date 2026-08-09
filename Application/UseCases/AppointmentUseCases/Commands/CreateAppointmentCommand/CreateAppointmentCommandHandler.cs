@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Application.Repositories.ClinicianRepositories;
@@ -22,6 +23,7 @@ public class CreateAppointmentCommandHandler(
     IDeviceRepository deviceRepository,
     IPatientRepository patientRepository,
     IRoomRepository roomRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CreateAppointmentCommand, AppointmentDetailedOutputModel>
 {
@@ -104,7 +106,8 @@ public class CreateAppointmentCommandHandler(
                 patient,
                 room,
                 devices,
-                clinicians);
+                clinicians,
+                dateTimeProvider.UtcNow);
         
             // Adding appointment
             await appointmentRepository.AddAsync(appointment, cancellationToken);

@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.AppointmentRepositories;
 using Application.Repositories.ClinicianRepositories;
@@ -18,6 +19,7 @@ public class CreateResultCommandHandler(
     IDeviceRepository deviceRepository,
     IPatientRepository patientRepository,
     IResultRepository resultRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CreateResultCommand, ResultDetailedOutputModel>
 {
@@ -62,7 +64,8 @@ public class CreateResultCommandHandler(
                 request.Remarks,
                 patient,
                 clinician,
-                device);
+                device,
+                dateTimeProvider.UtcNow);
             
             // Adding result
             await resultRepository.AddAsync(result, cancellationToken);
