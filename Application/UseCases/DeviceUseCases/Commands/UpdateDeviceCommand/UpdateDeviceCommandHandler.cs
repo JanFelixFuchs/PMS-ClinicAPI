@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.DeviceOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
@@ -10,6 +11,7 @@ namespace Application.UseCases.DeviceUseCases.Commands.UpdateDeviceCommand;
 public class UpdateDeviceCommandHandler(
     IDeviceCategoryRepository deviceCategoryRepository,
     IDeviceRepository deviceRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateDeviceCommand, DeviceDetailedOutputModel>
 {
@@ -43,7 +45,8 @@ public class UpdateDeviceCommandHandler(
                 request.Name,
                 request.Abbreviation,
                 deviceCategories,
-                request.DateOfLastMaintenance);
+                request.DateOfLastMaintenance,
+                dateTimeProvider.UtcNow);
             
             // Returning output model
             return new DeviceDetailedOutputModel(

@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.DeviceOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
@@ -10,6 +11,7 @@ namespace Application.UseCases.DeviceUseCases.Commands.CreateDeviceCommand;
 public class CreateDeviceCommandHandler(
     IDeviceCategoryRepository deviceCategoryRepository,
     IDeviceRepository deviceRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)  
     : IRequestHandler<CreateDeviceCommand, DeviceDetailedOutputModel>
 {
@@ -36,7 +38,8 @@ public class CreateDeviceCommandHandler(
                 request.Producer,
                 deviceCategories,
                 request.DateOfPurchase,
-                request.DateOfLastMaintenance);
+                request.DateOfLastMaintenance,
+                dateTimeProvider.UtcNow);
 
             // Adding device
             await deviceRepository.AddAsync(device, cancellationToken);

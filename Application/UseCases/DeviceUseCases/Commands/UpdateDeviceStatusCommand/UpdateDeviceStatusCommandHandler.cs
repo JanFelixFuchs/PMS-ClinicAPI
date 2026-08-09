@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.DeviceOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.DeviceRepositories;
 using Domain.Entities.DeviceEntities;
@@ -9,6 +10,7 @@ namespace Application.UseCases.DeviceUseCases.Commands.UpdateDeviceStatusCommand
 
 public class UpdateDeviceStatusCommandHandler(
     IDeviceRepository deviceRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateDeviceStatusCommand, DeviceDetailedOutputModel>
 {
@@ -29,7 +31,7 @@ public class UpdateDeviceStatusCommandHandler(
                 throw new NotFoundException(nameof(Device), request.Id);
 
             // Updating device status
-            device.ChangeStatus(request.Status, device.Appointments);
+            device.ChangeStatus(request.Status, device.Appointments, dateTimeProvider.UtcNow);
 
             // Returning output model
             return new DeviceDetailedOutputModel(
