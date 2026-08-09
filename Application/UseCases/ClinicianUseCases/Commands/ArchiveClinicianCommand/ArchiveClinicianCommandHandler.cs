@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.ClinicianOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.ClinicianRepositories;
 using Domain.Entities.ClinicianEntities;
@@ -9,6 +10,7 @@ namespace Application.UseCases.ClinicianUseCases.Commands.ArchiveClinicianComman
 
 public class ArchiveClinicianCommandHandler(
     IClinicianRepository clinicianRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork) 
     : IRequestHandler<ArchiveClinicianCommand, ClinicianDetailedOutputModel> 
 {
@@ -30,7 +32,7 @@ public class ArchiveClinicianCommandHandler(
                 throw new NotFoundException(nameof(Clinician), request.Id);
 
             // Archiving user
-            clinician.User?.Archive();
+            clinician.User?.Archive(dateTimeProvider.UtcNow);
             
             // Archiving clinician
             clinician.Archive(clinician.Appointments, clinician.AppointmentProtocols);
