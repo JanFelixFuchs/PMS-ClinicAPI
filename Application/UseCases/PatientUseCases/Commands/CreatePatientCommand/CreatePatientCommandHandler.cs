@@ -1,4 +1,5 @@
 using Application.Common.OutputModels.PatientOutputModels;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.PatientRepositories;
 using Domain.Entities.PatientEntities;
@@ -8,6 +9,7 @@ namespace Application.UseCases.PatientUseCases.Commands.CreatePatientCommand;
 
 public class CreatePatientCommandHandler(
     IPatientRepository patientRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CreatePatientCommand, PatientDetailedOutputModel>
 {
@@ -31,8 +33,8 @@ public class CreatePatientCommandHandler(
                 request.PhoneNumber,
                 request.InsuranceStatus,
                 request.Allergies,
-                request.Remarks
-            );
+                request.Remarks,
+                dateTimeProvider.UtcNow);
             
             // Adding patient
             await patientRepository.AddAsync(patient, cancellationToken);
