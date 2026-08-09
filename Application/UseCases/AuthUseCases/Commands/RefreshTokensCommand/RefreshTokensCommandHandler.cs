@@ -1,5 +1,6 @@
 using Application.Common.Configuration;
 using Application.Common.OutputModels.IdentityOutputModels;
+using Application.Common.Providers;
 using Application.Common.Services;
 using Application.Common.Transactions;
 using Application.Common.Utils;
@@ -16,6 +17,7 @@ public class RefreshTokensCommandHandler(
     IUserRepository userRepository, 
     IAuthenticationService authenticationService,
     ITokenService tokenService,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork) 
     : IRequestHandler<RefreshTokensCommand, (RefreshTokensOutputModel Payload, string RefreshToken)>
 {
@@ -50,7 +52,10 @@ public class RefreshTokensCommandHandler(
             
             // Updating user
             var refreshTokenHash = authenticationService.HashToken(newRefreshToken);
-            user.UpdateRefreshTokenHashAndExpirationTime(refreshTokenHash, DateTime.UtcNow.AddDays(tokenLifetimeSettings.Value.RefreshTokenLifetimeInDays));
+            user.UpdateRefreshTokenHashAndExpirationTime(
+                refreshTokenHash, 
+                dateTimeProvider.UtcNow.AddDays(tokenLifetimeSettings.Value.RefreshTokenLifetimeInDays),
+                dateTimeProvider.UtcNow);
             
             // Returning output model and refresh token as tuple
             var payload = new RefreshTokensOutputModel(

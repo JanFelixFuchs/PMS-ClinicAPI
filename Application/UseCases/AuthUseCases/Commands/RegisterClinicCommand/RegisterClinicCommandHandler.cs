@@ -1,6 +1,7 @@
 using Application.Common.Configuration;
 using Application.Common.Exceptions;
 using Application.Common.OutputModels.IdentityOutputModels;
+using Application.Common.Providers;
 using Application.Common.Services;
 using Application.Common.Transactions;
 using Application.Common.Utils;
@@ -20,6 +21,7 @@ public class RegisterClinicCommandHandler(
     IUserRepository userRepository,
     IAuthenticationService authenticationService,
     ITokenService tokenService,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork) 
     : IRequestHandler<RegisterClinicCommand, (RegisterClinicOutputModel Payload, string RefreshToken)>
 {
@@ -65,7 +67,14 @@ public class RegisterClinicCommandHandler(
             var passwordHash = authenticationService.ValidateAndHashPassword(request.Password);
             
             // Creating user
-            var user = new User(clinic, request.Username, passwordHash, true, roleWithAllRights, null);
+            var user = new User(
+                clinic, 
+                request.Username, 
+                passwordHash, 
+                true, 
+                roleWithAllRights, 
+                null,
+                dateTimeProvider.UtcNow);
             
             // Adding clinic
             await clinicRepository.AddAsync(clinic, cancellationToken);
@@ -86,7 +95,10 @@ public class RegisterClinicCommandHandler(
             
             // Updating user
             var refreshTokenHash = authenticationService.HashToken(refreshToken);
-            user.UpdateRefreshTokenHashAndExpirationTime(refreshTokenHash, DateTime.UtcNow.AddDays(tokenLifetimeSettings.Value.RefreshTokenLifetimeInDays));
+            user.UpdateRefreshTokenHashAndExpirationTime(
+                refreshTokenHash, 
+                dateTimeProvider.UtcNow.AddDays(tokenLifetimeSettings.Value.RefreshTokenLifetimeInDays),
+                dateTimeProvider.UtcNow);
             
             // Returning payload and refresh token as tuple
             var payload = new RegisterClinicOutputModel(

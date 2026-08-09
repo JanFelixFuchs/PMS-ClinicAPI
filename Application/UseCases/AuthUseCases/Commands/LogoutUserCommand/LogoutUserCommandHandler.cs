@@ -1,4 +1,5 @@
 using Application.Common.Exceptions;
+using Application.Common.Providers;
 using Application.Common.Transactions;
 using Application.Repositories.IdentityRepositories;
 using Domain.Entities.IdentityEntities;
@@ -8,6 +9,7 @@ namespace Application.UseCases.AuthUseCases.Commands.LogoutUserCommand;
 
 public class LogoutUserCommandHandler(
     IUserRepository userRepository,
+    IDateTimeProvider dateTimeProvider,
     IUnitOfWork unitOfWork) : IRequestHandler<LogoutUserCommand>
 {
     public async Task Handle(LogoutUserCommand request, CancellationToken cancellationToken)
@@ -23,7 +25,7 @@ public class LogoutUserCommandHandler(
                 throw new NotFoundException(nameof(User), request.User.Id);
             
             // Updating user
-            user.MarkRefreshTokenHashAsExpired();
+            user.MarkRefreshTokenHashAsExpired(dateTimeProvider.UtcNow);
         }, cancellationToken);
     }
 }
