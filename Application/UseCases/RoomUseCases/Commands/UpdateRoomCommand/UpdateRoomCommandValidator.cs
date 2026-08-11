@@ -1,0 +1,38 @@
+using Application.Common.Behaviours.ValidationBehaviour.Rules;
+using Domain.Common.Utils.Constants;
+using FluentValidation;
+
+namespace Application.UseCases.RoomUseCases.Commands.UpdateRoomCommand;
+
+public class UpdateRoomCommandValidator : AbstractValidator<UpdateRoomCommand>
+{
+    public UpdateRoomCommandValidator()
+    {
+        RuleFor(command => command.Id).ValidRequiredGuid();
+
+        RuleFor(command => command.Name)
+            .ValidRequiredString()
+            .ValidRequiredMaximumStringLength(Lengths.RoomName);
+
+        RuleFor(command => command.Abbreviation)
+            .ValidRequiredString()
+            .ValidRequiredMaximumStringLength(Lengths.Abbreviation);
+        
+        RuleFor(command => command.RoomCategoryIds)
+            .ValidRequiredCollection()
+            .ValidRequiredDuplicateFreeCollection();
+        RuleForEach(command => command.RoomCategoryIds).ValidRequiredGuid();
+        
+        RuleFor(command => command.RoomNumber)
+            .ValidOptionalString()
+            .ValidOptionalMaximumStringLength(Lengths.RoomNumber);
+
+        RuleFor(command => command.Floor)
+            .ValidOptionalString()
+            .ValidOptionalMaximumStringLength(Lengths.Floor);
+
+        RuleFor(command => command.Building)
+            .ValidOptionalString()
+            .ValidOptionalMaximumStringLength(Lengths.Building);
+    }
+}
