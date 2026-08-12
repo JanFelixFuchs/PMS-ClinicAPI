@@ -114,8 +114,8 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(code, nameof(Code)),
-            PropertyValidationConditions.IsMatchingRegex(code, RegexPatterns.Code, nameof(Code)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(code, nameof(Code)),
+            () => PropertyValidationConditions.IsMatchingRegex(code, RegexPatterns.Code, nameof(Code)));
         
         // Setting properties
         Code = code;
@@ -127,8 +127,8 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            PropertyValidationConditions.HasMaximumLength(name, Lengths.ClinicName, nameof(Name)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            () => PropertyValidationConditions.HasMaximumLength(name, Lengths.ClinicName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -139,8 +139,8 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            () => PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -151,8 +151,8 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(owner, nameof(Owner)),
-            PropertyValidationConditions.HasMaximumLength(owner, Lengths.Owner, nameof(Owner)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(owner, nameof(Owner)),
+            () => PropertyValidationConditions.HasMaximumLength(owner, Lengths.Owner, nameof(Owner)));
         
         // Setting property
         Owner = owner;
@@ -163,7 +163,7 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(medicalField, nameof(MedicalField)));
+            () => PropertyValidationConditions.IsDefinedEnum(medicalField, nameof(MedicalField)));
         
         // Setting property
         MedicalField = medicalField;
@@ -174,7 +174,7 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(address, nameof(Address)));
+            () => PropertyValidationConditions.IsNotNull(address, nameof(Address)));
         
         // Setting property
         Address = address;
@@ -185,7 +185,7 @@ public class Clinic : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
+            () => PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
         
         // Setting property
         ContactInformation = contactInformation;

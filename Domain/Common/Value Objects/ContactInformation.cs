@@ -34,16 +34,16 @@ public class ContactInformation
     private static void ValidateEmail(string email)
     {
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(email, nameof(Email)),
-            PropertyValidationConditions.IsMatchingRegex(email, RegexPatterns.Email, nameof(Email)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(email, nameof(Email)),
+            () => PropertyValidationConditions.IsMatchingRegex(email, RegexPatterns.Email, nameof(Email)));
     }
 
     // Method to validate the phone number
     private static void ValidatePhoneNumber(string phoneNumber, Country country)
     {
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(phoneNumber, nameof(PhoneNumber)),
-            PropertyValidationConditions.IsMatchingRegex(phoneNumber,  RegexPatterns.GetPhoneNumberRegexPattern(country), nameof(PhoneNumber)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(phoneNumber, nameof(PhoneNumber)),
+            () => PropertyValidationConditions.IsMatchingRegex(phoneNumber,  RegexPatterns.GetPhoneNumberRegexPattern(country), nameof(PhoneNumber)));
     }
 
 

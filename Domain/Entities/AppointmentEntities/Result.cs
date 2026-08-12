@@ -81,7 +81,7 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -93,8 +93,8 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
-            PropertyValidationConditions.HasMaximumLength(title, Lengths.ResultTitle, nameof(Title)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
+            () => PropertyValidationConditions.HasMaximumLength(title, Lengths.ResultTitle, nameof(Title)));
         
         // Setting property
         Title = title;
@@ -105,8 +105,8 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
-            PropertyValidationConditions.IsDateTimeInThePast(dateOfCreation, currentDateTime, nameof(DateOfCreation)));
+            () => PropertyValidationConditions.IsNotNull(dateOfCreation, nameof(DateOfCreation)),
+            () => PropertyValidationConditions.IsDateTimeInThePast(dateOfCreation, currentDateTime, nameof(DateOfCreation)));
         
         // Setting property
         DateOfCreation = dateOfCreation.Date;
@@ -117,9 +117,9 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(appendix, nameof(Appendix)),
-            PropertyValidationConditions.IsNotEmpty(appendix, nameof(Appendix)),
-            PropertyValidationConditions.HasMaximumLength(appendix, Lengths.Appendix, nameof(Appendix)));
+            () => PropertyValidationConditions.IsNotNull(appendix, nameof(Appendix)),
+            () => PropertyValidationConditions.IsNotEmpty(appendix, nameof(Appendix)),
+            () => PropertyValidationConditions.HasMaximumLength(appendix, Lengths.Appendix, nameof(Appendix)));
 
         // Inferring appendix content type
         var appendixContentType = FileHelper.InferFileContentType(appendix, nameof(Appendix));
@@ -134,8 +134,8 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.ResultRemarks, nameof(Remarks)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.ResultRemarks, nameof(Remarks)));
 
         // Setting property
         Remarks = remarks;
@@ -146,7 +146,7 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+            () => PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -163,7 +163,7 @@ public class Result : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+            () => PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(

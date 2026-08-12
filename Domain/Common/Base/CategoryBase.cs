@@ -76,7 +76,7 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -88,8 +88,8 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            PropertyValidationConditions.HasMaximumLength(name, Lengths.CategoryName, nameof(Name)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            () => PropertyValidationConditions.HasMaximumLength(name, Lengths.CategoryName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -100,8 +100,8 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            () => PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -112,8 +112,8 @@ public abstract class CategoryBase<T> : IEntity, IDeletable where T : class, IEn
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(color, nameof(Color)),
-            PropertyValidationConditions.IsMatchingRegex(color, RegexPatterns.Color, nameof(Color)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(color, nameof(Color)),
+            () => PropertyValidationConditions.IsMatchingRegex(color, RegexPatterns.Color, nameof(Color)));
         
         // Setting property
         Color = color;

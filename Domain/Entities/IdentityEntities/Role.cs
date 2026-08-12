@@ -75,7 +75,7 @@ public class Role : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -87,8 +87,8 @@ public class Role : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            PropertyValidationConditions.HasMaximumLength(name, Lengths.RoleName, nameof(Name)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            () => PropertyValidationConditions.HasMaximumLength(name, Lengths.RoleName, nameof(Name)));
             
         // Setting properties
         Name = name;

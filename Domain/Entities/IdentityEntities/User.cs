@@ -183,7 +183,7 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -195,8 +195,8 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(username, nameof(Username)),
-            PropertyValidationConditions.IsMatchingRegex(username, RegexPatterns.Username, nameof(Username)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(username, nameof(Username)),
+            () => PropertyValidationConditions.IsMatchingRegex(username, RegexPatterns.Username, nameof(Username)));
         
         // Setting properties
         Username = username;
@@ -208,8 +208,8 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(passwordHash, nameof(PasswordHash)),
-            PropertyValidationConditions.HasMaximumLength(passwordHash, Lengths.PasswordHash, nameof(PasswordHash)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(passwordHash, nameof(PasswordHash)),
+            () => PropertyValidationConditions.HasMaximumLength(passwordHash, Lengths.PasswordHash, nameof(PasswordHash)));
         
         // Setting property
         PasswordHash = passwordHash;
@@ -227,8 +227,8 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(refreshTokenHash, nameof(RefreshTokenHash)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(refreshTokenHash, Lengths.RefreshTokenHash, nameof(RefreshTokenHash)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(refreshTokenHash, nameof(RefreshTokenHash)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(refreshTokenHash, Lengths.RefreshTokenHash, nameof(RefreshTokenHash)));
         
         // Setting property
         RefreshTokenHash = refreshTokenHash;
@@ -239,7 +239,7 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, currentDateTime, nameof(RefreshTokenExpirationTime)));
+            () => PropertyValidationConditions.IsNullOrDateTimeInTheFuture(refreshTokenExpirationTime, currentDateTime, nameof(RefreshTokenExpirationTime)));
         
         // Setting property
         RefreshTokenExpirationTime = refreshTokenExpirationTime;
@@ -250,7 +250,7 @@ public class User : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(role, nameof(Role)));
+            () => PropertyValidationConditions.IsNotNull(role, nameof(Role)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -268,7 +268,7 @@ public class User : IEntity, IDeletable, IArchivable
         {
             // Property validation
             PropertyValidationHelper.ConstructPropertyValidation(
-                PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+                () => PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
             
             // Invariant validation
             InvariantValidationHelper.ConstructInvariantValidation(

@@ -127,7 +127,7 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
 
         // Setting properties
         Clinic = clinic;
@@ -139,8 +139,8 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
-            PropertyValidationConditions.HasMaximumLength(title, Lengths.AppointmentTitle, nameof(Title)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(title, nameof(Title)),
+            () => PropertyValidationConditions.HasMaximumLength(title, Lengths.AppointmentTitle, nameof(Title)));
         
         // Setting property
         Title = title;
@@ -151,12 +151,12 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(startTime, nameof(StartTime)),
-            PropertyValidationConditions.IsNotNull(endTime, nameof(EndTime)),
-            PropertyValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
-            PropertyValidationConditions.IsDateTimeInTheFuture(startTime, currentDateTime, nameof(StartTime)),
-            PropertyValidationConditions.IsDateTimeInTheFuture(endTime, currentDateTime, nameof(EndTime)),
-            PropertyValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
+            () => PropertyValidationConditions.IsNotNull(startTime, nameof(StartTime)),
+            () => PropertyValidationConditions.IsNotNull(endTime, nameof(EndTime)),
+            () => PropertyValidationConditions.AreIdenticalDates(startTime, endTime, nameof(StartTime), nameof(EndTime)),
+            () => PropertyValidationConditions.IsDateTimeInTheFuture(startTime, currentDateTime, nameof(StartTime)),
+            () => PropertyValidationConditions.IsDateTimeInTheFuture(endTime, currentDateTime, nameof(EndTime)),
+            () => PropertyValidationConditions.AreDateTimesInOrder(startTime, endTime, nameof(StartTime), nameof(EndTime)));
 
         // Setting properties
         StartTime = startTime;
@@ -168,8 +168,8 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(appointmentCategories, nameof(AppointmentCategories)),
-            PropertyValidationConditions.IsNotContainingDuplicates(appointmentCategories, nameof(AppointmentCategories)));
+            () => PropertyValidationConditions.IsNotNull(appointmentCategories, nameof(AppointmentCategories)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(appointmentCategories, nameof(AppointmentCategories)));
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -184,7 +184,7 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+            () => PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -201,7 +201,7 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(room, nameof(Room)));
+            () => PropertyValidationConditions.IsNotNull(room, nameof(Room)));
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -218,8 +218,8 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
-            PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
+            () => PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -236,9 +236,9 @@ public class Appointment : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinicians, nameof(Clinicians)),
-            PropertyValidationConditions.IsNotEmpty(clinicians, nameof(Clinicians)),
-            PropertyValidationConditions.IsNotContainingDuplicates(clinicians, nameof(Clinicians)));
+            () => PropertyValidationConditions.IsNotNull(clinicians, nameof(Clinicians)),
+            () => PropertyValidationConditions.IsNotEmpty(clinicians, nameof(Clinicians)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(clinicians, nameof(Clinicians)));
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(

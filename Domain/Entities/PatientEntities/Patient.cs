@@ -165,7 +165,7 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -177,8 +177,8 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
-            PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
+            () => PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
         
         // Setting property
         FirstName = firstName;
@@ -189,8 +189,8 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
-            PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
+            () => PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
         
         // Setting property
         LastName = lastName;
@@ -201,8 +201,8 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
-            PropertyValidationConditions.IsDateTimeInThePast(dateOfBirth, currentDateTime, nameof(DateOfBirth)));
+            () => PropertyValidationConditions.IsNotNull(dateOfBirth, nameof(DateOfBirth)),
+            () => PropertyValidationConditions.IsDateTimeInThePast(dateOfBirth, currentDateTime, nameof(DateOfBirth)));
         
         // Setting property
         DateOfBirth = dateOfBirth.Date;
@@ -213,7 +213,7 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(gender, nameof(Gender)));
+            () => PropertyValidationConditions.IsDefinedEnum(gender, nameof(Gender)));
         
         // Setting property
         Gender = gender;
@@ -224,7 +224,7 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(address, nameof(Address)));
+            () => PropertyValidationConditions.IsNotNull(address, nameof(Address)));
         
         // Setting property
         Address = address;
@@ -235,7 +235,7 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
+            () => PropertyValidationConditions.IsNotNull(contactInformation, nameof(ContactInformation)));
         
         // Setting property
         ContactInformation = contactInformation;
@@ -246,7 +246,7 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(insuranceStatus, nameof(InsuranceStatus)));
+            () => PropertyValidationConditions.IsDefinedEnum(insuranceStatus, nameof(InsuranceStatus)));
         
         // Setting property
         InsuranceStatus = insuranceStatus;
@@ -257,8 +257,8 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(allergies, nameof(Allergies)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(allergies, Lengths.Allergies, nameof(Allergies)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(allergies, nameof(Allergies)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(allergies, Lengths.Allergies, nameof(Allergies)));
         
         // Setting property
         Allergies = allergies;
@@ -269,8 +269,8 @@ public class Patient : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.PatientRemarks, nameof(Remarks)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.PatientRemarks, nameof(Remarks)));
         
         // Setting property
         Remarks = remarks;

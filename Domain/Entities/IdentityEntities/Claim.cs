@@ -53,7 +53,7 @@ public class Claim : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(role, nameof(Role)));
+            () => PropertyValidationConditions.IsNotNull(role, nameof(Role)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -69,7 +69,7 @@ public class Claim : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(type, nameof(Type)));
+            () => PropertyValidationConditions.IsDefinedEnum(type, nameof(Type)));
         
         // Setting property
         Type = type;
@@ -80,7 +80,7 @@ public class Claim : IEntity, IDeletable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(value, nameof(Value)));
+            () => PropertyValidationConditions.IsDefinedEnum(value, nameof(Value)));
         
         // Setting property
         Value = value;

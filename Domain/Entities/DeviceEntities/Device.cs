@@ -180,7 +180,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -192,8 +192,8 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            PropertyValidationConditions.HasMaximumLength(name, Lengths.DeviceName, nameof(Name)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            () => PropertyValidationConditions.HasMaximumLength(name, Lengths.DeviceName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -204,8 +204,8 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            () => PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
         
         // Setting property
         Abbreviation = abbreviation;
@@ -216,8 +216,8 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(serialNumber, nameof(SerialNumber)),
-            PropertyValidationConditions.HasMaximumLength(serialNumber, Lengths.SerialNumber, nameof(SerialNumber)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(serialNumber, nameof(SerialNumber)),
+            () => PropertyValidationConditions.HasMaximumLength(serialNumber, Lengths.SerialNumber, nameof(SerialNumber)));
         
         // Setting property
         SerialNumber = serialNumber;
@@ -228,7 +228,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsDefinedEnum(status, nameof(Status)));
+            () => PropertyValidationConditions.IsDefinedEnum(status, nameof(Status)));
         
         // Setting property
         Status = status;
@@ -239,8 +239,8 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(producer, nameof(Producer)),
-            PropertyValidationConditions.HasMaximumLength(producer, Lengths.Producer, nameof(Producer)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(producer, nameof(Producer)),
+            () => PropertyValidationConditions.HasMaximumLength(producer, Lengths.Producer, nameof(Producer)));
         
         // Setting property
         Producer = producer;
@@ -251,8 +251,8 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(deviceCategories, nameof(DeviceCategories)),
-            PropertyValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)));
+            () => PropertyValidationConditions.IsNotNull(deviceCategories, nameof(DeviceCategories)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -267,7 +267,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, currentDateTime, nameof(DateOfPurchase)));
+            () => PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfPurchase, currentDateTime, nameof(DateOfPurchase)));
         
         // Setting property
         DateOfPurchase = dateOfPurchase?.Date;
@@ -278,7 +278,7 @@ public class Device : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, currentDateTime, nameof(DateOfLastMaintenance)));
+            () => PropertyValidationConditions.IsNullOrDateTimeInThePast(dateOfLastMaintenance, currentDateTime, nameof(DateOfLastMaintenance)));
         
         // Setting property
         DateOfLastMaintenance = dateOfLastMaintenance?.Date;

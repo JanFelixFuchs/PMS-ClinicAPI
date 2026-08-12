@@ -147,7 +147,7 @@ public class Clinician : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -159,8 +159,8 @@ public class Clinician : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
-            PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(firstName, nameof(FirstName)),
+            () => PropertyValidationConditions.HasMaximumLength(firstName, Lengths.FirstName, nameof(FirstName)));
         
         // Setting property
         FirstName = firstName;
@@ -171,8 +171,8 @@ public class Clinician : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
-            PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(lastName, nameof(LastName)),
+            () => PropertyValidationConditions.HasMaximumLength(lastName, Lengths.LastName, nameof(LastName)));
         
         // Setting property
         LastName = lastName;
@@ -183,8 +183,8 @@ public class Clinician : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinicianCategories, nameof(ClinicianCategories)),
-            PropertyValidationConditions.IsNotContainingDuplicates(clinicianCategories, nameof(ClinicianCategories)));
+            () => PropertyValidationConditions.IsNotNull(clinicianCategories, nameof(ClinicianCategories)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(clinicianCategories, nameof(ClinicianCategories)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(

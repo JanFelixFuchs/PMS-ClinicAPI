@@ -158,7 +158,7 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -170,8 +170,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
-            PropertyValidationConditions.HasMaximumLength(name, Lengths.RoomName, nameof(Name)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(name, nameof(Name)),
+            () => PropertyValidationConditions.HasMaximumLength(name, Lengths.RoomName, nameof(Name)));
         
         // Setting property
         Name = name;
@@ -182,8 +182,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
-            PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
+            () => PropertyValidationConditions.IsNotNullEmptyOrWhitespace(abbreviation, nameof(Abbreviation)),
+            () => PropertyValidationConditions.HasMaximumLength(abbreviation, Lengths.Abbreviation, nameof(Abbreviation)));
 
         // Setting abbreviation
         Abbreviation = abbreviation;
@@ -194,8 +194,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(roomCategories, nameof(RoomCategories)),
-            PropertyValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)));
+            () => PropertyValidationConditions.IsNotNull(roomCategories, nameof(RoomCategories)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -210,8 +210,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(roomNumber, nameof(RoomNumber)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(roomNumber, Lengths.RoomNumber, nameof(RoomNumber)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(roomNumber, nameof(RoomNumber)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(roomNumber, Lengths.RoomNumber, nameof(RoomNumber)));
         
         // Setting property
         RoomNumber = roomNumber;
@@ -222,8 +222,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(floor, nameof(Floor)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(floor, Lengths.Floor, nameof(Floor)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(floor, nameof(Floor)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(floor, Lengths.Floor, nameof(Floor)));
         
         // Setting property
         Floor = floor;
@@ -234,8 +234,8 @@ public class Room : IEntity, IDeletable, IArchivable
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(building, nameof(Building)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(building, Lengths.Building, nameof(Building)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(building, nameof(Building)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(building, Lengths.Building, nameof(Building)));
         
         // Setting property
         Building = building;

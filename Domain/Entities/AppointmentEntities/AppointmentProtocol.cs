@@ -120,7 +120,7 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
+            () => PropertyValidationConditions.IsNotNull(clinic, nameof(Clinic)));
         
         // Setting properties
         Clinic = clinic;
@@ -132,8 +132,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
-            PropertyValidationConditions.IsDateTimeInThePast(appointmentDate, currentDateTime, nameof(DateOfAppointment)));
+            () => PropertyValidationConditions.IsNotNull(appointmentDate, nameof(DateOfAppointment)),
+            () => PropertyValidationConditions.IsDateTimeInThePast(appointmentDate, currentDateTime, nameof(DateOfAppointment)));
         
         // Setting property
         DateOfAppointment = appointmentDate.Date;
@@ -144,8 +144,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(symptoms, nameof(Symptoms)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(symptoms, Lengths.Symptoms, nameof(Symptoms)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(symptoms, nameof(Symptoms)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(symptoms, Lengths.Symptoms, nameof(Symptoms)));
 
         // Setting property
         Symptoms = symptoms;
@@ -156,8 +156,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(diagnosis, nameof(Diagnosis)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(diagnosis, Lengths.Diagnosis, nameof(Diagnosis)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(diagnosis, nameof(Diagnosis)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(diagnosis, Lengths.Diagnosis, nameof(Diagnosis)));
 
         // Setting property
         Diagnosis = diagnosis;
@@ -168,8 +168,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(treatment, nameof(Treatment)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(treatment, Lengths.Treatment, nameof(Treatment)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(treatment, nameof(Treatment)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(treatment, Lengths.Treatment, nameof(Treatment)));
 
         // Setting property
         Treatment = treatment;
@@ -180,8 +180,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
-            PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.AppointmentProtocolRemarks, nameof(Remarks)));
+            () => PropertyValidationConditions.IsNullNotEmptyOrWhitespace(remarks, nameof(Remarks)),
+            () => PropertyValidationConditions.IsNullOrHasMaximumLength(remarks, Lengths.AppointmentProtocolRemarks, nameof(Remarks)));
 
         // Setting property
         Remarks = remarks;
@@ -192,7 +192,7 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(appointment, nameof(Appointment)));
+            () => PropertyValidationConditions.IsNotNull(appointment, nameof(Appointment)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -209,7 +209,7 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
+            () => PropertyValidationConditions.IsNotNull(patient, nameof(Patient)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -226,7 +226,7 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
+            () => PropertyValidationConditions.IsNotNull(clinician, nameof(Clinician)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -243,7 +243,7 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(room, nameof(Room)));
+            () => PropertyValidationConditions.IsNotNull(room, nameof(Room)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
@@ -260,8 +260,8 @@ public class AppointmentProtocol : IEntity
     {
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
-            PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
-            PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
+            () => PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            () => PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
