@@ -6,6 +6,7 @@ public static class InvariantValidationHelper
 {
     public static void ConstructInvariantValidation(params Func<InvariantValidationResult>[] invariantValidations)
     {
+        // Checking conditions
         foreach (var invariantValidation in invariantValidations)
         {
             // Calling validation condition
