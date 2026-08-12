@@ -188,7 +188,7 @@ public class Clinician : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
+            () => InvariantValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
         
         // Setting property
         ClinicianCategories = clinicianCategories;

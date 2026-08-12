@@ -4,13 +4,18 @@ namespace Domain.Common.Utils.InvariantValidation;
 
 public static class InvariantValidationHelper
 {
-    public static void ConstructInvariantValidation(params InvariantValidationResult[] invariantValidations)
+    public static void ConstructInvariantValidation(params Func<InvariantValidationResult>[] invariantValidations)
     {
-        // Checking conditions
-        var validationError = invariantValidations.FirstOrDefault(invariantValidation => !invariantValidation.IsValid);
-
-        // Throwing exception
-        if (validationError != null)
-            throw new InvalidOperationException(validationError.ValidationMessage);
+        foreach (var invariantValidation in invariantValidations)
+        {
+            // Calling validation condition
+            var validationResult = invariantValidation();
+            
+            // Continue if no validation error occurred
+            if (validationResult.IsValid) continue;
+            
+            // Throwing exception
+            throw new InvalidOperationException(validationResult.ValidationMessage);
+        }
     }
 }

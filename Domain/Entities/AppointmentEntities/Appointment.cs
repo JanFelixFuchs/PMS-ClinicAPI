@@ -173,7 +173,7 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotContainingDeletedElements(appointmentCategories, nameof(AppointmentCategories)));
+            () => InvariantValidationConditions.IsNotContainingDeletedElements(appointmentCategories, nameof(AppointmentCategories)));
 
         // Setting property
         AppointmentCategories = appointmentCategories;
@@ -188,8 +188,8 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
-            InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
+            () => InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
+            () => InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
 
         // Setting properties
         Patient = patient;
@@ -205,8 +205,8 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
-            InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
+            () => InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
+            () => InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
 
         // Setting properties
         Room = room;
@@ -223,9 +223,9 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
-            InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)),
-            InvariantValidationConditions.IsContainingElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
+            () => InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
+            () => InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)),
+            () => InvariantValidationConditions.IsContainingElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
 
         // Setting property
         Devices = devices;
@@ -242,8 +242,8 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotContainingDeletedElements(clinicians, nameof(Clinicians)),
-            InvariantValidationConditions.IsNotContainingArchivedElements(clinicians, nameof(Clinicians)));
+            () => InvariantValidationConditions.IsNotContainingDeletedElements(clinicians, nameof(Clinicians)),
+            () => InvariantValidationConditions.IsNotContainingArchivedElements(clinicians, nameof(Clinicians)));
 
         // Setting property
         Clinicians = clinicians;

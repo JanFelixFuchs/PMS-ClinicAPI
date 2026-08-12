@@ -256,7 +256,7 @@ public class Device : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
+            () => InvariantValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
         
         // Setting property
         DeviceCategories = deviceCategories;

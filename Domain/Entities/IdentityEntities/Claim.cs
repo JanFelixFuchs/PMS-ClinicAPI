@@ -57,7 +57,7 @@ public class Claim : IEntity, IDeletable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
+            () => InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties
         Role = role;
