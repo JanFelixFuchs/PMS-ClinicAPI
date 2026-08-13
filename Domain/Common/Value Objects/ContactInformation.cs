@@ -20,6 +20,7 @@ public class ContactInformation
         Country country)
     {
         // Validating properties
+        ValidateCountry(country);
         ValidateEmail(email);
         ValidatePhoneNumber(phoneNumber, country);
         
@@ -46,6 +47,12 @@ public class ContactInformation
             () => PropertyValidationConditions.IsMatchingRegex(phoneNumber,  RegexPatterns.GetPhoneNumberRegexPattern(country), nameof(PhoneNumber)));
     }
 
+    // Method to validate the country
+    private static void ValidateCountry(Country country)
+    {
+        PropertyValidationHelper.ConstructPropertyValidation(
+            () => PropertyValidationConditions.IsDefinedEnum(country, nameof(Country)));
+    }
 
     /* - - - Object overrides - - - */
     // Method to convert the entity into a string
