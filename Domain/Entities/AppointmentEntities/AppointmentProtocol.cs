@@ -270,7 +270,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)));
         

@@ -174,7 +174,7 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(appointmentCategories, appointmentCategory => appointmentCategory.ClinicId, ClinicId, nameof(AppointmentCategories)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(appointmentCategories, appointmentCategory => appointmentCategory.ClinicId, ClinicId, nameof(AppointmentCategories)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(appointmentCategories, nameof(AppointmentCategories)));
 
         // Setting property
@@ -228,10 +228,10 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)),
-            () => InvariantValidationConditions.IsContainingElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactEnumValue(devices, device => device.Status, DeviceStatus.Operational, nameof(Devices)));
 
         // Setting property
         Devices = devices;
@@ -249,7 +249,7 @@ public class Appointment : IEntity, IDeletable
 
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(clinicians, clinician => clinician.ClinicId, ClinicId, nameof(Clinicians)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(clinicians, clinician => clinician.ClinicId, ClinicId, nameof(Clinicians)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(clinicians, nameof(Clinicians)),
             () => InvariantValidationConditions.IsNotContainingArchivedElements(clinicians, nameof(Clinicians)));
 

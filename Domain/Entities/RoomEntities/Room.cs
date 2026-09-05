@@ -200,7 +200,7 @@ public class Room : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(roomCategories, roomCategory => roomCategory.ClinicId, ClinicId, nameof(RoomCategories)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(roomCategories, roomCategory => roomCategory.ClinicId, ClinicId, nameof(RoomCategories)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(roomCategories, nameof(RoomCategories)));
         
         // Setting property

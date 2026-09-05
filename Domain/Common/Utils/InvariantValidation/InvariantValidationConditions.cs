@@ -47,11 +47,11 @@ public static class InvariantValidationConditions
         collectionInput.All(element => !element.IsArchived), 
         $"{propertyName} must not contain archived elements");
     
-    public static InvariantValidationResult IsContainingElementsWithExactEnumValue<TElement, TEnum>(ICollection<TElement> collectionInput, Func<TElement, TEnum> enumSelector, TEnum expectedValue, string propertyName) where TEnum : struct, Enum => new(
+    public static InvariantValidationResult IsContainingOnlyElementsWithExactEnumValue<TElement, TEnum>(ICollection<TElement> collectionInput, Func<TElement, TEnum> enumSelector, TEnum expectedValue, string propertyName) where TEnum : struct, Enum => new(
         collectionInput.All(element => EqualityComparer<TEnum>.Default.Equals(enumSelector(element), expectedValue)),  
         $"{propertyName} must be {expectedValue}");
 
-    public static InvariantValidationResult IsContainingElementsWithExactGuidValue<T>(ICollection<T> collectionInput, Func<T, Guid> guidSelector, Guid expectedValue, string propertyName) => new(
+    public static InvariantValidationResult IsContainingOnlyElementsWithExactGuidValue<T>(ICollection<T> collectionInput, Func<T, Guid> guidSelector, Guid expectedValue, string propertyName) => new(
         collectionInput.All(element => guidSelector(element) == expectedValue),
         $"{propertyName} must be {expectedValue}");
 }
