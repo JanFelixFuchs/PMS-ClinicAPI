@@ -104,6 +104,12 @@ public static class PropertyValidationConditions
         ErrorCode.MAX_LENGTH_EXCEEDED,
         $"{propertyName} must have {maxLength} or less values");
 
+    public static PropertyValidationResult IsNotContainingNullElements<T>(ICollection<T> collectionInput, string propertyName) => new(
+        collectionInput.All(element => element != null),
+        propertyName,
+        ErrorCode.MISSING_VALUE,
+        $"{propertyName} must not contain null values");
+    
     public static PropertyValidationResult IsNotContainingDuplicates<T>(ICollection<T> collectionInput, string propertyName) => new(
         collectionInput.Count == collectionInput.Distinct().Count(),
         propertyName,
