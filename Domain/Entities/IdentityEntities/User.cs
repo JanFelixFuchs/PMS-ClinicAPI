@@ -254,6 +254,7 @@ public class User : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
+            () => InvariantValidationConditions.IsExactGuidValue(role.ClinicId, ClinicId, nameof(Role)),
             () => InvariantValidationConditions.IsNotDeleted(role, nameof(Role)));
         
         // Setting properties
@@ -272,6 +273,7 @@ public class User : IEntity, IDeletable, IArchivable
             
             // Invariant validation
             InvariantValidationHelper.ConstructInvariantValidation(
+                () => InvariantValidationConditions.IsNullOrExactGuidValue(clinician?.ClinicId, ClinicId, nameof(Clinician)),
                 () => InvariantValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)),
                 () => InvariantValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)));
         }

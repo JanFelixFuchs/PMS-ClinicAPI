@@ -188,6 +188,7 @@ public class Clinician : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
+            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(clinicianCategories, clinicianCategory => clinicianCategory.ClinicId, ClinicId, nameof(ClinicianCategories)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(clinicianCategories, nameof(ClinicianCategories)));
         
         // Setting property

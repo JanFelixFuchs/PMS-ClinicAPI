@@ -256,6 +256,7 @@ public class Device : IEntity, IDeletable, IArchivable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
+            () => InvariantValidationConditions.IsContainingElementsWithExactGuidValue(deviceCategories, deviceCategory => deviceCategory.ClinicId, ClinicId, nameof(DeviceCategories)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(deviceCategories, nameof(DeviceCategories)));
         
         // Setting property
