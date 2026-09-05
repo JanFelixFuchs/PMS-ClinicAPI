@@ -28,6 +28,12 @@ public static class InvariantValidationConditions
         $"{propertyName} must be {expectedValue}");
 
     
+    // Guid conditions
+    public static InvariantValidationResult IsExactGuidValue(Guid guidInput, Guid expectedValue, string propertyName) => new(
+        guidInput == expectedValue,
+        $"{propertyName} must be {expectedValue}");
+
+    
     // Collection conditions
     public static InvariantValidationResult IsNotContainingDeletedElements<T>(ICollection<T> collectionInput, string propertyName) where T : IDeletable => new(
         collectionInput.All(element => !element.IsDeleted),  
