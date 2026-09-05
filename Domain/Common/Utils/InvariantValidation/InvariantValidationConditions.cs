@@ -32,6 +32,10 @@ public static class InvariantValidationConditions
     public static InvariantValidationResult IsExactGuidValue(Guid guidInput, Guid expectedValue, string propertyName) => new(
         guidInput == expectedValue,
         $"{propertyName} must be {expectedValue}");
+    
+    public static InvariantValidationResult IsNullOrExactGuidValue(Guid? guidInput, Guid expectedValue, string propertyName) => new(
+        guidInput == null || guidInput == expectedValue,
+        $"{propertyName} must be {expectedValue}");
 
     
     // Collection conditions
