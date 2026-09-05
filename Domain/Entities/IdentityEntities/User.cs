@@ -51,7 +51,7 @@ public class User : IEntity, IDeletable, IArchivable
         ValidateAndSetRefreshTokenHash(null);
         ValidateAndSetRefreshTokenExpirationTime(null, currentDateTime);
         ValidateAndSetRole(role);
-        ValidateAndSetClinician(clinician, isAdmin);
+        ValidateAndSetClinician(clinician);
     }
     
     
@@ -262,9 +262,9 @@ public class User : IEntity, IDeletable, IArchivable
     }
     
     // Method to validate and set the clinician
-    private void ValidateAndSetClinician(Clinician? clinician, bool isAdmin)
+    private void ValidateAndSetClinician(Clinician? clinician)
     {
-        if (!isAdmin)
+        if (!IsAdmin)
         {
             // Property validation
             PropertyValidationHelper.ConstructPropertyValidation(
