@@ -169,6 +169,7 @@ public class Appointment : IEntity, IDeletable
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(appointmentCategories, nameof(AppointmentCategories)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(appointmentCategories, nameof(AppointmentCategories)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(appointmentCategories, nameof(AppointmentCategories)));
 
         // Invariant validation
@@ -222,6 +223,7 @@ public class Appointment : IEntity, IDeletable
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(devices, nameof(Devices)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
 
         // Invariant validation
@@ -242,6 +244,7 @@ public class Appointment : IEntity, IDeletable
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(clinicians, nameof(Clinicians)),
             () => PropertyValidationConditions.IsNotEmpty(clinicians, nameof(Clinicians)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(clinicians, nameof(Clinicians)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(clinicians, nameof(Clinicians)));
 
         // Invariant validation

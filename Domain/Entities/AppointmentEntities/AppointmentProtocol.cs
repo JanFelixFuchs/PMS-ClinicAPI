@@ -265,6 +265,7 @@ public class AppointmentProtocol : IEntity
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(devices, nameof(Devices)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(devices, nameof(Devices)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(devices, nameof(Devices)));
         
         // Invariant validation

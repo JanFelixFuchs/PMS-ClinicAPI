@@ -252,6 +252,7 @@ public class Device : IEntity, IDeletable, IArchivable
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(deviceCategories, nameof(DeviceCategories)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(deviceCategories, nameof(DeviceCategories)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(deviceCategories, nameof(DeviceCategories)));
         
         // Invariant validation

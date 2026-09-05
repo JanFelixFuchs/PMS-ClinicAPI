@@ -195,6 +195,7 @@ public class Room : IEntity, IDeletable, IArchivable
         // Property validation
         PropertyValidationHelper.ConstructPropertyValidation(
             () => PropertyValidationConditions.IsNotNull(roomCategories, nameof(RoomCategories)),
+            () => PropertyValidationConditions.IsNotContainingNullElements(roomCategories, nameof(RoomCategories)),
             () => PropertyValidationConditions.IsNotContainingDuplicates(roomCategories, nameof(RoomCategories)));
         
         // Invariant validation
