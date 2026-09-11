@@ -279,8 +279,8 @@ public class User : IEntity, IDeletable, IArchivable
         }
         
         // Setting properties
-        Clinician = clinician;
-        ClinicianId = clinician?.Id;
+        Clinician = IsAdmin ? null : clinician;
+        ClinicianId = IsAdmin ? null : clinician?.Id;
     }
     
     
