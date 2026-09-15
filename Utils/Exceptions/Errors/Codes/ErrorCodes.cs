@@ -36,6 +36,12 @@ public enum ErrorCode
     VALUE_ALREADY_IN_USE,
     UNCHANGED_VALUE,
     
+    // Errors related to entity state invariants
+    DELETED_ENTITY,
+    ARCHIVED_ENTITY,
+    CLINIC_MISMATCH,
+    UNEXPECTED_STATUS,
+    
     // Errors related to unknown errors
     UNKNOWN_ERROR
 }
