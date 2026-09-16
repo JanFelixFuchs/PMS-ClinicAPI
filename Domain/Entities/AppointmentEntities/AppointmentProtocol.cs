@@ -97,8 +97,8 @@ public class AppointmentProtocol : IEntity
             throw new InvalidOperationException($"Cannot start an {nameof(AppointmentProtocol)} that is not {nameof(AppointmentProtocolStatus.Undealt)}");
             
         // Setting properties
-        Status = AppointmentProtocolStatus.Started;
         DateOfProcessingStart = currentDateTime;
+        Status = AppointmentProtocolStatus.Started;
     }
     
     // Method to set the status to completed
