@@ -60,7 +60,7 @@ public class AppointmentProtocol : IEntity
         ValidateAndSetClinician(appointment.Clinicians.First());
         ValidateAndSetRoom(appointment.Room);
         ValidateAndSetDevices(appointment.Devices);
-        ValidateAndSetDateOfAppointment(appointment.EndTime, currentDateTime);
+        ValidateAndSetDateOfAppointment(appointment.StartTime, currentDateTime);
     }
     
     
