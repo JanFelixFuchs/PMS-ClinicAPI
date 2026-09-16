@@ -1,3 +1,4 @@
+using Utils.Exceptions.Errors.Field;
 using InvalidOperationException = Domain.Common.Exceptions.InvalidOperationException;
 
 namespace Domain.Common.Utils.InvariantValidation;
@@ -16,7 +17,9 @@ public static class InvariantValidationHelper
             if (validationResult.IsValid) continue;
             
             // Throwing exception
-            throw new InvalidOperationException(validationResult.ValidationMessage);
+            throw new InvalidOperationException(
+                validationResult.ValidationMessage,
+                [new FieldError(validationResult.Field, validationResult.ErrorCode)]);
         }
     }
 }
