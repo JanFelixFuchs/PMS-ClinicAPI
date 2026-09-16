@@ -273,9 +273,9 @@ public class User : IEntity, IDeletable, IArchivable
             
             // Invariant validation
             InvariantValidationHelper.ConstructInvariantValidation(
-                () => InvariantValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)),
-                () => InvariantValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)));
                 () => InvariantValidationConditions.IsNullOrBelongingToSameClinic(clinician?.ClinicId, ClinicId, nameof(Clinician)),
+                () => InvariantValidationConditions.IsNullOrNotDeleted(clinician, nameof(Clinician)),
+                () => InvariantValidationConditions.IsNullOrNotArchived(clinician, nameof(Clinician)));
         }
         
         // Setting properties
