@@ -196,7 +196,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(appointment.ClinicId, ClinicId, nameof(Appointment)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(appointment.ClinicId, ClinicId, nameof(Appointment)),
             () => InvariantValidationConditions.IsNotDeleted(appointment, nameof(Appointment)),
             () => InvariantValidationConditions.IsExactEnumValue(appointment.Status, AppointmentStatus.Attended, nameof(Appointment)));
         
@@ -214,7 +214,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(patient.ClinicId, ClinicId, nameof(Patient)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(patient.ClinicId, ClinicId, nameof(Patient)),
             () => InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
             () => InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
@@ -232,7 +232,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(clinician.ClinicId, ClinicId, nameof(Clinician)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(clinician.ClinicId, ClinicId, nameof(Clinician)),
             () => InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
             () => InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
@@ -250,7 +250,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(room.ClinicId, ClinicId, nameof(Room)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(room.ClinicId, ClinicId, nameof(Room)),
             () => InvariantValidationConditions.IsNotDeleted(room, nameof(Room)),
             () => InvariantValidationConditions.IsNotArchived(room, nameof(Room)));
         
@@ -270,7 +270,7 @@ public class AppointmentProtocol : IEntity
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsContainingOnlyElementsWithExactGuidValue(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
+            () => InvariantValidationConditions.IsContainingOnlyElementsBelongingToSameClinic(devices, device => device.ClinicId, ClinicId, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingDeletedElements(devices, nameof(Devices)),
             () => InvariantValidationConditions.IsNotContainingArchivedElements(devices, nameof(Devices)));
         

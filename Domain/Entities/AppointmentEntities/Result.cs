@@ -150,7 +150,7 @@ public class Result : IEntity, IDeletable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(patient.ClinicId, ClinicId, nameof(Patient)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(patient.ClinicId, ClinicId, nameof(Patient)),
             () => InvariantValidationConditions.IsNotDeleted(patient, nameof(Patient)),
             () => InvariantValidationConditions.IsNotArchived(patient, nameof(Patient)));
         
@@ -168,7 +168,7 @@ public class Result : IEntity, IDeletable
         
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsExactGuidValue(clinician.ClinicId, ClinicId, nameof(Clinician)),
+            () => InvariantValidationConditions.IsBelongingToSameClinic(clinician.ClinicId, ClinicId, nameof(Clinician)),
             () => InvariantValidationConditions.IsNotDeleted(clinician, nameof(Clinician)),
             () => InvariantValidationConditions.IsNotArchived(clinician, nameof(Clinician)));
         
@@ -182,7 +182,7 @@ public class Result : IEntity, IDeletable
     {
         // Invariant validation
         InvariantValidationHelper.ConstructInvariantValidation(
-            () => InvariantValidationConditions.IsNullOrExactGuidValue(device?.ClinicId, ClinicId, nameof(Device)),
+            () => InvariantValidationConditions.IsNullOrBelongingToSameClinic(device?.ClinicId, ClinicId, nameof(Device)),
             () => InvariantValidationConditions.IsNullOrNotDeleted(device, nameof(Device)),
             () => InvariantValidationConditions.IsNullOrNotArchived(device, nameof(Device)));
         

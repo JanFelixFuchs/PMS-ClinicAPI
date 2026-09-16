@@ -29,13 +29,13 @@ public static class InvariantValidationConditions
 
     
     // Guid conditions
-    public static InvariantValidationResult IsExactGuidValue(Guid guidInput, Guid expectedValue, string propertyName) => new(
-        guidInput == expectedValue,
-        $"{propertyName} must be {expectedValue}");
+    public static InvariantValidationResult IsBelongingToSameClinic(Guid clinicId, Guid expectedClinicId, string propertyName) => new(
+        clinicId == expectedClinicId,
+        $"{propertyName} must be {expectedClinicId}");
     
-    public static InvariantValidationResult IsNullOrExactGuidValue(Guid? guidInput, Guid expectedValue, string propertyName) => new(
-        guidInput == null || guidInput == expectedValue,
-        $"{propertyName} must be {expectedValue}");
+    public static InvariantValidationResult IsNullOrBelongingToSameClinic(Guid? clinicId, Guid expectedClinicId, string propertyName) => new(
+        clinicId == null || clinicId == expectedClinicId,
+        $"{propertyName} must be {expectedClinicId}");
 
     
     // Collection conditions
@@ -51,7 +51,7 @@ public static class InvariantValidationConditions
         collectionInput.All(element => EqualityComparer<TEnum>.Default.Equals(enumSelector(element), expectedValue)),  
         $"{propertyName} must be {expectedValue}");
 
-    public static InvariantValidationResult IsContainingOnlyElementsWithExactGuidValue<T>(ICollection<T> collectionInput, Func<T, Guid> guidSelector, Guid expectedValue, string propertyName) => new(
-        collectionInput.All(element => guidSelector(element) == expectedValue),
-        $"{propertyName} must be {expectedValue}");
+    public static InvariantValidationResult IsContainingOnlyElementsBelongingToSameClinic<T>(ICollection<T> collectionInput, Func<T, Guid> clinicIdSelector, Guid expectedClinicId, string propertyName) => new(
+        collectionInput.All(element => clinicIdSelector(element) == expectedClinicId),
+        $"{propertyName} must be {expectedClinicId}");
 }
