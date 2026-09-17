@@ -2,7 +2,7 @@ using System.Net;
 using Utils.Exceptions.Base;
 using Utils.Exceptions.Errors.Types;
 
-namespace Infrastructure.Common.Exceptions.Contexts;
+namespace Infrastructure.Common.Exceptions;
 
 public class InvalidRequestContextException(string claimName)
     : CustomExceptionBase(

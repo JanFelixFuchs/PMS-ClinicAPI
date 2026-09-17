@@ -2,7 +2,7 @@ using System.Net;
 using Utils.Exceptions.Base;
 using Utils.Exceptions.Errors.Types;
 
-namespace Infrastructure.Common.Exceptions.Database;
+namespace Infrastructure.Common.Exceptions;
 
 public class DatabaseException(string typeName, Exception innerException)
     : CustomExceptionBase(

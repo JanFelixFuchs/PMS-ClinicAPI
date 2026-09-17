@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Application.Common.Contexts;
-using Infrastructure.Common.Exceptions.Contexts;
+using Infrastructure.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Utils.Authentication;
 

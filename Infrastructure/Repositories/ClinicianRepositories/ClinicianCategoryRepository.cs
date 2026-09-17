@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Application.Repositories.ClinicianRepositories;
 using Domain.Entities.ClinicianEntities;
-using Infrastructure.Common.Exceptions.Database;
+using Infrastructure.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.ClinicianRepositories;

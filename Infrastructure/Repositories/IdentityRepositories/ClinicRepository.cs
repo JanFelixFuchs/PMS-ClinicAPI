@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Application.Repositories.IdentityRepositories;
 using Domain.Entities.IdentityEntities;
-using Infrastructure.Common.Exceptions.Database;
+using Infrastructure.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.IdentityRepositories;
