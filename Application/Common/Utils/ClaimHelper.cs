@@ -34,7 +34,7 @@ public static class ClaimHelper
         
         // Adding missing claims
         foreach (var missingClaimType in missingClaimTypes)
-            claims.Add(new Claim(role, missingClaimType, ClaimValue.None));
+            claims.Add(new Claim(role, missingClaimType, ClaimTypePermissions.AllowedValues[missingClaimType].Min()));
         
         // Returning claims
         return claims;
