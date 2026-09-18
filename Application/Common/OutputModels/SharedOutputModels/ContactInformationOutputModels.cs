@@ -1,4 +1,4 @@
-using Domain.Common.Value_Objects;
+using Domain.Common.ValueObjects;
 
 namespace Application.Common.OutputModels.SharedOutputModels;
 
