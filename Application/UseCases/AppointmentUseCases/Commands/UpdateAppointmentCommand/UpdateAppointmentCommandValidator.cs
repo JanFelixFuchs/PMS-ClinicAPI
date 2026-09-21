@@ -1,4 +1,5 @@
 using Application.Common.Behaviours.ValidationBehaviour.Rules;
+using Application.Common.Providers;
 using Domain.Common.Utils.Constants;
 using FluentValidation;
 
@@ -6,8 +7,10 @@ namespace Application.UseCases.AppointmentUseCases.Commands.UpdateAppointmentCom
 
 public class UpdateAppointmentCommandValidator : AbstractValidator<UpdateAppointmentCommand>
 {
-    public UpdateAppointmentCommandValidator()
+    public UpdateAppointmentCommandValidator(IDateTimeProvider dateTimeProvider)
     {
+        var currentDateTime = dateTimeProvider.UtcNow;
+        
         RuleFor(command => command.Id).ValidRequiredGuid();
 
         RuleFor(command => command.Title)
@@ -16,12 +19,12 @@ public class UpdateAppointmentCommandValidator : AbstractValidator<UpdateAppoint
         
         RuleFor(command => command.StartTime)
             .ValidRequiredDateTime()
-            .ValidRequiredFutureDateTime()
+            .ValidRequiredFutureDateTime(currentDateTime)
             .ValidRequiredBeforeDateTime(command => command.EndTime);
             
         RuleFor(command => command.EndTime)
             .ValidRequiredDateTime()
-            .ValidRequiredFutureDateTime()
+            .ValidRequiredFutureDateTime(currentDateTime)
             .ValidRequiredAfterDateTime(command => command.StartTime);
         
         RuleFor(command => command.AppointmentCategoryIds)

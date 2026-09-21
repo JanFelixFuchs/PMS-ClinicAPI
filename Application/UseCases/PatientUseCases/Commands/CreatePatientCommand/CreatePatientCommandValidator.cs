@@ -1,4 +1,5 @@
 using Application.Common.Behaviours.ValidationBehaviour.Rules;
+using Application.Common.Providers;
 using Domain.Common.Utils.Constants;
 using FluentValidation;
 
@@ -6,8 +7,10 @@ namespace Application.UseCases.PatientUseCases.Commands.CreatePatientCommand;
 
 public class CreatePatientCommandValidator : AbstractValidator<CreatePatientCommand>
 {
-    public CreatePatientCommandValidator()
+    public CreatePatientCommandValidator(IDateTimeProvider dateTimeProvider)
     {
+        var currentDateTime = dateTimeProvider.UtcNow;
+        
         RuleFor(command => command.FirstName)
             .ValidRequiredString()
             .ValidRequiredMaximumStringLength(Lengths.FirstName);
@@ -18,7 +21,7 @@ public class CreatePatientCommandValidator : AbstractValidator<CreatePatientComm
         
         RuleFor(command => command.DateOfBirth)
             .ValidRequiredDateTime()
-            .ValidRequiredPastDateTime();
+            .ValidRequiredPastDateTime(currentDateTime);
         
         RuleFor(command => command.Gender).ValidRequiredEnum();
         

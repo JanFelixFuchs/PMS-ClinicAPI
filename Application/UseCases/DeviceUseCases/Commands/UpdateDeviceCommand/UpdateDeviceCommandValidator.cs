@@ -1,4 +1,5 @@
 using Application.Common.Behaviours.ValidationBehaviour.Rules;
+using Application.Common.Providers;
 using Domain.Common.Utils.Constants;
 using FluentValidation;
 
@@ -6,8 +7,10 @@ namespace Application.UseCases.DeviceUseCases.Commands.UpdateDeviceCommand;
 
 public class UpdateDeviceCommandValidator : AbstractValidator<UpdateDeviceCommand>
 {
-    public UpdateDeviceCommandValidator()
+    public UpdateDeviceCommandValidator(IDateTimeProvider dateTimeProvider)
     {
+        var currentDateTime = dateTimeProvider.UtcNow;
+        
         RuleFor(command => command.Id).ValidRequiredGuid();
 
         RuleFor(command => command.Name)
@@ -25,6 +28,6 @@ public class UpdateDeviceCommandValidator : AbstractValidator<UpdateDeviceComman
             
         RuleFor(command => command.DateOfLastMaintenance)
             .ValidOptionalDateTime()
-            .ValidOptionalPastDateTime();
+            .ValidOptionalPastDateTime(currentDateTime);
     }
 }

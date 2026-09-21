@@ -1,4 +1,5 @@
 using Application.Common.Behaviours.ValidationBehaviour.Rules;
+using Application.Common.Providers;
 using Domain.Common.Utils.Constants;
 using FluentValidation;
 
@@ -6,8 +7,10 @@ namespace Application.UseCases.DeviceUseCases.Commands.CreateDeviceCommand;
 
 public class CreateDeviceCommandValidator : AbstractValidator<CreateDeviceCommand>
 {
-    public CreateDeviceCommandValidator()
+    public CreateDeviceCommandValidator(IDateTimeProvider dateTimeProvider)
     {
+        var currentDateTime = dateTimeProvider.UtcNow; 
+        
         RuleFor(command => command.Name)
             .ValidRequiredString()
             .ValidRequiredMaximumStringLength(Lengths.DeviceName);
@@ -33,10 +36,10 @@ public class CreateDeviceCommandValidator : AbstractValidator<CreateDeviceComman
         
         RuleFor(command => command.DateOfPurchase)
             .ValidOptionalDateTime()
-            .ValidOptionalPastDateTime();
+            .ValidOptionalPastDateTime(currentDateTime);
             
         RuleFor(command => command.DateOfLastMaintenance)
             .ValidOptionalDateTime()
-            .ValidOptionalPastDateTime();
+            .ValidOptionalPastDateTime(currentDateTime);
     }
 }
