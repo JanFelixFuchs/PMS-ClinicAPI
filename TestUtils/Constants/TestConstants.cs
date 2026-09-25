@@ -1,4 +1,6 @@
 using Domain.Common.Enums;
+using Xunit;
+
 namespace TestUtils.Constants;
 
 public static class TestConstants
@@ -13,4 +15,45 @@ public static class TestConstants
     
     public const string ValidGermanPhoneNumber = "+49123456789";
     public const string ValidFinnishPhoneNumber = "+358123456789";
+
+    public static TheoryData<string, string, Country> ValidCountryRelatedInformation =>
+    [
+        (ValidGermanZipCode, ValidGermanPhoneNumber, Country.De),
+        (ValidFinnishZipCode, ValidFinnishPhoneNumber, Country.Fi)
+    ];
+    
+
+    // Invalid values
+    public static TheoryData<string, Country> InvalidZipCodesNotMatchingRegex =>
+    [
+        ("1234", Country.De),
+        ("123456", Country.De),
+        ("1234A", Country.De),
+        ("1234", Country.Fi),
+        ("123456", Country.Fi),
+        ("1234A", Country.Fi),
+    ];
+    
+    public static TheoryData<string> InvalidEmailsNotMatchingRegex =>
+    [
+        "@test-missing-local-part.test",
+        "test-missing-at-sign.test",
+        "test@test-missing-domain",
+    ];
+    
+    public static TheoryData<string, Country> InvalidPhoneNumbersNotMatchingRegex =>
+    [
+        ("0123456789", Country.De),
+        ("+4901234", Country.De),
+        ("+4901234567891011", Country.De),
+        ("+49 01234 56789", Country.De),
+        ("+49-01234-56789", Country.De),
+        ("490123456789", Country.Fi),
+        ("0123456789", Country.Fi),
+        ("+35801234", Country.Fi),
+        ("+358012345678910", Country.Fi),
+        ("+358 01234 56789", Country.Fi),
+        ("+358-01234-56789", Country.Fi),
+        ("3580123456789", Country.Fi),
+    ];
 }
