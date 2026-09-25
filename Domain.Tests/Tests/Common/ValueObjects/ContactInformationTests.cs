@@ -98,7 +98,7 @@ public class ContactInformationTests
     public void Constructor_WithUndefinedCountry_ThrowsValidationException()
     {
         // Act
-        var act = () => TestAddressBuilder
+        var act = () => TestContactInformationBuilder
             .Create()
             .WithCountry((Country)999)
             .Build();
