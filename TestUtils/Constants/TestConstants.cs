@@ -22,6 +22,13 @@ public static class TestConstants
         (ValidFinnishZipCode, ValidFinnishPhoneNumber, Country.Fi)
     ];
     
+    public static TheoryData<AppendixContentType, byte[]> ValidAppendixContentTypes => new()
+    {
+        { AppendixContentType.Pdf, [0x25, 0x50, 0x44, 0x46] },
+        { AppendixContentType.Jpeg, [0xFF, 0xD8, 0xFF] },
+        { AppendixContentType.Png, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A] }
+    };
+    
 
     // Invalid values
     public static TheoryData<string, Country> InvalidZipCodesNotMatchingRegex =>
