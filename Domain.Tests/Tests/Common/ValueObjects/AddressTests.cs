@@ -1,8 +1,8 @@
 using Domain.Common.Enums;
 using Domain.Common.Utils.Constants;
 using Domain.Common.ValueObjects;
-using Domain.Tests.Utils.Builders.ValueObjectBuilders;
 using FluentAssertions;
+using TestUtils.Builders.ValueObjectBuilders;
 using TestUtils.Constants;
 using Utils.Exceptions.CustomExceptions;
 using Utils.Exceptions.Errors.Codes;

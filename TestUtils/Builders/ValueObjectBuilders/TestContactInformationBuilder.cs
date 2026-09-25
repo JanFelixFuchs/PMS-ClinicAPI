@@ -2,7 +2,7 @@ using Domain.Common.Enums;
 using Domain.Common.ValueObjects;
 using TestUtils.Constants;
 
-namespace Domain.Tests.Utils.Builders.ValueObjectBuilders;
+namespace TestUtils.Builders.ValueObjectBuilders;
 
 public class TestContactInformationBuilder
 {
