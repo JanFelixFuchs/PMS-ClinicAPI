@@ -31,6 +31,19 @@ public static class TestConstants
     
 
     // Invalid values
+    public static TheoryData<string?> InvalidNullEmptyOrWhitespaceString => 
+    [
+        null!,
+        "",
+        "   ",
+    ];
+    
+    public static TheoryData<string> InvalidEmptyOrWhitespaceString => 
+    [
+        "",
+        "   ",
+    ];
+    
     public static TheoryData<string, Country> InvalidZipCodesNotMatchingRegex =>
     [
         ("1234", Country.De),
