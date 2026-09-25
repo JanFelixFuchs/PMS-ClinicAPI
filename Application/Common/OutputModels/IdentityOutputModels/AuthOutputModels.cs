@@ -4,13 +4,13 @@ using Domain.Entities.IdentityEntities;
 
 namespace Application.Common.OutputModels.IdentityOutputModels;
 
-public class RegisterClinicOutputModels(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
+public class RegisterClinicOutputModel(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
     : SessionOutputModel(clinic, user, role, clinician, accessToken);
 
-public class LoginUserOutputModels(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
+public class LoginUserOutputModel(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
     : SessionOutputModel(clinic, user, role, clinician, accessToken);
 
-public class RefreshTokensOutputModels(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
+public class RefreshTokensOutputModel(Clinic clinic, User user, Role role, Clinician? clinician, string accessToken)
     : SessionOutputModel(clinic, user, role, clinician, accessToken);
 
 public class UpdatePasswordOutputModel(string accessToken)
