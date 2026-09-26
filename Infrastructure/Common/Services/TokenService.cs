@@ -15,6 +15,9 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
 {
     public string CreateAccessToken(Guid clinicId, Guid userId, ICollection<Claim> claims)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(claims);
+        
         // Initializing key and credentials
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
