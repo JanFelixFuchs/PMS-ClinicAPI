@@ -12,6 +12,10 @@ public class AuthenticationService : IAuthenticationService
     
     public bool CheckPassword(string passwordHash, string rawPassword)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(passwordHash);
+        ArgumentNullException.ThrowIfNull(rawPassword);
+        
         // Checking password
         var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(new object(), passwordHash, rawPassword);
         
@@ -31,6 +35,9 @@ public class AuthenticationService : IAuthenticationService
     
     public string HashToken(string token)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(token);
+        
         // Returning hashed token
         return Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(token)));
     }
