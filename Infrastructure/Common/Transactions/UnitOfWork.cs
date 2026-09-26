@@ -6,6 +6,9 @@ public class UnitOfWork(DatabaseContext databaseContext) : IUnitOfWork
 {
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(action);
+        
         // Initializing transaction
         await using var transaction = await databaseContext.Database.BeginTransactionAsync(cancellationToken);
 
@@ -31,6 +34,9 @@ public class UnitOfWork(DatabaseContext databaseContext) : IUnitOfWork
 
     public async Task ExecuteAsync(Func<Task> action, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(action);
+        
         // Executing transaction
         await ExecuteAsync(async () =>
         {
