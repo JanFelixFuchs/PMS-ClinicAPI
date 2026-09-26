@@ -6,7 +6,7 @@ namespace TestUtils.Constants;
 public static class TestConstants
 {
     // Default current date time
-    public static readonly DateTime DefaultCurrentDateTime = new(2026, 1, 1, 12, 0, 0);
+    public static readonly DateTime DefaultCurrentDateTime = new(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc);
     
     
     // Valid values
