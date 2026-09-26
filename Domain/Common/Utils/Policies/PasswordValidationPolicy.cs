@@ -5,9 +5,12 @@ namespace Domain.Common.Utils.Policies;
 
 public static class PasswordValidationPolicy
 {
+    private const string PasswordPropertyName = "Password";
+    
     public static void Validate(string rawPassword)
     {
         PropertyValidationHelper.ConstructPropertyValidation(
-            () => PropertyValidationConditions.IsMatchingRegex(rawPassword, RegexPatterns.Password, "Password"));
+            () => PropertyValidationConditions.IsNotNull(rawPassword, PasswordPropertyName),
+            () => PropertyValidationConditions.IsMatchingRegex(rawPassword, RegexPatterns.Password, PasswordPropertyName));
     }
 }
