@@ -6,6 +6,7 @@ using Application.UseCases.UserUseCases.Commands.UnarchiveUserCommand;
 using Application.UseCases.UserUseCases.Queries.ReadUserQuery;
 using Application.UseCases.UserUseCases.Queries.ReadUsersQuery;
 using Infrastructure.Common.Configuration;
+using Infrastructure.Common.Providers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,9 @@ public class UserController(
     ILogger<UserController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    DateTimeProvider dateTimeProvider,
     ISender sender) 
-    : CustomControllerBase<UserController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<UserController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateUser)]

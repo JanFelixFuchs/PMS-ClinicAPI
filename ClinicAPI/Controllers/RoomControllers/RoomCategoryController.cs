@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.RoomOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.RoomCategoryUseCases.Commands.DeleteRoomCategoryCommand;
 using Application.UseCases.RoomCategoryUseCases.Queries.ReadRoomCategoriesQuery;
 using Application.UseCases.RoomCategoryUseCases.Queries.ReadRoomCategoryQuery;
@@ -23,8 +24,9 @@ public class RoomCategoryController(
     ILogger<RoomCategoryController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender) 
-    : CustomControllerBase<RoomCategoryController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<RoomCategoryController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateRoomCategory)]

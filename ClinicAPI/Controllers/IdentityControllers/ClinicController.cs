@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.IdentityOutputModels;
+using Application.Common.Providers;
 using Infrastructure.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,8 +21,9 @@ public class ClinicController(
     ILogger<ClinicController> logger,
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<ClinicController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<ClinicController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPut]
     [Authorize(Policy = PolicyDefinitions.CanUpdateClinic)]

@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.DeviceOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.DeviceUseCases.Commands.ArchiveDeviceCommand;
 using Application.UseCases.DeviceUseCases.Commands.DeleteDeviceCommand;
 using Application.UseCases.DeviceUseCases.Commands.UnarchiveDeviceCommand;
@@ -27,8 +28,9 @@ public class DeviceController(
     ILogger<DeviceController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<DeviceController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<DeviceController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateDevice)]

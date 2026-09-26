@@ -1,4 +1,5 @@
 using System.Net;
+using Application.Common.Providers;
 using Utils.Exceptions.CustomExceptions;
 using Infrastructure.Common.Configuration;
 using MediatR;
@@ -14,6 +15,7 @@ public abstract class CustomControllerBase<TController>(
     ILogger<TController> logger,
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
     : ControllerBase
 {
@@ -85,7 +87,7 @@ public abstract class CustomControllerBase<TController>(
             HttpOnly = true,
             Secure = cookieSettings.Value.Secure,
             SameSite = cookieSettings.Value.SameSiteMode,
-            Expires = DateTimeOffset.UtcNow.AddDays(jwtSettings.Value.RefreshTokenLifetimeInDays),
+            Expires = dateTimeProvider.UtcNow.AddDays(jwtSettings.Value.RefreshTokenLifetimeInDays),
             Path = cookieSettings.Value.RestrictPath ? RefreshTokenCookiePath : null
         });
     }

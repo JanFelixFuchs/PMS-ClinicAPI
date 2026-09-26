@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.ResultUseCases.Commands.DeleteResultCommand;
 using Application.UseCases.ResultUseCases.Queries.ReadResultQuery;
 using Infrastructure.Common.Configuration;
@@ -22,8 +23,9 @@ public class ResultController(
     ILogger<ResultController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<ResultController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<ResultController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateResult)]

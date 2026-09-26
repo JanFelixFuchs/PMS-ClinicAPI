@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.RoomOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.RoomUseCases.Commands.ArchiveRoomCommand;
 using Application.UseCases.RoomUseCases.Commands.DeleteRoomCommand;
 using Application.UseCases.RoomUseCases.Commands.UnarchiveRoomCommand;
@@ -25,8 +26,9 @@ public class RoomController(
     ILogger<RoomController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<RoomController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<RoomController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateRoom)]

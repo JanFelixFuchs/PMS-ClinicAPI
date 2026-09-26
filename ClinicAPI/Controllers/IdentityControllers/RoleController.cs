@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.IdentityOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.RoleUseCases.Commands.DeleteRoleCommand;
 using Application.UseCases.RoleUseCases.Queries.ReadRoleQuery;
 using Application.UseCases.RoleUseCases.Queries.ReadRolesQuery;
@@ -23,8 +24,9 @@ public class RoleController(
     ILogger<RoleController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<RoleController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<RoleController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateRole)]

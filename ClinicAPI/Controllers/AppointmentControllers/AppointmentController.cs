@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.AppointmentUseCases.Commands.DeleteAppointmentCommand;
 using Application.UseCases.AppointmentUseCases.Commands.MarkAppointmentAsAttendedCommand;
 using Application.UseCases.AppointmentUseCases.Queries.ReadAppointmentQuery;
@@ -25,8 +26,9 @@ public class AppointmentController(
     ILogger<AppointmentController> logger,
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<AppointmentController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<AppointmentController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateAppointment)]

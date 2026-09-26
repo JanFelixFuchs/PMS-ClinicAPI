@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.IdentityOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.AuthUseCases.Commands.LogoutUserCommand;
 using Application.UseCases.AuthUseCases.Commands.RefreshTokensCommand;
 using Infrastructure.Common.Configuration;
@@ -22,8 +23,9 @@ public class AuthController(
     ILogger<AuthController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender) 
-    : CustomControllerBase<AuthController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<AuthController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost("register")]
     [AllowAnonymous]

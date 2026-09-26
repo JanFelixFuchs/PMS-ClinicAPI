@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.ClinicianOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.ClinicianCategoryUseCases.Commands.DeleteClinicianCategoryCommand;
 using Application.UseCases.ClinicianCategoryUseCases.Queries.ReadClinicianCategoriesQuery;
 using Application.UseCases.ClinicianCategoryUseCases.Queries.ReadClinicianCategoryQuery;
@@ -23,8 +24,9 @@ public class ClinicianCategoryController(
     ILogger<ClinicianCategoryController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<ClinicianCategoryController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<ClinicianCategoryController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateClinicianCategory)]

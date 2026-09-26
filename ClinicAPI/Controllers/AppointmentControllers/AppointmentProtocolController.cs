@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.AppointmentProtocolUseCases.Commands.CompleteAppointmentProtocolCommand;
 using Application.UseCases.AppointmentProtocolUseCases.Commands.StartAppointmentProtocolCommand;
 using Application.UseCases.AppointmentProtocolUseCases.Queries.ReadAppointmentProtocolQuery;
@@ -23,8 +24,9 @@ public class AppointmentProtocolController(
     ILogger<AppointmentProtocolController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<AppointmentProtocolController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<AppointmentProtocolController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpGet("{id:guid}")]
     [Authorize(Policy = PolicyDefinitions.CanReadAppointmentProtocol)]

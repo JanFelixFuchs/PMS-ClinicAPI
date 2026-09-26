@@ -6,6 +6,7 @@ using Application.UseCases.PatientUseCases.Commands.UnarchivePatientCommand;
 using Application.UseCases.PatientUseCases.Queries.ReadPatientQuery;
 using Application.UseCases.PatientUseCases.Queries.ReadPatientsQuery;
 using Infrastructure.Common.Configuration;
+using Infrastructure.Common.Providers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,9 @@ public class PatientController(
     ILogger<PatientController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings, 
+    DateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<PatientController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<PatientController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreatePatient)]

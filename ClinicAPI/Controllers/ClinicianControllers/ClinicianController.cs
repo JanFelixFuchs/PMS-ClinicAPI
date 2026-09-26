@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.ClinicianOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.ClinicianUseCases.Commands.ArchiveClinicianCommand;
 using Application.UseCases.ClinicianUseCases.Commands.DeleteClinicianCommand;
 using Application.UseCases.ClinicianUseCases.Commands.UnarchiveClinicianCommand;
@@ -25,8 +26,9 @@ public class ClinicianController(
     ILogger<ClinicianController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender)
-    : CustomControllerBase<ClinicianController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<ClinicianController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateClinician)]

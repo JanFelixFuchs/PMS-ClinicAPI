@@ -1,5 +1,6 @@
 using System.Net;
 using Application.Common.OutputModels.AppointmentOutputModels;
+using Application.Common.Providers;
 using Application.UseCases.AppointmentCategoryUseCases.Commands.DeleteAppointmentCategoryCommand;
 using Application.UseCases.AppointmentCategoryUseCases.Queries.ReadAppointmentCategoriesQuery;
 using Application.UseCases.AppointmentCategoryUseCases.Queries.ReadAppointmentCategoryQuery;
@@ -23,8 +24,9 @@ public class AppointmentCategoryController(
     ILogger<AppointmentCategoryController> logger, 
     IOptions<CookieSettings> cookieSettings,
     IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider,
     ISender sender) 
-    : CustomControllerBase<AppointmentCategoryController>(logger, cookieSettings, jwtSettings, sender)
+    : CustomControllerBase<AppointmentCategoryController>(logger, cookieSettings, jwtSettings, dateTimeProvider, sender)
 {
     [HttpPost]
     [Authorize(Policy = PolicyDefinitions.CanCreateAppointmentCategory)]
