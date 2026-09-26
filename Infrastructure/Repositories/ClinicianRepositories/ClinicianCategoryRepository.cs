@@ -10,6 +10,9 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
 {
     public async Task AddAsync(ClinicianCategory clinicianCategory, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(clinicianCategory);
+        
         try
         {
             // Adding clinician category
@@ -54,6 +57,9 @@ public class ClinicianCategoryRepository(DatabaseContext databaseContext) : ICli
         CancellationToken cancellationToken, 
         params Expression<Func<ClinicianCategory, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(clinicianCategoryIds);
+        
         try
         {
             // Initializing query

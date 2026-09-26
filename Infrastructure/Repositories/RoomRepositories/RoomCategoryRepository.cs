@@ -10,6 +10,9 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
 {
     public async Task AddAsync(RoomCategory roomCategory, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(roomCategory);
+        
         try
         {
             // Adding room category
@@ -54,6 +57,9 @@ public class RoomCategoryRepository(DatabaseContext databaseContext) : IRoomCate
         CancellationToken cancellationToken, 
         params Expression<Func<RoomCategory, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(roomCategoryIds);
+        
         try
         {
             // Initializing query

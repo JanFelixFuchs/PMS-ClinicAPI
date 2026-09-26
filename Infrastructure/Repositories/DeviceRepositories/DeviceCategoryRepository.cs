@@ -10,6 +10,9 @@ public class DeviceCategoryRepository(DatabaseContext databaseContext) : IDevice
 {
     public async Task AddAsync(DeviceCategory deviceCategory, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(deviceCategory);
+        
         try
         {
             // Adding device category
@@ -54,6 +57,9 @@ public class DeviceCategoryRepository(DatabaseContext databaseContext) : IDevice
         CancellationToken cancellationToken, 
         params Expression<Func<DeviceCategory, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(deviceCategoryIds);
+        
         try
         {
             // Initializing query

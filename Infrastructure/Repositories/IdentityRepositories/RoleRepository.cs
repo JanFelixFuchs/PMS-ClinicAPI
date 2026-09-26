@@ -10,6 +10,9 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
 {
     public async Task AddAsync(Role role, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(role);
+        
         try
         {
             // Adding role
@@ -81,6 +84,9 @@ public class RoleRepository(DatabaseContext databaseContext) : IRoleRepository
         CancellationToken cancellationToken,
         params Expression<Func<Role, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(normalizedName);
+        
         try
         {
             // Initializing query

@@ -10,6 +10,9 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
 {
     public async Task AddAsync(Device device, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(device);
+        
         try
         {
             // Adding device
@@ -55,6 +58,9 @@ public class DeviceRepository(DatabaseContext databaseContext) : IDeviceReposito
         CancellationToken cancellationToken,
         params Expression<Func<Device, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(deviceIds);
+        
         try
         {
             // Initializing query

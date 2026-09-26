@@ -11,6 +11,9 @@ public class ClaimRepository(DatabaseContext databaseContext) : IClaimRepository
 {
     public async Task AddExceptValueEqualsNoneAsync(ICollection<Claim> claims, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(claims);
+        
         try
         {
             // Adding claims

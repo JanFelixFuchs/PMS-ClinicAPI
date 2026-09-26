@@ -10,6 +10,9 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
 {
     public async Task AddAsync(User user, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(user);
+        
         try
         {
             // Adding user
@@ -55,6 +58,9 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         CancellationToken cancellationToken, 
         params Expression<Func<User, object?>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(userIds);
+        
         try
         {
             // Initializing query
@@ -109,6 +115,9 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         CancellationToken cancellationToken, 
         params Expression<Func<User, object?>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(normalizedUsername);
+        
         try
         {
             // Initializing query
@@ -135,6 +144,9 @@ public class UserRepository(DatabaseContext databaseContext) : IUserRepository
         CancellationToken cancellationToken,
         params Expression<Func<User, object?>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(refreshTokenHash);
+        
         try
         {
             // Initializing query

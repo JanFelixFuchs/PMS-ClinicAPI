@@ -10,6 +10,9 @@ public class AppointmentProtocolRepository(DatabaseContext databaseContext) : IA
 {
     public async Task AddAsync(AppointmentProtocol appointmentProtocol, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(appointmentProtocol);
+        
         try
         {
             // Adding appointment protocols

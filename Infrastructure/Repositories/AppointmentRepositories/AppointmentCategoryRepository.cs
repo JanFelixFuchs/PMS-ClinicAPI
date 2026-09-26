@@ -10,6 +10,9 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
 {
     public async Task AddAsync(AppointmentCategory appointmentCategory, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(appointmentCategory);
+        
         try
         {
             // Adding appointment category
@@ -54,6 +57,9 @@ public class AppointmentCategoryRepository(DatabaseContext databaseContext) : IA
         CancellationToken cancellationToken, 
         params Expression<Func<AppointmentCategory, object>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(appointmentCategoryIds);
+        
         try
         {
             // Initializing query

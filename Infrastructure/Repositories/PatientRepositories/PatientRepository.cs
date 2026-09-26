@@ -10,6 +10,9 @@ public class PatientRepository(DatabaseContext databaseContext) : IPatientReposi
 {
     public async Task AddAsync(Patient patient, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(patient);
+        
         try
         {
             // Adding patient

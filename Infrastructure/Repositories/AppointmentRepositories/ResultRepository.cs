@@ -10,6 +10,9 @@ public class ResultRepository(DatabaseContext databaseContext) : IResultReposito
 {
     public async Task AddAsync(Result result, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(result);
+        
         try
         {
             // Adding result

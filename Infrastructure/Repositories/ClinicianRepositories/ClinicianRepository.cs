@@ -10,6 +10,9 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
 {
     public async Task AddAsync(Clinician clinician, CancellationToken cancellationToken)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(clinician);
+        
         try
         {
             // Adding clinician
@@ -55,6 +58,9 @@ public class ClinicianRepository(DatabaseContext databaseContext) : IClinicianRe
         CancellationToken cancellationToken,
         params Expression<Func<Clinician, object?>>[] includeProperties)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(clinicianIds);
+        
         try
         {
             // Initializing query
