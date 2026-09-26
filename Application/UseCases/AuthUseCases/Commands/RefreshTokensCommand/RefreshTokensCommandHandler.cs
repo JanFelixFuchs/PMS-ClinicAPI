@@ -39,7 +39,7 @@ public class RefreshTokensCommandHandler(
                 throw AuthorizationFailedException.DueToInvalidRefreshToken();
             
             // Checking refresh token
-            if (user.RefreshTokenExpirationTime == null || user.RefreshTokenExpirationTime < DateTime.UtcNow)
+            if (user.RefreshTokenExpirationTime == null || user.RefreshTokenExpirationTime < dateTimeProvider.UtcNow)
                 throw AuthorizationFailedException.DueToInvalidRefreshToken(user.Id);
             
             // Querying and filling claims
