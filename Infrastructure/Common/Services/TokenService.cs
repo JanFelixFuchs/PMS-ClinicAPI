@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
+using Application.Common.Providers;
 using Application.Common.Services;
 using Infrastructure.Common.Configuration;
 using Microsoft.Extensions.Options;
@@ -11,7 +12,9 @@ using JwtClaim = System.Security.Claims.Claim;
 
 namespace Infrastructure.Common.Services;
 
-public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
+public class TokenService(
+    IOptions<JwtSettings> jwtSettings,
+    IDateTimeProvider dateTimeProvider) : ITokenService
 {
     public string CreateAccessToken(Guid clinicId, Guid userId, ICollection<Claim> claims)
     {
@@ -37,7 +40,7 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
             issuer: jwtSettings.Value.Issuer,
             audience: jwtSettings.Value.Audience,
             claims: jwtClaims,
-            expires: DateTime.UtcNow.AddMinutes(jwtSettings.Value.AccessTokenLifetimeInMinutes),
+            expires: dateTimeProvider.UtcNow.AddMinutes(jwtSettings.Value.AccessTokenLifetimeInMinutes),
             signingCredentials: credentials);
         
         // Returning access token
