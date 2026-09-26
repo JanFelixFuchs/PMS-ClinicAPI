@@ -16,6 +16,9 @@ public static class ClaimHelper
 
     public static ICollection<Claim> CreateClaimsFromDictionary(Role role, Dictionary<ClaimType, ClaimValue> claims)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(claims);
+        
         // Returning claims
         return claims
             .Select(claim => new Claim(role, claim.Key, claim.Value))
@@ -24,6 +27,9 @@ public static class ClaimHelper
     
     public static ICollection<Claim> FillMissingClaimsWithLowestPermission(Role role, ICollection<Claim> claims)
     {
+        // Validating arguments
+        ArgumentNullException.ThrowIfNull(claims);
+        
         // Collecting existing claim types
         var existingClaimTypes = claims.Select(claim => claim.Type).ToHashSet();
         
