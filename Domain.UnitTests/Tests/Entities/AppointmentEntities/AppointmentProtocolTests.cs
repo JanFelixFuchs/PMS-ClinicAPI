@@ -859,4 +859,99 @@ public class AppointmentProtocolTests
         sut.DateOfProcessingCompletion.Should().Be(currentDateTime);
         sut.Status.Should().Be(AppointmentProtocolStatus.Completed);
     }
+
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create(currentDateTime: currentDateTime);
+        var sut = appointmentProtocolBuilder.Build();
+        sut.Start(currentDateTime);
+        appointmentProtocolBuilder.AsUpdate().Apply(sut)();
+        sut.Complete(currentDateTime);
+        
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.DateOfAppointment.ToString(CultureInfo.CurrentCulture)).And
+            .Contain(sut.DateOfProcessingStart.ToString()).And
+            .Contain(sut.DateOfProcessingCompletion.ToString()).And
+            .Contain(sut.Symptoms).And
+            .Contain(sut.Diagnosis).And
+            .Contain(sut.Treatment).And
+            .Contain(sut.Remarks).And
+            .Contain(sut.Status.ToString()).And
+            .Contain(sut.AppointmentId.ToString()).And
+            .Contain(sut.PatientId.ToString()).And
+            .Contain(sut.ClinicianId.ToString()).And
+            .Contain(sut.RoomId.ToString()).And
+            .ContainAll(sut.Devices.Select(device => device.Id.ToString()).ToArray());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestAppointmentProtocolBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestAppointmentProtocolBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var appointmentProtocolOne = TestAppointmentProtocolBuilder.Create().Build();
+        var appointmentProtocolTwo = TestAppointmentProtocolBuilder.Create().Build();
+        
+        // Act
+        var result = appointmentProtocolOne.Equals(appointmentProtocolTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var appointmentProtocolOne = TestAppointmentProtocolBuilder.Create().Build();
+        var appointmentProtocolTwo = TestAppointmentProtocolBuilder.Create().Build();
+        TestEntityHelper.SetId(appointmentProtocolTwo, appointmentProtocolOne.Id);
+        
+        // Act
+        var equalsResult = appointmentProtocolOne.Equals(appointmentProtocolTwo);
+        var getHashCodeAppointmentProtocolOneResult = appointmentProtocolOne.GetHashCode();
+        var getHashCodeAppointmentProtocolTwoResult = appointmentProtocolTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeAppointmentProtocolOneResult.Should().Be(getHashCodeAppointmentProtocolTwoResult);
+    }
 }
