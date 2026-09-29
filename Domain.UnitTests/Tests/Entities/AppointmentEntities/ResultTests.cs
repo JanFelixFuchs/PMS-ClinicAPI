@@ -513,4 +513,89 @@ public class ResultTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.Title).And
+            .Contain(sut.DateOfCreation.ToString(CultureInfo.CurrentCulture)).And
+            .NotContain(sut.Appendix.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .Contain(sut.Remarks).And
+            .Contain(sut.PatientId.ToString()).And
+            .Contain(sut.ClinicianId.ToString()).And
+            .Contain(sut.DeviceId.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var resultOne = TestResultBuilder.Create().Build();
+        var resultTwo = TestResultBuilder.Create().Build();
+        
+        // Act
+        var result = resultOne.Equals(resultTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var resultOne = TestResultBuilder.Create().Build();
+        var resultTwo = TestResultBuilder.Create().Build();
+        TestEntityHelper.SetId(resultTwo, resultOne.Id);
+        
+        // Act
+        var equalsResult = resultOne.Equals(resultTwo);
+        var getHashCodeResultOneResult = resultOne.GetHashCode();
+        var getHashCodeResultTwoResult = resultTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeResultOneResult.Should().Be(getHashCodeResultTwoResult);
+    }
 }
