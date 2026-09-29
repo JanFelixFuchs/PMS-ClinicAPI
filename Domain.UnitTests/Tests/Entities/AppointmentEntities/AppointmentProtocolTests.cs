@@ -757,4 +757,106 @@ public class AppointmentProtocolTests
         sut.RoomId.Should().Be(appointmentProtocolBuilder.Room!.Id);
         sut.Devices.Should().Equal(appointmentProtocolBuilder.Devices);
     }
+    
+    
+    /* - - - Start - - - */
+    [Fact]
+    public void Start_WithStartedAppointmentProtocol_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        sut.Start(currentDateTime);
+        
+        // Act
+        var act = () => sut.Start(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Start_WithCompletedAppointmentProtocol_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        sut.Start(currentDateTime);
+        sut.Complete(currentDateTime);
+        
+        // Act
+        var act = () => sut.Start(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Start_WithUndealtAppointmentProtocol_SetsDateOfProcessingStartAndStartsAppointmentProtocol()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        
+        // Act
+        sut.Start(currentDateTime);
+        
+        // Assert
+        sut.DateOfProcessingStart.Should().Be(currentDateTime);
+        sut.Status.Should().Be(AppointmentProtocolStatus.Started);
+    }
+    
+    
+    /* - - - Complete - - - */
+    [Fact]
+    public void Complete_WithUndealtAppointmentProtocol_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        
+        // Act
+        var act = () => sut.Complete(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Complete_WithCompletedAppointmentProtocol_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        sut.Start(currentDateTime);
+        sut.Complete(currentDateTime);
+        
+        // Act
+        var act = () => sut.Complete(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Complete_WithStartedAppointmentProtocol_SetsDateOfProcessingCompletionAndCompletesAppointmentProtocol()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
+        var sut = appointmentProtocolBuilder.Build();
+        sut.Start(currentDateTime);
+        
+        // Act
+        sut.Complete(currentDateTime);
+        
+        // Assert
+        sut.DateOfProcessingCompletion.Should().Be(currentDateTime);
+        sut.Status.Should().Be(AppointmentProtocolStatus.Completed);
+    }
 }
