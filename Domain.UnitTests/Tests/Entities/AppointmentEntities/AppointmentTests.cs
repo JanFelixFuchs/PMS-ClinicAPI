@@ -1668,4 +1668,92 @@ public class AppointmentTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestAppointmentBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.Title).And
+            .Contain(sut.StartTime.ToString(CultureInfo.CurrentCulture)).And
+            .Contain(sut.EndTime.ToString(CultureInfo.CurrentCulture)).And
+            .Contain(sut.Status.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .ContainAll(sut.AppointmentCategories.Select(appointmentCategory => appointmentCategory.Id.ToString()).ToArray()).And
+            .Contain(sut.PatientId.ToString()).And
+            .Contain(sut.RoomId.ToString()).And
+            .Contain(sut.PatientId.ToString()).And
+            .ContainAll(sut.Devices.Select(device => device.Id.ToString()).ToArray()).And
+            .ContainAll(sut.Clinicians.Select(clinician => clinician.Id.ToString()).ToArray());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestAppointmentBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestAppointmentBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var appointmentOne = TestAppointmentBuilder.Create().Build();
+        var appointmentTwo = TestAppointmentBuilder.Create().Build();
+        
+        // Act
+        var result = appointmentOne.Equals(appointmentTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var appointmentOne = TestAppointmentBuilder.Create().Build();
+        var appointmentTwo = TestAppointmentBuilder.Create().Build();
+        TestEntityHelper.SetId(appointmentTwo, appointmentOne.Id);
+        
+        // Act
+        var equalsResult = appointmentOne.Equals(appointmentTwo);
+        var getHashCodeAppointmentOneResult = appointmentOne.GetHashCode();
+        var getHashCodeAppointmentTwoResult = appointmentTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeAppointmentOneResult.Should().Be(getHashCodeAppointmentTwoResult);
+    }
 }
