@@ -1557,4 +1557,71 @@ public class AppointmentTests
         sut.Clinicians.Should().Equal(appointmentBuilder.Clinicians);
         sut.Devices.Should().Equal(appointmentBuilder.Devices);
     }
+    
+    
+    /* - - - MarkAsAttended - - - */
+    [Fact]
+    public void MarkAsAttended_WithDeletedAppointment_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentBuilder = TestAppointmentBuilder.Create();
+        var sut = appointmentBuilder.Build();
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.MarkAsAttended(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void MarkAsAttended_WithAttendedAppointment_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentBuilder = TestAppointmentBuilder.Create(currentDateTime: currentDateTime.AddMinutes(-15));
+        var sut = appointmentBuilder.Build();
+        sut.MarkAsAttended(currentDateTime);
+        
+        // Act
+        var act = () => sut.MarkAsAttended(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void MarkAsAttended_WithFutureStartTime_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentBuilder = TestAppointmentBuilder.Create();
+        var sut = appointmentBuilder
+            .WithStartTime(currentDateTime.AddMinutes(15))
+            .WithEndTime(currentDateTime.AddMinutes(30))
+            .Build();
+        
+        // Act
+        var act = () => sut.MarkAsAttended(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void MarkAsAttended_WithStartedAppointment_MarksAppointmentAsAttended()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointmentBuilder = TestAppointmentBuilder.Create(currentDateTime: currentDateTime);
+        var sut = appointmentBuilder.Build();
+        
+        // Act
+        sut.MarkAsAttended(currentDateTime);
+        
+        // Assert
+        sut.Status.Should().Be(AppointmentStatus.Attended);
+    }
 }
