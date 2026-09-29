@@ -469,4 +469,48 @@ public class ResultTests
         sut.Device.Should().Be(resultBuilder.Device);
         sut.DeviceId.Should().Be(resultBuilder.Device!.Id);
     }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedResult_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+        sut.Delete(TestPatientBuilder.Create().Build());
+        
+        // Act
+        var act = () => sut.Delete(TestPatientBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithArchivedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+        var patient = TestPatientBuilder.Create().Build();
+        patient.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete(patient);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableResult_DeletesResult()
+    {
+        // Arrange
+        var sut = TestResultBuilder.Create().Build();
+        
+        // Act
+        sut.Delete(TestPatientBuilder.Create().Build());
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
