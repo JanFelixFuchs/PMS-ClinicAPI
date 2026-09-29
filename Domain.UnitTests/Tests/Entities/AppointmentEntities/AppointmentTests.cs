@@ -1624,4 +1624,48 @@ public class AppointmentTests
         // Assert
         sut.Status.Should().Be(AppointmentStatus.Attended);
     }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedAppointment_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestAppointmentBuilder.Create().Build();
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.Delete();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithAttendedAppointment_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestAppointmentBuilder.Create(currentDateTime: currentDateTime).Build();
+        sut.MarkAsAttended(currentDateTime);
+        
+        // Act
+        var act = () => sut.Delete();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableAppointment_DeletesAppointment()
+    {
+        // Arrange
+        var sut = TestAppointmentBuilder.Create().Build();
+        
+        // Act
+        sut.Delete();
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
