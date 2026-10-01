@@ -842,4 +842,86 @@ public class ClinicianTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestClinicianBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.FirstName).And
+            .Contain(sut.LastName).And
+            .Contain(sut.IsArchived.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .ContainAll(sut.ClinicianCategories.Select(clinicianCategory => clinicianCategory.Id.ToString()).ToArray());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClinicianBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClinicianBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var clinicianOne = TestClinicianBuilder.Create().Build();
+        var clinicianTwo = TestClinicianBuilder.Create().Build();
+        
+        // Act
+        var result = clinicianOne.Equals(clinicianTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var clinicianOne = TestClinicianBuilder.Create().Build();
+        var clinicianTwo = TestClinicianBuilder.Create().Build();
+        TestEntityHelper.SetId(clinicianTwo, clinicianOne.Id);
+        
+        // Act
+        var equalsResult = clinicianOne.Equals(clinicianTwo);
+        var getHashCodeClinicianOneResult = clinicianOne.GetHashCode();
+        var getHashCodeClinicianTwoResult = clinicianTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeClinicianOneResult.Should().Be(getHashCodeClinicianTwoResult);
+    }
 }
