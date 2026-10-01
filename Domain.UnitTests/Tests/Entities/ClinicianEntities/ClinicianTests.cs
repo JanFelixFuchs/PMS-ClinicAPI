@@ -229,4 +229,215 @@ public class ClinicianTests
         sut.IsDeleted.Should().BeFalse();
         sut.ClinicianCategories.Should().Equal(clinicianBuilder.ClinicianCategories);
     }
+    
+    
+     /* - - - Method: Update - - - */
+    [Fact]
+    public void Update_WithArchivedClinician_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Update_WithDeletedClinician_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        sut.Archive([], []);
+        sut.Delete(null, [], [], []);
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithNullEmptyOrWhitespaceLastName_ThrowsValidationException(string? lastName)
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .WithLastName(lastName)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.LastName),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        }); 
+    }
+
+    [Fact]
+    public void Update_WithLastNameExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var lastName = new string('*', Lengths.LastName + 1);
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .WithLastName(lastName)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.LastName),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullClinicianCategoriesCollection_ThrowsValidationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act  = clinicianBuilder
+            .AsUpdate()
+            .WithClinicianCategories(null)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.ClinicianCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullClinicianCategoryElement_ThrowsValidationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .WithClinicianCategories([null!])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.ClinicianCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDuplicateClinicianCategories_ThrowsValidationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var clinicianCategory = TestClinicianCategoryBuilder.Create(clinicianBuilder.Clinic).Build();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act  = clinicianBuilder
+            .AsUpdate()
+            .WithClinicianCategories([clinicianCategory,  clinicianCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.ClinicianCategories),
+            ErrorCode = ErrorCode.CONTAINS_DUPLICATE_ELEMENTS
+        });
+    }
+    
+    [Fact]
+    public void Update_WithClinicianCategoryOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        var act = clinicianBuilder
+            .AsUpdate()
+            .WithClinicianCategories([TestClinicianCategoryBuilder.Create().Build()])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.ClinicianCategories),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDeletedClinicianCategory_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var clinicianCategory = TestClinicianCategoryBuilder.Create(clinicianBuilder.Clinic).Build();
+        var sut = clinicianBuilder.Build();
+        clinicianCategory.Delete([]);
+        
+        // Act
+        var act  = clinicianBuilder
+            .AsUpdate()
+            .WithClinicianCategories([clinicianCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Clinician.ClinicianCategories),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+    
+    [Fact]
+    public void Update_WithValidArguments_UpdatesAllProperties()
+    {
+        // Arrange
+        var clinicianBuilder = TestClinicianBuilder.Create();
+        var sut = clinicianBuilder.Build();
+        
+        // Act
+        clinicianBuilder.AsUpdate().Apply(sut)();
+        
+        // Assert
+        sut.LastName.Should().Be(clinicianBuilder.LastName);
+        sut.ClinicianCategories.Should().Equal(clinicianBuilder.ClinicianCategories);
+    }
 }
