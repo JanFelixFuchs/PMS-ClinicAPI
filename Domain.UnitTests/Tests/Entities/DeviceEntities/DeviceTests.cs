@@ -374,4 +374,286 @@ public class DeviceTests
         sut.DateOfPurchase.Should().Be(deviceBuilder.DateOfPurchase!.Value.Date);
         sut.DateOfLastMaintenance.Should().Be(deviceBuilder.DateOfLastMaintenance!.Value.Date);
     }
+    
+    
+    /* - - - Method: Update - - - */
+    [Fact]
+    public void Update_WithArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Update_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithNullEmptyOrWhitespaceName_ThrowsValidationException(string? name)
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithName(name)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.Name),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });   
+    }
+
+    [Fact]
+    public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var name = new string('*', Lengths.DeviceName + 1);
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithName(name)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.Name),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        }); 
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithNullEmptyOrWhitespaceAbbreviation_ThrowsValidationException(string? abbreviation)
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithAbbreviation(abbreviation)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.Abbreviation),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithAbbreviation(abbreviation)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.Abbreviation),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullDeviceCategoriesCollection_ThrowsValidationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act  = deviceBuilder
+            .AsUpdate()
+            .WithDeviceCategories(null)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullDeviceCategoryElement_ThrowsValidationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithDeviceCategories([null!])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDuplicateDeviceCategories_ThrowsValidationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder .Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act  = deviceBuilder
+            .AsUpdate()
+            .WithDeviceCategories([deviceCategory,  deviceCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.CONTAINS_DUPLICATE_ELEMENTS
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDeviceCategoryOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithDeviceCategories([TestDeviceCategoryBuilder.Create().Build()])
+            .Apply(sut);
+        
+        // Assert
+       var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDeletedDeviceCategory_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        deviceCategory.Delete([]);
+        
+        // Act
+        var act  = deviceBuilder
+            .AsUpdate()
+            .WithDeviceCategories([deviceCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+    
+    [Fact]
+    public void Update_WithFutureDateOfLastMaintenance_ThrowsValidationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = deviceBuilder
+            .AsUpdate()
+            .WithDateOfLastMaintenance(currentDateTime.AddDays(1))
+            .Apply(sut);
+
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DateOfLastMaintenance),
+            ErrorCode = ErrorCode.DATETIME_NOT_IN_PAST
+        });
+    }
+    
+    [Fact]
+    public void Update_WithValidArguments_UpdatesAllProperties()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        deviceBuilder.AsUpdate().Apply(sut)();
+        
+        // Assert
+        sut.Name.Should().Be(deviceBuilder.Name);
+        sut.Abbreviation.Should().Be(deviceBuilder.Abbreviation);
+        sut.DeviceCategories.Should().Equal(deviceBuilder.DeviceCategories);
+        sut.DateOfLastMaintenance.Should().Be(deviceBuilder.DateOfLastMaintenance!.Value.Date);
+    }
 }
