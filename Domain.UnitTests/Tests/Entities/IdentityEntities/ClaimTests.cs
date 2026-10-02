@@ -105,4 +105,33 @@ public class ClaimTests
         sut.Value.Should().Be(claimBuilder.Value);
         sut.IsDeleted.Should().BeFalse();
     }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedClaim_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestClaimBuilder.Create().Build();
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.Delete();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableClaim_DeletesClaim()
+    {
+        // Arrange
+        var sut = TestClaimBuilder.Create().Build();
+        
+        // Act
+        sut.Delete();
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
