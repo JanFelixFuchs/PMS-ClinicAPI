@@ -656,4 +656,206 @@ public class DeviceTests
         sut.DeviceCategories.Should().Equal(deviceBuilder.DeviceCategories);
         sut.DateOfLastMaintenance.Should().Be(deviceBuilder.DateOfLastMaintenance!.Value.Date);
     }
+    
+    
+    /* - - - Method: AddDeviceCategory - - - */
+    [Fact]
+    public void AddDeviceCategory_WithArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(TestDeviceCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void AddDeviceCategory_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(TestDeviceCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void AddDeviceCategory_WithNull_ThrowsValidationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(null!);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void AddDeviceCategory_WithDuplicateDeviceCategories_ThrowsValidationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder
+            .WithDeviceCategories([deviceCategory])
+            .Build();
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(deviceCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.CONTAINS_DUPLICATE_ELEMENTS
+        });
+    }
+
+    [Fact]
+    public void AddDeviceCategory_WithDeviceCategoryOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceCategory = TestDeviceCategoryBuilder.Create().Build();
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(deviceCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+    
+    [Fact]
+    public void AddDeviceCategory_WithDeletedDeviceCategory_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        deviceCategory.Delete([]);
+        
+        // Act
+        var act = () => sut.AddDeviceCategory(deviceCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.DeviceCategories),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+    
+    [Fact]
+    public void AddDeviceCategory_WithValidDeviceCategory_AddsDeviceCategory()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        sut.AddDeviceCategory(deviceCategory);
+        
+        // Assert
+        sut.DeviceCategories.Should().Contain(deviceCategory);
+    }
+    
+    
+    /* - - - Method: RemoveDeviceCategory - - - */
+    [Fact]
+    public void RemoveDeviceCategory_WithArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.RemoveDeviceCategory(TestDeviceCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void RemoveDeviceCategory_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.RemoveDeviceCategory(TestDeviceCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void RemoveDeviceCategory_WithNull_DoesNotChangeDeviceCategories()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        sut.RemoveDeviceCategory(null!);
+        
+        // Assert
+        sut.DeviceCategories.Should().BeEquivalentTo(deviceBuilder.DeviceCategories);
+    }
+    
+    [Fact]
+    public void RemoveDeviceCategory_WithNonExistingDeviceCategory_DoesNotChangeDeviceCategories()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        sut.RemoveDeviceCategory(deviceCategory);
+        
+        // Assert
+        sut.DeviceCategories.Should().BeEquivalentTo(deviceBuilder.DeviceCategories);
+    }
+    
+    [Fact]
+    public void RemoveDeviceCategory_WithExistingDeviceCategory_RemovesDeviceCategory()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var deviceCategory = TestDeviceCategoryBuilder.Create(deviceBuilder.Clinic).Build();
+        var sut = deviceBuilder.Build();
+        sut.AddDeviceCategory(deviceCategory);
+        
+        // Act
+        sut.RemoveDeviceCategory(deviceCategory);
+        
+        // Assert
+        sut.DeviceCategories.Should().NotContain(deviceCategory);
+    }
 }
