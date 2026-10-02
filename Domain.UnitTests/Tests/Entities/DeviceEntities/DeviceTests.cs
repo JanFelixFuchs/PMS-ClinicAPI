@@ -1014,4 +1014,204 @@ public class DeviceTests
         // Assert
         sut.Status.Should().Be(DeviceStatus.Operational);
     }
+    
+    
+    /* - - - Method: Archive - - - */
+    [Fact]
+    public void Archive_WithArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Archive_WithNonAttendedAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([TestAppointmentBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithNonCompletedAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([], [TestAppointmentProtocolBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithArchivableDevice_ArchivesDevice()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        sut.Archive([], []);
+        
+        // Assert
+        sut.IsArchived.Should().BeTrue();
+    }
+
+    
+    /* - - - Method: Unarchive - - - */
+    [Fact]
+    public void Unarchive_WithNonArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithUnarchivableDevice_UnarchivesDevice()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Unarchive();
+        
+        // Assert
+        sut.IsArchived.Should().BeFalse();
+    }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Delete([], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithNonArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Delete([], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Delete_WithAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([TestAppointmentBuilder.Create().Build()], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([], [TestAppointmentProtocolBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithResults_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([], [], [TestResultBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableDevice_DeletesDevice()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Delete([], [], []);
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
