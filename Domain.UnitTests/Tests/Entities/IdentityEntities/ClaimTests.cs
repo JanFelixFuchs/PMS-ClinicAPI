@@ -134,4 +134,84 @@ public class ClaimTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestClaimBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.RoleId.ToString()).And
+            .Contain(sut.Type.ToString()).And
+            .Contain(sut.Value.ToString()).And
+            .Contain(sut.IsDeleted.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClaimBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClaimBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var claimOne = TestClaimBuilder.Create().Build();
+        var claimTwo = TestClaimBuilder.Create().Build();
+        
+        // Act
+        var result = claimOne.Equals(claimTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var claimOne = TestClaimBuilder.Create().Build();
+        var claimTwo = TestClaimBuilder.Create().Build();
+        TestEntityHelper.SetId(claimTwo, claimOne.Id);
+        
+        // Act
+        var equalsResult = claimOne.Equals(claimTwo);
+        var getHashCodeClaimOneResult = claimOne.GetHashCode();
+        var getHashCodeClaimTwoResult = claimTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeClaimOneResult.Should().Be(getHashCodeClaimTwoResult);
+    }
 }
