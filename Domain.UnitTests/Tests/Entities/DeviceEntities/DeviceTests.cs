@@ -858,4 +858,160 @@ public class DeviceTests
         // Assert
         sut.DeviceCategories.Should().NotContain(deviceCategory);
     }
+    
+    
+    /* - - - Method: ChangeStatus - - - */
+    [Fact]
+    public void ChangeStatus_WithArchivedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.ChangeStatus(DeviceStatus.InMaintenance, [], deviceBuilder.CreationDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void ChangeStatus_WithDeletedDevice_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.ChangeStatus(DeviceStatus.InMaintenance, [], deviceBuilder.CreationDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithUndefinedStatus_ThrowsValidationException()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        var act = () => sut.ChangeStatus((DeviceStatus)999, [],  deviceBuilder.CreationDateTime);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Device.Status),
+            ErrorCode = ErrorCode.INVALID_ENUM_VALUE
+        });
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithNonOperationalStatusAndFutureAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointment = TestAppointmentBuilder
+            .Create()
+            .WithStartTime(currentDateTime)
+            .WithEndTime(currentDateTime.AddHours(1))
+            .Build();
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.ChangeStatus(DeviceStatus.InMaintenance, [appointment], currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+        
+    [Fact]
+    public void ChangeStatus_WithNonOperationalStatusAndPastAppointments_ChangesStatus()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointment = TestAppointmentBuilder
+            .Create()
+            .WithStartTime(currentDateTime)
+            .WithEndTime(currentDateTime.AddHours(1))
+            .Build();
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        sut.ChangeStatus(DeviceStatus.InMaintenance, [appointment], currentDateTime.AddHours(1));
+        
+        // Assert
+        sut.Status.Should().Be(DeviceStatus.InMaintenance);
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithNonOperationalStatusAndNoAppointments_ChangesStatus()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        sut.ChangeStatus(DeviceStatus.InMaintenance, [],  deviceBuilder.CreationDateTime);
+        
+        // Assert
+        sut.Status.Should().Be(DeviceStatus.InMaintenance);
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithOperationalStatusAndFutureAppointments_ChangesStatus()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointment = TestAppointmentBuilder
+            .Create()
+            .WithStartTime(currentDateTime)
+            .WithEndTime(currentDateTime.AddHours(1))
+            .Build();
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        sut.ChangeStatus(DeviceStatus.Operational, [appointment], currentDateTime);
+        
+        // Assert
+        sut.Status.Should().Be(DeviceStatus.Operational);
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithOperationalStatusAndPastAppointments_ChangesStatus()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var appointment = TestAppointmentBuilder
+            .Create()
+            .WithStartTime(currentDateTime)
+            .WithEndTime(currentDateTime.AddHours(1))
+            .Build();
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        sut.ChangeStatus(DeviceStatus.Operational, [appointment], currentDateTime.AddHours(1));
+        
+        // Assert
+        sut.Status.Should().Be(DeviceStatus.Operational);
+    }
+    
+    [Fact]
+    public void ChangeStatus_WithOperationalStatusAndNoAppointments_ChangesStatus()
+    {
+        // Arrange
+        var deviceBuilder = TestDeviceBuilder.Create();
+        var sut = deviceBuilder.Build();
+        
+        // Act
+        sut.ChangeStatus(DeviceStatus.Operational, [],  deviceBuilder.CreationDateTime);
+        
+        // Assert
+        sut.Status.Should().Be(DeviceStatus.Operational);
+    }
 }
