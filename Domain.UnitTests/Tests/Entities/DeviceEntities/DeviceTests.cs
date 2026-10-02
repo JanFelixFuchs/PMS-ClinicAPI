@@ -1214,4 +1214,91 @@ public class DeviceTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.Name).And
+            .Contain(sut.Abbreviation).And
+            .Contain(sut.SerialNumber).And
+            .Contain(sut.Status.ToString()).And
+            .Contain(sut.IsArchived.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .ContainAll(sut.DeviceCategories.Select(deviceCategory => deviceCategory.Id.ToString()).ToArray()).And
+            .Contain(sut.Producer).And
+            .Contain(sut.DateOfPurchase.ToString()).And
+            .Contain(sut.DateOfLastMaintenance.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var deviceOne = TestDeviceBuilder.Create().Build();
+        var deviceTwo = TestDeviceBuilder.Create().Build();
+        
+        // Act
+        var result = deviceOne.Equals(deviceTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var deviceOne = TestDeviceBuilder.Create().Build();
+        var deviceTwo = TestDeviceBuilder.Create().Build();
+        TestEntityHelper.SetId(deviceTwo, deviceOne.Id);
+        
+        // Act
+        var equalsResult = deviceOne.Equals(deviceTwo);
+        var getHashCodeDeviceOneResult = deviceOne.GetHashCode();
+        var getHashCodeDeviceTwoResult = deviceTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeDeviceOneResult.Should().Be(getHashCodeDeviceTwoResult);
+    }
 }
