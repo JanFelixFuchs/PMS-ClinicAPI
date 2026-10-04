@@ -1043,4 +1043,88 @@ public class ClinicTests
         sut.Code.Should().Be(ValidCodeMatchingRegex);
         sut.NormalizedCode.Should().Be(StringHelper.Normalize(ValidCodeMatchingRegex));
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestClinicBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .NotContain(sut.Code).And
+            .NotContain(sut.NormalizedCode).And
+            .Contain(sut.Name).And
+            .Contain(sut.Abbreviation).And
+            .Contain(sut.Owner).And
+            .Contain(sut.MedicalField.ToString()).And
+            .Contain(sut.ContactInformation.ToString()).And
+            .Contain(sut.Address.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClinicBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestClinicBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var clinicOne = TestClinicBuilder.Create().Build();
+        var clinicTwo = TestClinicBuilder.Create().Build();
+        
+        // Act
+        var result = clinicOne.Equals(clinicTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var clinicOne = TestClinicBuilder.Create().Build();
+        var clinicTwo = TestClinicBuilder.Create().Build();
+        TestEntityHelper.SetId(clinicTwo, clinicOne.Id);
+        
+        // Act
+        var equalsResult = clinicOne.Equals(clinicTwo);
+        var getHashCodeClinicOneResult = clinicOne.GetHashCode();
+        var getHashCodeClinicTwoResult = clinicTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeClinicOneResult.Should().Be(getHashCodeClinicTwoResult);
+    }
 }
