@@ -174,4 +174,64 @@ public class RoleTests
         sut.Name.Should().Be(roleBuilder.Name);
         sut.NormalizedName.Should().Be(StringHelper.Normalize(roleBuilder.Name!));
     }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedRole_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.Delete([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithSystemRole_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoleBuilder
+            .Create()
+            .WithIsSystemRole(true)
+            .Build();
+        
+        // Act
+        var act = () => sut.Delete([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithUsers_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Delete([TestUserBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableRole_DeletesClaimsAndRole()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+        var claim = TestClaimBuilder.Create().Build();
+        
+        // Act
+        sut.Delete([], [claim]);
+        
+        // Assert
+        claim.IsDeleted.Should().BeTrue();
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
