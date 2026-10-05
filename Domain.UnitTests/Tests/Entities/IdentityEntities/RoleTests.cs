@@ -234,4 +234,85 @@ public class RoleTests
         claim.IsDeleted.Should().BeTrue();
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.Name).And
+            .Contain(sut.NormalizedName).And
+            .Contain(sut.IsSystemRole.ToString()).And
+            .Contain(sut.IsDeleted.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestRoleBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var roleOne = TestRoleBuilder.Create().Build();
+        var roleTwo = TestRoleBuilder.Create().Build();
+        
+        // Act
+        var result = roleOne.Equals(roleTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var roleOne = TestRoleBuilder.Create().Build();
+        var roleTwo = TestRoleBuilder.Create().Build();
+        TestEntityHelper.SetId(roleTwo, roleOne.Id);
+        
+        // Act
+        var equalsResult = roleOne.Equals(roleTwo);
+        var getHashCodeRoleOneResult = roleOne.GetHashCode();
+        var getHashCodeRoleTwoResult = roleTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeRoleOneResult.Should().Be(getHashCodeRoleTwoResult);
+    }
 }
