@@ -743,4 +743,177 @@ public class UserTests
         sut.RefreshTokenHash.Should().BeNull();
         sut.RefreshTokenExpirationTime.Should().BeNull();
     }
+    
+    
+    /* - - - Method: Archive - - - */
+    [Fact]
+    public void Archive_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(currentDateTime);
+        
+        // Act
+        var act = () => sut.Archive(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(currentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.Archive(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Archive_WithAdminUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder
+            .Create()
+            .WithIsAdmin(true)
+            .WithClinician(null)
+            .Build();
+        
+        // Act
+        var act = () => sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithArchivableUser_InvalidatesRefreshTokenAndArchivesUser()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Act
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Assert
+        sut.RefreshTokenHash.Should().BeNull();
+        sut.RefreshTokenExpirationTime.Should().BeNull();
+        sut.IsArchived.Should().BeTrue();
+    }
+    
+    
+    /* - - - Method: Unarchive - - - */
+    [Fact]
+    public void Unarchive_WithNonArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Unarchive(null);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.Unarchive(null);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Unarchive_WithArchivedClinician_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        var clinician = TestClinicianBuilder.Create().Build();
+        clinician.Archive([], []);
+        
+        // Act
+        var act = () => sut.Unarchive(clinician);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithUnarchivableUser_UnarchivesUser()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        sut.Unarchive(null);
+        
+        // Assert
+        sut.IsArchived.Should().BeFalse();
+    }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.Delete();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithNonArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Delete();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableUser_DetachesClinicianAndDeletesUser()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        sut.Delete();
+        
+        // Assert
+        sut.Clinician.Should().BeNull();
+        sut.ClinicianId.Should().BeNull();
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
