@@ -916,4 +916,93 @@ public class UserTests
         sut.ClinicianId.Should().BeNull();
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .NotContain(sut.Username).And
+            .NotContain(sut.NormalizedUsername).And
+            .NotContain(sut.PasswordHash).And
+            .Contain(sut.IsAdmin.ToString()).And
+            .Contain(sut.IsArchived.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .NotContain(sut.RefreshTokenHash).And
+            .NotContain(sut.RefreshTokenExpirationTime.ToString()).And
+            .Contain(sut.RoleId.ToString()).And
+            .Contain(sut.ClinicianId.ToString());
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var userOne = TestUserBuilder.Create().Build();
+        var userTwo = TestUserBuilder.Create().Build();
+        
+        // Act
+        var result = userOne.Equals(userTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var userOne = TestUserBuilder.Create().Build();
+        var userTwo = TestUserBuilder.Create().Build();
+        TestEntityHelper.SetId(userTwo, userOne.Id);
+        
+        // Act
+        var equalsResult = userOne.Equals(userTwo);
+        var getHashCodeUserOneResult = userOne.GetHashCode();
+        var getHashCodeUserTwoResult = userTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeUserOneResult.Should().Be(getHashCodeUserTwoResult);
+    }
 }
