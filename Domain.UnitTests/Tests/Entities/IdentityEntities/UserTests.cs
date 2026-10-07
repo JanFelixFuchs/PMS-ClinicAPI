@@ -300,4 +300,447 @@ public class UserTests
         sut.Clinician.Should().Be(clinician);
         sut.ClinicianId.Should().Be(clinician?.Id);
     }
+
+    
+    /* - - - Method: UpdateRole - - - */
+    [Fact]
+    public void UpdateRole_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut  = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        var act = () => sut.UpdateRole(TestRoleBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdateRole_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut  = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.UpdateRole(TestRoleBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdateRole_WithAdminUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut  = TestUserBuilder
+            .Create()
+            .WithIsAdmin(true)
+            .Build();
+        
+        // Act
+        var act = () => sut.UpdateRole(TestRoleBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdateRole_WithNullRole_ThrowsValidationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateRole(null!);
+        
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.Role),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+
+    [Fact]
+    public void UpdateRole_WithRoleOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateRole(TestRoleBuilder.Create().Build());
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.Role),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+
+    [Fact]
+    public void UpdateRole_WithDeletedRole_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var userBuilder = TestUserBuilder.Create();
+        var role = TestRoleBuilder.Create(userBuilder.Clinic).Build();
+        role.Delete([], []);
+        var sut = userBuilder.Build();
+        
+        // Act
+        var act = () => sut.UpdateRole(role);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.Role),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+
+    [Fact]
+    public void UpdateRole_WithValidRole_UpdatesRole()
+    {
+        // Arrange
+        var userBuilder = TestUserBuilder.Create();
+        var role = TestRoleBuilder.Create(userBuilder.Clinic).Build();
+        var sut = userBuilder.Build();
+        
+        // Act
+        sut.UpdateRole(role);
+
+        // Assert
+        sut.Role.Should().Be(role);
+        sut.RoleId.Should().Be(role.Id);
+    }
+    
+    
+    /* - - - Method: UpdateUsername - - - */
+    [Fact]
+    public void UpdateUsername_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        var act = () => sut.UpdateUsername(ValidUsernameMatchingRegex);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdateUsername_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.UpdateUsername(ValidUsernameMatchingRegex);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void UpdateUsername_WithNullEmptyOrWhitespaceUsername_ThrowsValidationException(string? username)
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateUsername(username!);
+
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.Username),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Theory]
+    [MemberData(nameof(InvalidUsernameNotMatchingRegex))]
+    public void UpdateUsername_WithUsernameNotMatchingRegex_ThrowsValidationException(string username)
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateUsername(username);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.Username),
+            ErrorCode = ErrorCode.PATTERN_MISMATCH
+        });
+    }
+
+    [Fact]
+    public void UpdateUsername_WithValidUsername_UpdatesUsernameAndNormalizedUsername()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        sut.UpdateUsername(ValidUsernameMatchingRegex);
+        
+        // Assert
+        sut.Username.Should().Be(ValidUsernameMatchingRegex);
+        sut.NormalizedUsername.Should().Be(StringHelper.Normalize(ValidUsernameMatchingRegex));
+    }
+    
+    
+    /* - - - Method: UpdatePasswordHash - - - */
+    [Fact]
+    public void UpdatePasswordHash_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        var act = () => sut.UpdatePasswordHash(ValidPasswordHash);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdatePasswordHash_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.UpdatePasswordHash(ValidPasswordHash);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void UpdatePasswordHash_WithNullEmptyOrWhitespacePasswordHash_ThrowsValidationException(string? passwordHash)
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdatePasswordHash(passwordHash!);
+
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.PasswordHash),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void UpdatePasswordHash_WithPasswordHashExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var passwordHash = new string('*', Lengths.PasswordHash + 1);
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdatePasswordHash(passwordHash);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.PasswordHash),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });  
+    }
+    
+    [Fact]
+    public void UpdatePasswordHash_WithValidPasswordHash_UpdatesPasswordHash()
+    {
+        // Arrange
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        sut.UpdatePasswordHash(ValidPasswordHash);
+        
+        // Assert
+        sut.PasswordHash.Should().Be(ValidPasswordHash);
+    }
+    
+    
+    /* - - - Method: UpdateRefreshTokenHashAndExpirationTime - - - */
+    [Fact]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        
+        // Act
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(TestConstants.DefaultCurrentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithNullEmptyOrWhitespaceRefreshTokenHash_ThrowsValidationException(string? refreshTokenHash)
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(refreshTokenHash!, currentDateTime.AddMinutes(15), currentDateTime);
+
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.RefreshTokenHash),
+            ErrorCode = ErrorCode.EMPTY_VALUE
+        });  
+    }
+    
+    [Fact]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithRefreshTokenHashExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var refreshTokenHash = new string('*', Lengths.RefreshTokenHash + 1);
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(refreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.RefreshTokenHash),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });  
+    }
+
+    [Fact]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithPastRefreshTokenExpirationTime_ThrowsValidationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(-15), currentDateTime);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(User.RefreshTokenExpirationTime),
+            ErrorCode = ErrorCode.DATETIME_NOT_IN_FUTURE
+        }); 
+    }
+    
+    [Fact]
+    public void UpdateRefreshTokenHashAndExpirationTime_WithValidArguments_UpdatesRefreshTokenHashAndExpirationTime()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var refreshTokenHashExpirationTime = currentDateTime.AddMinutes(15);
+        var sut = TestUserBuilder.Create().Build();
+        
+        // Act
+        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, refreshTokenHashExpirationTime, currentDateTime);
+        
+        // Assert
+        sut.RefreshTokenHash.Should().Be(ValidRefreshTokenHash);
+        sut.RefreshTokenExpirationTime.Should().Be(refreshTokenHashExpirationTime);
+    }
+    
+    
+    /* - - - Method: MarkRefreshTokenHashAsExpired - - - */
+    [Fact]
+    public void MarkRefreshTokenHashAsExpired_WithArchivedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(currentDateTime);
+        
+        // Act
+        var act = () => sut.MarkRefreshTokenHashAsExpired(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void MarkRefreshTokenHashAsExpired_WithDeletedUser_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.Archive(currentDateTime);
+        sut.Delete();
+        
+        // Act
+        var act = () => sut.MarkRefreshTokenHashAsExpired(currentDateTime);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void MarkRefreshTokenHashAsExpired_WithExistingRefreshTokenHash_MarksRefreshTokenHashAsExpired()
+    {
+        // Arrange
+        var currentDateTime = TestConstants.DefaultCurrentDateTime;
+        var sut = TestUserBuilder.Create().Build();
+        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        
+        // Act
+        sut.MarkRefreshTokenHashAsExpired(currentDateTime);
+        
+        // Assert
+        sut.RefreshTokenHash.Should().BeNull();
+        sut.RefreshTokenExpirationTime.Should().BeNull();
+    }
 }
