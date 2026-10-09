@@ -952,4 +952,190 @@ public class RoomTests
         // Assert
         sut.RoomCategories.Should().NotContain(roomCategory);
     }
+    
+    
+    /* - - - Method: Archive - - - */
+    [Fact]
+    public void Archive_WithArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Archive_WithNonAttendedAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([TestAppointmentBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithNonCompletedAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([], [TestAppointmentProtocolBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithArchivableRoom_ArchivesRoom()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        sut.Archive([], []);
+        
+        // Assert
+        sut.IsArchived.Should().BeTrue();
+    }
+
+    
+    /* - - - Method: Unarchive - - - */
+    [Fact]
+    public void Unarchive_WithNonArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithUnarchivableRoom_UnarchivesRoom()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Unarchive();
+        
+        // Assert
+        sut.IsArchived.Should().BeFalse();
+    }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.Delete([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithNonArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Delete([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Delete_WithAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([TestAppointmentBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([], [TestAppointmentProtocolBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletableRoom_DeletesRoom()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Delete([], []);
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
