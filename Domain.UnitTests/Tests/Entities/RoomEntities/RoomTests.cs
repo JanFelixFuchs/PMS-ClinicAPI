@@ -750,4 +750,206 @@ public class RoomTests
         sut.Floor.Should().Be(roomBuilder.Floor);
         sut.Building.Should().Be(roomBuilder.Building);
     }
+
+    
+    /* - - - Method: AddRoomCategory - - - */
+    [Fact]
+    public void AddRoomCategory_WithArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.AddRoomCategory(TestRoomCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void AddRoomCategory_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.AddRoomCategory(TestRoomCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void AddRoomCategory_WithNull_ThrowsValidationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.AddRoomCategory(null!);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void AddRoomCategory_WithDuplicateRoomCategories_ThrowsValidationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder
+            .WithRoomCategories([roomCategory])
+            .Build();
+        
+        // Act
+        var act = () => sut.AddRoomCategory(roomCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.CONTAINS_DUPLICATE_ELEMENTS
+        });
+    }
+
+    [Fact]
+    public void AddRoomCategory_WithRoomCategoryOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomCategory = TestRoomCategoryBuilder.Create().Build();
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.AddRoomCategory(roomCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+    
+    [Fact]
+    public void AddRoomCategory_WithDeletedRoomCategory_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        roomCategory.Delete([]);
+        
+        // Act
+        var act = () => sut.AddRoomCategory(roomCategory);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+    
+    [Fact]
+    public void AddRoomCategory_WithValidRoomCategory_AddsRoomCategory()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        sut.AddRoomCategory(roomCategory);
+        
+        // Assert
+        sut.RoomCategories.Should().Contain(roomCategory);
+    }
+    
+    
+    /* - - - Method: RemoveRoomCategory - - - */
+    [Fact]
+    public void RemoveRoomCategory_WithArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.RemoveRoomCategory(TestRoomCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void RemoveRoomCategory_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = () => sut.RemoveRoomCategory(TestRoomCategoryBuilder.Create().Build());
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void RemoveRoomCategory_WithNull_DoesNotChangeRoomCategories()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        sut.RemoveRoomCategory(null!);
+        
+        // Assert
+        sut.RoomCategories.Should().BeEquivalentTo(roomBuilder.RoomCategories);
+    }
+    
+    [Fact]
+    public void RemoveRoomCategory_WithNonExistingRoomCategory_DoesNotChangeRoomCategories()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        sut.RemoveRoomCategory(roomCategory);
+        
+        // Assert
+        sut.RoomCategories.Should().BeEquivalentTo(roomBuilder.RoomCategories);
+    }
+    
+    [Fact]
+    public void RemoveRoomCategory_WithExistingRoomCategory_RemovesRoomCategory()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        sut.AddRoomCategory(roomCategory);
+        
+        // Act
+        sut.RemoveRoomCategory(roomCategory);
+        
+        // Assert
+        sut.RoomCategories.Should().NotContain(roomCategory);
+    }
 }
