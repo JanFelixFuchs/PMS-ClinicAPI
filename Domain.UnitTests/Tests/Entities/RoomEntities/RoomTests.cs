@@ -351,4 +351,403 @@ public class RoomTests
         sut.Floor.Should().Be(roomBuilder.Floor);
         sut.Building.Should().Be(roomBuilder.Building);
     }
+    
+    
+    /* - - - Method: Update - - - */
+    [Fact]
+    public void Update_WithArchivedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Update_WithDeletedRoom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        sut.Archive([], []);
+        sut.Delete([], []);
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .Apply(sut);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithNullEmptyOrWhitespaceName_ThrowsValidationException(string? name)
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithName(name)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Name),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var name = new string('*', Lengths.RoomName + 1);
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithName(name)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Name),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        }); 
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithNullEmptyOrWhitespaceAbbreviation_ThrowsValidationException(string? abbreviation)
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithAbbreviation(abbreviation)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Abbreviation),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithAbbreviation(abbreviation)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Abbreviation),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullRoomCategoriesCollection_ThrowsValidationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act  = roomBuilder
+            .AsUpdate()
+            .WithRoomCategories(null)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithNullRoomCategoryElement_ThrowsValidationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithRoomCategories([null!])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.MISSING_VALUE
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDuplicateRoomCategories_ThrowsValidationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act  = roomBuilder
+            .AsUpdate()
+            .WithRoomCategories([roomCategory,  roomCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.CONTAINS_DUPLICATE_ELEMENTS
+        });
+    }
+    
+    [Fact]
+    public void Update_WithRoomCategoryOfDifferentClinic_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithRoomCategories([TestRoomCategoryBuilder.Create().Build()])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.CLINIC_MISMATCH
+        });
+    }
+    
+    [Fact]
+    public void Update_WithDeletedRoomCategory_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var roomCategory = TestRoomCategoryBuilder.Create(roomBuilder.Clinic).Build();
+        var sut = roomBuilder.Build();
+        roomCategory.Delete([]);
+        
+        // Act
+        var act  = roomBuilder
+            .AsUpdate()
+            .WithRoomCategories([roomCategory])
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<InvalidOperationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomCategories),
+            ErrorCode = ErrorCode.DELETED_ENTITY
+        });
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithEmptyOrWhitespaceRoomNumber_ThrowsValidationException(string? roomNumber)
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithRoomNumber(roomNumber)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomNumber),
+            ErrorCode = ErrorCode.EMPTY_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithRoomNumberExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var roomNumber = new string('*', Lengths.RoomNumber + 1);
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithRoomNumber(roomNumber)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.RoomNumber),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithEmptyOrWhitespaceFloor_ThrowsValidationException(string? floor)
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithFloor(floor)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Floor),
+            ErrorCode = ErrorCode.EMPTY_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithFloorExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var floor = new string('*', Lengths.Floor + 1);
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithFloor(floor)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Floor),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestConstants.InvalidEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
+    public void Update_WithEmptyOrWhitespaceBuilding_ThrowsValidationException(string? building)
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithBuilding(building)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Building),
+            ErrorCode = ErrorCode.EMPTY_VALUE
+        });
+    }
+
+    [Fact]
+    public void Update_WithBuildingExceedingMaximumLength_ThrowsValidationException()
+    {
+        // Arrange
+        var building = new string('*', Lengths.Building + 1);
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        var act = roomBuilder
+            .AsUpdate()
+            .WithBuilding(building)
+            .Apply(sut);
+        
+        // Assert
+        var exception = act.Should().Throw<ValidationException>().Which;
+        exception.FieldErrors.Should().ContainEquivalentOf(new
+        {
+            Field = nameof(Room.Building),
+            ErrorCode = ErrorCode.MAX_LENGTH_EXCEEDED
+        });
+    }
+    
+    [Fact]
+    public void Update_WithValidArguments_UpdatesAllProperties()
+    {
+        // Arrange
+        var roomBuilder = TestRoomBuilder.Create();
+        var sut = roomBuilder.Build();
+        
+        // Act
+        roomBuilder.AsUpdate().Apply(sut)();
+        
+        // Assert
+        sut.Name.Should().Be(roomBuilder.Name);
+        sut.Abbreviation.Should().Be(roomBuilder.Abbreviation);
+        sut.RoomCategories.Should().Equal(roomBuilder.RoomCategories);
+        sut.RoomNumber.Should().Be(roomBuilder.RoomNumber);
+        sut.Floor.Should().Be(roomBuilder.Floor);
+        sut.Building.Should().Be(roomBuilder.Building);
+    }
 }
