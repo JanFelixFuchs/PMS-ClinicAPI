@@ -1138,4 +1138,89 @@ public class RoomTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.Name).And
+            .Contain(sut.Abbreviation).And
+            .Contain(sut.IsArchived.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .ContainAll(sut.RoomCategories.Select(roomCategory => roomCategory.Id.ToString()).ToArray()).And
+            .Contain(sut.RoomNumber).And
+            .Contain(sut.Floor).And
+            .Contain(sut.Building);
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var roomOne = TestRoomBuilder.Create().Build();
+        var roomTwo = TestRoomBuilder.Create().Build();
+        
+        // Act
+        var result = roomOne.Equals(roomTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var roomOne = TestRoomBuilder.Create().Build();
+        var roomTwo = TestRoomBuilder.Create().Build();
+        TestEntityHelper.SetId(roomTwo, roomOne.Id);
+        
+        // Act
+        var equalsResult = roomOne.Equals(roomTwo);
+        var getHashCodeRoomOneResult = roomOne.GetHashCode();
+        var getHashCodeRoomTwoResult = roomTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodeRoomOneResult.Should().Be(getHashCodeRoomTwoResult);
+    }
 }
