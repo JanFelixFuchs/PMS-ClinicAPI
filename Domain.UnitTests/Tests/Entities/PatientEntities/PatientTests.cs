@@ -1079,4 +1079,204 @@ public class PatientTests
         sut.Allergies.Should().Be(patientBuilder.Allergies);
         sut.Remarks.Should().Be(patientBuilder.Remarks);
     }
+    
+    
+    /* - - - Method: Archive - - - */
+    [Fact]
+    public void Archive_WithArchivedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithDeletedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Archive([], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Archive_WithNonAttendedAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([TestAppointmentBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithNonCompletedAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Archive([], [TestAppointmentProtocolBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Archive_WithArchivablePatient_ArchivesPatient()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        sut.Archive([], []);
+        
+        // Assert
+        sut.IsArchived.Should().BeTrue();
+    }
+
+    
+    /* - - - Method: Unarchive - - - */
+    [Fact]
+    public void Unarchive_WithNonArchivedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithDeletedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Unarchive();
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Unarchive_WithUnarchivablePatient_UnarchivesPatient()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Unarchive();
+        
+        // Assert
+        sut.IsArchived.Should().BeFalse();
+    }
+    
+    
+    /* - - - Method: Delete - - - */
+    [Fact]
+    public void Delete_WithDeletedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        sut.Delete([], [], []);
+        
+        // Act
+        var act = () => sut.Delete([], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithNonArchivedPatient_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var act = () => sut.Delete([], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Delete_WithAppointments_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([TestAppointmentBuilder.Create().Build()], [], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithAppointmentProtocols_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([], [TestAppointmentProtocolBuilder.Create().Build()], []);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithResults_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        var act = () => sut.Delete([], [], [TestResultBuilder.Create().Build()]);
+        
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Delete_WithDeletablePatient_DeletesPatient()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        sut.Archive([], []);
+        
+        // Act
+        sut.Delete([], [], []);
+        
+        // Assert
+        sut.IsDeleted.Should().BeTrue();
+    }
 }
