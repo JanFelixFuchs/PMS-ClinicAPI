@@ -1279,4 +1279,92 @@ public class PatientTests
         // Assert
         sut.IsDeleted.Should().BeTrue();
     }
+    
+    
+    /* - - - Method: ToString - - - */
+    [Fact]
+    public void ToString_ReturnsStringContainingAllProperties()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+    
+        // Act
+        var result = sut.ToString();
+        
+        // Assert
+        result.Should()
+            .Contain(sut.Id.ToString()).And
+            .Contain(sut.ClinicId.ToString()).And
+            .Contain(sut.FirstName).And
+            .Contain(sut.LastName).And
+            .Contain(sut.DateOfBirth.ToString(CultureInfo.CurrentCulture)).And
+            .Contain(sut.Gender.ToString()).And
+            .Contain(sut.Address.ToString()).And
+            .Contain(sut.ContactInformation.ToString()).And
+            .Contain(sut.InsuranceStatus.ToString()).And
+            .Contain(sut.IsArchived.ToString()).And
+            .Contain(sut.IsDeleted.ToString()).And
+            .Contain(sut.Allergies).And
+            .Contain(sut.Remarks);
+    }
+    
+    
+    /* - - - Method: Equals and GetHashCode - - - */
+    [Fact]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(null);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithDifferentType_ReturnsFalse()
+    {
+        // Arrange
+        var sut = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var result = sut.Equals(new object());
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WithDifferentId_ReturnsFalse()
+    {
+        // Arrange
+        var patientOne = TestPatientBuilder.Create().Build();
+        var patientTwo = TestPatientBuilder.Create().Build();
+        
+        // Act
+        var result = patientOne.Equals(patientTwo);
+        
+        // Assert
+        result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Equals_WithSameId_ReturnsTrue()
+    {
+        // Arrange
+        var patientOne = TestPatientBuilder.Create().Build();
+        var patientTwo = TestPatientBuilder.Create().Build();
+        TestEntityHelper.SetId(patientTwo, patientOne.Id);
+        
+        // Act
+        var equalsResult = patientOne.Equals(patientTwo);
+        var getHashCodePatientOneResult = patientOne.GetHashCode();
+        var getHashCodePatientTwoResult = patientTwo.GetHashCode();
+        
+        // Assert
+        equalsResult.Should().BeTrue();
+        getHashCodePatientOneResult.Should().Be(getHashCodePatientTwoResult);
+    }
 }
