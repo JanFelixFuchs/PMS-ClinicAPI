@@ -3,7 +3,7 @@ using Domain.Common.Interfaces;
 
 namespace TestUtils.Helper;
 
-public static class TestEntityHelper
+public static class ReflectionEntityHelper
 {
     public static void SetId<T>(T entity, Guid id) where T : IEntity
     {
