@@ -15,4 +15,15 @@ public static class ReflectionEntityHelper
         // Setting value
         field.SetValue(entity, value);
     }
+
+    public static void SetPropertyWithSetter<T, TValue>(T entity, string propertyName, TValue value)
+    {
+        // Determining property
+        var property = typeof(T)
+            .GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) 
+            ?? throw new MissingMemberException(typeof(T).FullName, propertyName);
+
+        // Setting value
+        property.SetValue(entity, value);
+    }
 }
