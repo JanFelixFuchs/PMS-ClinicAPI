@@ -913,7 +913,7 @@ public class ClinicianTests
         // Arrange
         var clinicianOne = TestClinicianBuilder.Create().Build();
         var clinicianTwo = TestClinicianBuilder.Create().Build();
-        TestEntityHelper.SetId(clinicianTwo, clinicianOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(clinicianTwo, nameof(Clinician.Id), clinicianOne.Id);
         
         // Act
         var equalsResult = clinicianOne.Equals(clinicianTwo);

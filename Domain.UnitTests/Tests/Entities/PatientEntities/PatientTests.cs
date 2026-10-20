@@ -1356,7 +1356,7 @@ public class PatientTests
         // Arrange
         var patientOne = TestPatientBuilder.Create().Build();
         var patientTwo = TestPatientBuilder.Create().Build();
-        TestEntityHelper.SetId(patientTwo, patientOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(patientTwo, nameof(Patient.Id), patientOne.Id);
         
         // Act
         var equalsResult = patientOne.Equals(patientTwo);

@@ -1212,7 +1212,7 @@ public class RoomTests
         // Arrange
         var roomOne = TestRoomBuilder.Create().Build();
         var roomTwo = TestRoomBuilder.Create().Build();
-        TestEntityHelper.SetId(roomTwo, roomOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(roomTwo, nameof(Room.Id), roomOne.Id);
         
         // Act
         var equalsResult = roomOne.Equals(roomTwo);

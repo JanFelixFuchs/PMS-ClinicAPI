@@ -1116,7 +1116,7 @@ public class ClinicTests
         // Arrange
         var clinicOne = TestClinicBuilder.Create().Build();
         var clinicTwo = TestClinicBuilder.Create().Build();
-        TestEntityHelper.SetId(clinicTwo, clinicOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(clinicTwo, nameof(Clinic.Id), clinicOne.Id);
         
         // Act
         var equalsResult = clinicOne.Equals(clinicTwo);

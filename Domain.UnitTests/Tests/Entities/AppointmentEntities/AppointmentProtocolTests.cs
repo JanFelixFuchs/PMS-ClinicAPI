@@ -943,7 +943,7 @@ public class AppointmentProtocolTests
         // Arrange
         var appointmentProtocolOne = TestAppointmentProtocolBuilder.Create().Build();
         var appointmentProtocolTwo = TestAppointmentProtocolBuilder.Create().Build();
-        TestEntityHelper.SetId(appointmentProtocolTwo, appointmentProtocolOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(appointmentProtocolTwo, nameof(AppointmentProtocol.Id), appointmentProtocolOne.Id);
         
         // Act
         var equalsResult = appointmentProtocolOne.Equals(appointmentProtocolTwo);

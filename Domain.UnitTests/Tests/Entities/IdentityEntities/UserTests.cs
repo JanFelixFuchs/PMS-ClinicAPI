@@ -994,7 +994,7 @@ public class UserTests
         // Arrange
         var userOne = TestUserBuilder.Create().Build();
         var userTwo = TestUserBuilder.Create().Build();
-        TestEntityHelper.SetId(userTwo, userOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(userTwo, nameof(User.Id), userOne.Id);
         
         // Act
         var equalsResult = userOne.Equals(userTwo);

@@ -304,7 +304,7 @@ public class RoleTests
         // Arrange
         var roleOne = TestRoleBuilder.Create().Build();
         var roleTwo = TestRoleBuilder.Create().Build();
-        TestEntityHelper.SetId(roleTwo, roleOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(roleTwo, nameof(Role.Id), roleOne.Id);
         
         // Act
         var equalsResult = roleOne.Equals(roleTwo);

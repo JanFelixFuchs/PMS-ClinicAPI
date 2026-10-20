@@ -1745,7 +1745,7 @@ public class AppointmentTests
         // Arrange
         var appointmentOne = TestAppointmentBuilder.Create().Build();
         var appointmentTwo = TestAppointmentBuilder.Create().Build();
-        TestEntityHelper.SetId(appointmentTwo, appointmentOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(appointmentTwo, nameof(Appointment.Id), appointmentOne.Id);
         
         // Act
         var equalsResult = appointmentOne.Equals(appointmentTwo);

@@ -203,7 +203,7 @@ public class ClaimTests
         // Arrange
         var claimOne = TestClaimBuilder.Create().Build();
         var claimTwo = TestClaimBuilder.Create().Build();
-        TestEntityHelper.SetId(claimTwo, claimOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(claimTwo, nameof(Claim.Id), claimOne.Id);
         
         // Act
         var equalsResult = claimOne.Equals(claimTwo);

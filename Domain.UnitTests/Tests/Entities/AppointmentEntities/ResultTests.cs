@@ -587,7 +587,7 @@ public class ResultTests
         // Arrange
         var resultOne = TestResultBuilder.Create().Build();
         var resultTwo = TestResultBuilder.Create().Build();
-        TestEntityHelper.SetId(resultTwo, resultOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(resultTwo, nameof(Result.Id), resultOne.Id);
         
         // Act
         var equalsResult = resultOne.Equals(resultTwo);

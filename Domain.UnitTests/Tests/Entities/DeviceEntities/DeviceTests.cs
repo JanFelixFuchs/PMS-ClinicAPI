@@ -1290,7 +1290,7 @@ public class DeviceTests
         // Arrange
         var deviceOne = TestDeviceBuilder.Create().Build();
         var deviceTwo = TestDeviceBuilder.Create().Build();
-        TestEntityHelper.SetId(deviceTwo, deviceOne.Id);
+        ReflectionEntityHelper.SetPropertyWithGetterOnly(deviceTwo, nameof(Device.Id), deviceOne.Id);
         
         // Act
         var equalsResult = deviceOne.Equals(deviceTwo);
