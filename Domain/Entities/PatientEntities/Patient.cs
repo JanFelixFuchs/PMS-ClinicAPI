@@ -91,10 +91,10 @@ public class Patient : IEntity, IDeletable, IArchivable
         string? remarks)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Patient)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Patient)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Patient)}");
         
         // Constructing value objects
         var address = new Address(street, houseNumber, city, zipCode, country);
@@ -113,10 +113,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     public void Archive(ICollection<Appointment> appointments, ICollection<AppointmentProtocol> appointmentProtocols)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Patient)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Patient)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Patient)}");
         if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
             throw new InvalidOperationException($"Cannot archive a {nameof(Patient)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
@@ -130,10 +130,10 @@ public class Patient : IEntity, IDeletable, IArchivable
     public void Unarchive()
     {
         // Validating
-        if (!IsArchived)
-            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Patient)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot unarchive a deleted {nameof(Patient)}");
+        if (!IsArchived)
+            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Patient)}");
         
         // Setting property
         IsArchived = false;

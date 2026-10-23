@@ -60,10 +60,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void UpdateRole(Role role)
     {
         // Checking archive, deletion and admin flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsAdmin)
             throw new InvalidOperationException($"Cannot update an admin {nameof(User)}");
         
@@ -75,10 +75,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void UpdateUsername(string username)
     {
         // Validating 
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         
         // Update property
         ValidateAndSetUsername(username);
@@ -88,10 +88,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void UpdatePasswordHash(string passwordHash)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         
         // Updating property
         ValidateAndSetPasswordHash(passwordHash);
@@ -101,10 +101,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void UpdateRefreshTokenHashAndExpirationTime(string refreshTokenHash, DateTime refreshTokenExpirationTime, DateTime currentDateTime)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         
         // Updating properties
         ValidateAndSetRefreshTokenHash(refreshTokenHash);
@@ -115,10 +115,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void MarkRefreshTokenHashAsExpired(DateTime currentDateTime)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(User)}");
         
         // Updating properties
         ValidateAndSetRefreshTokenHash(null);
@@ -129,10 +129,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void Archive(DateTime currentDateTime)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot archive an already archived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(User)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot archive an already archived {nameof(User)}");
         if (IsAdmin)
             throw new InvalidOperationException($"Cannot archive an admin {nameof(User)}");
         
@@ -148,10 +148,10 @@ public class User : IEntity, IDeletable, IArchivable
     public void Unarchive(Clinician? clinician)
     {
         // Validating
-        if (!IsArchived)
-            throw new InvalidOperationException($"Cannot unarchive an already unarchived {nameof(User)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot unarchive a deleted {nameof(User)}");
+        if (!IsArchived)
+            throw new InvalidOperationException($"Cannot unarchive an already unarchived {nameof(User)}");
         if (clinician != null && clinician.IsArchived)
             throw new InvalidOperationException($"Cannot unarchive a {nameof(User)} with an archived {nameof(Clinician)}");
     

@@ -64,10 +64,10 @@ public class Room : IEntity, IDeletable, IArchivable
         string? building)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update an deleted {nameof(Room)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
  
         // Updating properties
         ValidateAndSetName(name);
@@ -82,10 +82,10 @@ public class Room : IEntity, IDeletable, IArchivable
     public void AddRoomCategory(RoomCategory roomCategory)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update an deleted {nameof(Room)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
         
         // Setting property
         ValidateAndSetRoomCategories(RoomCategories.Append(roomCategory).ToList());
@@ -95,10 +95,10 @@ public class Room : IEntity, IDeletable, IArchivable
     public void RemoveRoomCategory(RoomCategory roomCategory)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update an deleted {nameof(Room)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Room)}");
         
         // Setting property
         ValidateAndSetRoomCategories(RoomCategories.Except(new List<RoomCategory> { roomCategory }).ToList());
@@ -108,10 +108,10 @@ public class Room : IEntity, IDeletable, IArchivable
     public void Archive(ICollection<Appointment> appointments, ICollection<AppointmentProtocol> appointmentProtocols)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Room)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Room)}");
         if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
             throw new InvalidOperationException($"Cannot archive a {nameof(Room)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
@@ -125,10 +125,10 @@ public class Room : IEntity, IDeletable, IArchivable
     public void Unarchive()
     {
         // Validating
-        if (!IsArchived)
-            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Room)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot unarchive a deleted {nameof(Room)}");
+        if (!IsArchived)
+            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Room)}");
         
         // Setting property
         IsArchived = false;

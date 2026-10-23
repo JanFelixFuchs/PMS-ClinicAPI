@@ -53,10 +53,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
         ICollection<ClinicianCategory> clinicianCategories)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Clinician)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         
         // Updating properties
         ValidateAndSetLastName(lastName);
@@ -67,10 +67,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     public void AddClinicianCategory(ClinicianCategory clinicianCategory)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Clinician)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         
         // Setting property
         ValidateAndSetClinicianCategories(new List<ClinicianCategory>(ClinicianCategories) { clinicianCategory });
@@ -80,10 +80,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     public void RemoveClinicianCategory(ClinicianCategory clinicianCategory)
     {
         // Checking archive and deletion flag
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot update a deleted {nameof(Clinician)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot update an archived {nameof(Clinician)}");
         
         // Setting property
         ValidateAndSetClinicianCategories(ClinicianCategories.Except(new List<ClinicianCategory> { clinicianCategory }).ToList());
@@ -93,10 +93,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     public void Archive(ICollection<Appointment> appointments, ICollection<AppointmentProtocol> appointmentProtocols)
     {
         // Validating
-        if (IsArchived)
-            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot archive a deleted {nameof(Clinician)}");
+        if (IsArchived)
+            throw new InvalidOperationException($"Cannot archive an already archived {nameof(Clinician)}");
         if (appointments.Any(appointment => appointment.Status != AppointmentStatus.Attended))
             throw new InvalidOperationException($"Cannot archive a {nameof(Clinician)} that has unattended {nameof(Appointments)}");
         if (appointmentProtocols.Any(appointmentProtocol => appointmentProtocol.Status != AppointmentProtocolStatus.Completed))
@@ -110,10 +110,10 @@ public class Clinician : IEntity, IDeletable, IArchivable
     public void Unarchive()
     {
         // Validating
-        if (!IsArchived)
-            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Clinician)}");
         if (IsDeleted)
             throw new InvalidOperationException($"Cannot unarchive a deleted {nameof(Clinician)}");
+        if (!IsArchived)
+            throw new InvalidOperationException($"Cannot unarchive an unarchived {nameof(Clinician)}");
         
         // Setting property
         IsArchived = false;
