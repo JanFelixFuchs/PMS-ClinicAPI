@@ -76,4 +76,15 @@ public static class TestConstants
         ("+358-01234-56789", Country.Fi),
         ("3580123456789", Country.Fi),
     ];
+    
+    public static TheoryData<string> InvalidColorsNotMatchingRegex =>
+    [
+        "000",
+        "000000",
+        "#00",
+        "#0000",
+        "#0000000",
+        "#GGG",
+        "#GGGGGG"
+    ];
 }

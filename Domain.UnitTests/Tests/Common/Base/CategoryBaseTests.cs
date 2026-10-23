@@ -11,19 +11,6 @@ namespace Domain.Tests.Tests.Common.Base;
 
 public class CategoryBaseTests
 {
-    /* - - - Preparation - - - */
-    public static TheoryData<string> InvalidColorsNotMatchingRegex =>
-    [
-        "000",
-        "000000",
-        "#00",
-        "#0000",
-        "#0000000",
-        "#GGG",
-        "#GGGGGG"
-    ];
-    
-    
     /* - - - Constructor - - - */
     [Fact]
     public void Constructor_WithNullClinic_ThrowsValidationException()
@@ -143,7 +130,7 @@ public class CategoryBaseTests
     }
 
     [Theory]
-    [MemberData(nameof(InvalidColorsNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidColorsNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void Constructor_WithColorNotMatchingRegex_ThrowsValidationException(string color)
     {
         // Act
@@ -316,7 +303,7 @@ public class CategoryBaseTests
     }
 
     [Theory]
-    [MemberData(nameof(InvalidColorsNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidColorsNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void Update_WithColorNotMatchingRegex_ThrowsValidationException(string color)
     {
         // Arrange
