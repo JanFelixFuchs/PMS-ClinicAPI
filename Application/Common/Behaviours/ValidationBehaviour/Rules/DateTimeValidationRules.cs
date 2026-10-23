@@ -21,7 +21,7 @@ public static class DateTimeValidationRules
         ruleBuilder
             .Must((request, dateTime) => dateTime <= maxDateTimeSelector(request))
             .WithState(_ => ErrorCode.DATETIME_OUT_OF_RANGE)
-            .WithMessage("{PropertyName} must be before than or equal to to the maximum allowed date time");
+            .WithMessage("{PropertyName} must be before or equal to the maximum allowed date time");
     
     public static IRuleBuilderOptions<T, DateTime> ValidRequiredFutureDateTime<T>(this IRuleBuilder<T, DateTime> ruleBuilder, DateTime currentDateTime) =>
         ruleBuilder
@@ -33,7 +33,7 @@ public static class DateTimeValidationRules
         ruleBuilder
             .Must((request, dateTime) => dateTime >= minDateTimeSelector(request))
             .WithState(_ => ErrorCode.DATETIME_OUT_OF_RANGE)
-            .WithMessage("{PropertyName} must be after than or equal to to the minimum allowed date time");
+            .WithMessage("{PropertyName} must be after or equal to the minimum allowed date time");
     
     public static IRuleBuilderOptions<T, DateTime?> ValidOptionalDateTime<T>(this IRuleBuilder<T, DateTime?> ruleBuilder) =>
         ruleBuilder
