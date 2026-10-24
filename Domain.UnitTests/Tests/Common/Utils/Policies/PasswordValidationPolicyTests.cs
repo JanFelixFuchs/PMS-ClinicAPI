@@ -1,5 +1,6 @@
 using Domain.Common.Utils.Policies;
 using FluentAssertions;
+using TestUtils.Constants;
 using Utils.Exceptions.CustomExceptions;
 using Utils.Exceptions.Errors.Codes;
 
@@ -24,14 +25,7 @@ public class PasswordValidationPolicyTests
     }
     
     [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("Short1!")]
-    [InlineData("testpasswordwithnouppercaseletter1!")]
-    [InlineData("TESTPASSWORDWITHNOLOWERCASELETTER1!")]
-    [InlineData("TestPasswordWithNoDigit!")]
-    [InlineData("TestPasswordWithNoSpecialCharacter1")]
-    [InlineData("TestPasswordWithUnallowedCharacter¡")]
+    [MemberData(nameof(TestConstants.InvalidPasswordsNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void Validate_WithInvalidPassword_ThrowsValidationException(string password)
     {
         // Act
@@ -50,7 +44,7 @@ public class PasswordValidationPolicyTests
     public void Validate_WithValidPassword_DoesNotThrow()
     {
         // Act
-        var act = () => PasswordValidationPolicy.Validate("TestValidPassword1!");
+        var act = () => PasswordValidationPolicy.Validate("TestPassword1!");
         
         // Assert
         act.Should().NotThrow();

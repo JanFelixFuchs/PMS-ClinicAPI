@@ -87,4 +87,16 @@ public static class TestConstants
         "#GGG",
         "#GGGGGG"
     ];
+
+    public static TheoryData<string> InvalidPasswordsNotMatchingRegex =>
+    [
+        "",
+        "   ",
+        "Short1!",
+        "testpasswordwithnouppercaseletter1!",
+        "TESTPASSWORDWITHNOLOWERCASELETTER1!",
+        "TestPasswordWithNoDigit!",
+        "TestPasswordWithNoSpecialCharacter1",
+        "TestPasswordWithUnallowedCharacter¡"
+    ];
 }
