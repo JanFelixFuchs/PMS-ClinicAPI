@@ -18,17 +18,7 @@ public class UserTests
     private const string ValidUsernameMatchingRegex = "test_updated_username";
     private const string ValidRefreshTokenHash = "test-updated-refresh-token-hash";
     private const string ValidPasswordHash = "test-updated-password-hash";
-    public static TheoryData<string> InvalidUsernameNotMatchingRegex =>
-    [
-        new string('A', 7),
-        new string('A', 65),
-        "test-username",
-        "test+username",
-        "test!username",
-        "test#username",
-        "test@username",
-        "test username"
-    ];
+
     
     /* - - - Constructor - - - */
     [Fact]
@@ -69,7 +59,7 @@ public class UserTests
     }
 
     [Theory]
-    [MemberData(nameof(InvalidUsernameNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidUsernamesNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void Constructor_WithUsernameNotMatchingRegex_ThrowsValidationException(string username)
     {
         // Act
@@ -473,7 +463,7 @@ public class UserTests
     }
     
     [Theory]
-    [MemberData(nameof(InvalidUsernameNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidUsernamesNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void UpdateUsername_WithUsernameNotMatchingRegex_ThrowsValidationException(string username)
     {
         // Arrange

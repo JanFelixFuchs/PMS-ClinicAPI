@@ -99,4 +99,16 @@ public static class TestConstants
         "TestPasswordWithNoSpecialCharacter1",
         "TestPasswordWithUnallowedCharacter¡"
     ];
+    
+    public static TheoryData<string> InvalidUsernamesNotMatchingRegex =>
+    [
+        new string('A', 7),
+        new string('A', 65),
+        "test-username",
+        "test+username",
+        "test!username",
+        "test#username",
+        "test@username",
+        "test username"
+    ];
 }
