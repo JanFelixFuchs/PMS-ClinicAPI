@@ -111,4 +111,13 @@ public static class TestConstants
         "test@username",
         "test username"
     ];
+    
+    public static TheoryData<string> InvalidCodesNotMatchingRegex =>
+    [
+        new string('A', 7),
+        new string('A', 65),
+        "abcdefgh",
+        "ABCDEFG!",
+        "ABCD EFGH"
+    ];
 }

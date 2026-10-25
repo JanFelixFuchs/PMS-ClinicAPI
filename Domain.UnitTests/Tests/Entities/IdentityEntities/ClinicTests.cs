@@ -16,14 +16,6 @@ public class ClinicTests
 {
     /* - - - Preparation - - - */
     private const string ValidCodeMatchingRegex = "TESTUPDATEDCODE1";
-    public static TheoryData<string> InvalidCodesNotMatchingRegex =>
-    [
-        new string('A', 7),
-        new string('A', 65),
-        "abcdefgh",
-        "ABCDEFG!",
-        "ABCD EFGH"
-    ];
     
     
     /* - - - Constructor - - - */
@@ -47,7 +39,7 @@ public class ClinicTests
     }
 
     [Theory]
-    [MemberData(nameof(InvalidCodesNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidCodesNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void Constructor_WithCodeNotMatchingRegex_ThrowsValidationException(string? code)
     {
         // Act
@@ -1012,7 +1004,7 @@ public class ClinicTests
     }
 
     [Theory]
-    [MemberData(nameof(InvalidCodesNotMatchingRegex))]
+    [MemberData(nameof(TestConstants.InvalidCodesNotMatchingRegex), MemberType = typeof(TestConstants))]
     public void UpdateCode_WithCodeNotMatchingRegex_ThrowsValidationException(string code)
     {
         // Arrange
