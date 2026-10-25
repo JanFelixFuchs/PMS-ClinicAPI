@@ -22,8 +22,6 @@ public class UpdateClinicCommandValidator : AbstractValidator<UpdateClinicComman
         
         RuleFor(command => command.MedicalField).ValidRequiredEnum();
         
-        RuleFor(command => command.Country).ValidRequiredEnum();
-        
         RuleFor(command => command.Street)
             .ValidRequiredString()
             .ValidRequiredMaximumStringLength(Lengths.Street);
@@ -36,16 +34,21 @@ public class UpdateClinicCommandValidator : AbstractValidator<UpdateClinicComman
             .ValidRequiredString()
             .ValidRequiredMaximumStringLength(Lengths.City);
         
-        RuleFor(command => command.ZipCode)
-            .ValidRequiredString()
-            .ValidRequiredRegex(command => RegexPatterns.GetZipCodeRegexPattern(command.Country));
+        RuleFor(command => command.Country)
+            .ValidRequiredEnum()
+            .DependentRules(() =>
+            {
+                RuleFor(command => command.ZipCode)
+                    .ValidRequiredString()
+                    .ValidRequiredRegex(command => RegexPatterns.GetZipCodeRegexPattern(command.Country));
+                        
+                RuleFor(command => command.PhoneNumber)
+                    .ValidRequiredString()
+                    .ValidRequiredRegex(command => RegexPatterns.GetPhoneNumberRegexPattern(command.Country));
+            });
         
         RuleFor(command => command.Email)
             .ValidRequiredString()
             .ValidRequiredRegex(RegexPatterns.Email);
-        
-        RuleFor(command => command.PhoneNumber)
-            .ValidRequiredString()
-            .ValidRequiredRegex(command => RegexPatterns.GetPhoneNumberRegexPattern(command.Country));
     }
 }
