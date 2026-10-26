@@ -348,9 +348,9 @@ public class InvariantValidationConditionsTests
     }
     
     
-    /* - - - Method: IsContainingOnlyElementsWithExactGuidValue - - - */
+    /* - - - Method: IsContainingOnlyElementsBelongingToSameClinic - - - */
     [Fact]
-    public void IsContainingOnlyElementsWithExactGuidValue_WithNonMatchingElements_ReturnsInvalidInvariantValidationResult()
+    public void IsContainingOnlyElementsBelongingToSameClinic_WithNonMatchingElements_ReturnsInvalidInvariantValidationResult()
     {
         // Arrange
         var expectedGuid = Guid.NewGuid();
@@ -370,7 +370,7 @@ public class InvariantValidationConditionsTests
     }
     
     [Fact]
-    public void IsContainingOnlyElementsWithExactGuidValue_WithEmptyCollection_ReturnsValidInvariantValidationResult()
+    public void IsContainingOnlyElementsBelongingToSameClinic_WithEmptyCollection_ReturnsValidInvariantValidationResult()
     {
         // Act
         var result = InvariantValidationConditions.IsContainingOnlyElementsBelongingToSameClinic(
@@ -384,7 +384,7 @@ public class InvariantValidationConditionsTests
     }
     
     [Fact]
-    public void IsContainingOnlyElementsWithExactGuidValue_WithAllMatchingElements_ReturnsValidInvariantValidationResult()
+    public void IsContainingOnlyElementsBelongingToSameClinic_WithAllMatchingElements_ReturnsValidInvariantValidationResult()
     {
         // Arrange
         var expectedGuid = Guid.NewGuid();
