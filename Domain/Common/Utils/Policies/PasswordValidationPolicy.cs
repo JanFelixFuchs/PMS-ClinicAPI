@@ -5,7 +5,7 @@ namespace Domain.Common.Utils.Policies;
 
 public static class PasswordValidationPolicy
 {
-    private const string PasswordPropertyName = "Password";
+    public const string PasswordPropertyName = "Password";
     
     public static void Validate(string rawPassword)
     {

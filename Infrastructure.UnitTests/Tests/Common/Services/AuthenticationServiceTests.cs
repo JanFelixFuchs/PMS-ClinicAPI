@@ -1,3 +1,4 @@
+using Domain.Common.Utils.Policies;
 using FluentAssertions;
 using Infrastructure.Common.Services;
 using Microsoft.AspNetCore.Identity;
@@ -98,7 +99,7 @@ public class AuthenticationServiceTests
         var exception = act.Should().Throw<ValidationException>().Which;
         exception.FieldErrors.Should().ContainEquivalentOf(new
         {
-            Field = "Password",
+            Field = PasswordValidationPolicy.PasswordPropertyName,
             ErrorCode = errorCode
         });
     }

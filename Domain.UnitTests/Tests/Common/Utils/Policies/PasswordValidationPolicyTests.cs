@@ -19,7 +19,7 @@ public class PasswordValidationPolicyTests
         var exception = act.Should().Throw<ValidationException>().Which;
         exception.FieldErrors.Should().ContainEquivalentOf(new
         {
-            Field = "Password",
+            Field = PasswordValidationPolicy.PasswordPropertyName,
             ErrorCode = ErrorCode.MISSING_VALUE
         });
     }
@@ -35,7 +35,7 @@ public class PasswordValidationPolicyTests
         var exception = act.Should().Throw<ValidationException>().Which;
         exception.FieldErrors.Should().ContainEquivalentOf(new
         {
-            Field = "Password",
+            Field = PasswordValidationPolicy.PasswordPropertyName,
             ErrorCode = ErrorCode.PATTERN_MISMATCH
         }); 
     }
