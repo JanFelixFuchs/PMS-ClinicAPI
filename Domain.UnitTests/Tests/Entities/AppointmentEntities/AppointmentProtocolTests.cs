@@ -212,7 +212,7 @@ public class AppointmentProtocolTests
     {
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
-        var symptoms = new string('*', Lengths.Symptoms + 1);
+        var symptoms = new string(TestConstants.LengthTestPlaceholder, Lengths.Symptoms + 1);
         var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
         var sut = appointmentProtocolBuilder.Build();
         sut.Start(currentDateTime);
@@ -262,7 +262,7 @@ public class AppointmentProtocolTests
     {
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
-        var diagnosis = new string('*', Lengths.Diagnosis + 1);
+        var diagnosis = new string(TestConstants.LengthTestPlaceholder, Lengths.Diagnosis + 1);
         var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
         var sut = appointmentProtocolBuilder.Build();
         sut.Start(currentDateTime);
@@ -312,7 +312,7 @@ public class AppointmentProtocolTests
     {
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
-        var treatment = new string('*', Lengths.Treatment + 1);
+        var treatment = new string(TestConstants.LengthTestPlaceholder, Lengths.Treatment + 1);
         var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
         var sut = appointmentProtocolBuilder.Build();
         sut.Start(currentDateTime);
@@ -362,7 +362,7 @@ public class AppointmentProtocolTests
     {
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
-        var remarks = new string('*', Lengths.AppointmentProtocolRemarks + 1);
+        var remarks = new string(TestConstants.LengthTestPlaceholder, Lengths.AppointmentProtocolRemarks + 1);
         var appointmentProtocolBuilder = TestAppointmentProtocolBuilder.Create();
         var sut = appointmentProtocolBuilder.Build();
         sut.Start(currentDateTime);

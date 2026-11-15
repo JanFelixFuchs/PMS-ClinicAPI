@@ -56,7 +56,7 @@ public class DeviceTests
     public void Constructor_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.DeviceName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.DeviceName + 1);
         
         // Act
         var act = () => TestDeviceBuilder
@@ -96,7 +96,7 @@ public class DeviceTests
     public void Constructor_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         
         // Act
         var act = () => TestDeviceBuilder
@@ -136,7 +136,7 @@ public class DeviceTests
     public void Constructor_WithSerialNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var serialNumber = new string('*', Lengths.SerialNumber + 1);
+        var serialNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.SerialNumber + 1);
         
         // Act
         var act = () => TestDeviceBuilder
@@ -194,7 +194,7 @@ public class DeviceTests
     public void Constructor_WithProducerExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var producer = new string('*', Lengths.Producer + 1);
+        var producer = new string(TestConstants.LengthTestPlaceholder, Lengths.Producer + 1);
         
         // Act
         var act = () => TestDeviceBuilder
@@ -439,7 +439,7 @@ public class DeviceTests
     public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.DeviceName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.DeviceName + 1);
         var deviceBuilder = TestDeviceBuilder.Create();
         var sut = deviceBuilder.Build();
         
@@ -485,7 +485,7 @@ public class DeviceTests
     public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         var deviceBuilder = TestDeviceBuilder.Create();
         var sut = deviceBuilder.Build();
         

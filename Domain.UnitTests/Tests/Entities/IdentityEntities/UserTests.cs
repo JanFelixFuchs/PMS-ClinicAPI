@@ -100,7 +100,7 @@ public class UserTests
     public void Constructor_WithPasswordHashExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var passwordHash = new string('*', Lengths.PasswordHash + 1);
+        var passwordHash = new string(TestConstants.LengthTestPlaceholder, Lengths.PasswordHash + 1);
         
         // Act
         var act = () => TestUserBuilder
@@ -549,7 +549,7 @@ public class UserTests
     public void UpdatePasswordHash_WithPasswordHashExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var passwordHash = new string('*', Lengths.PasswordHash + 1);
+        var passwordHash = new string(TestConstants.LengthTestPlaceholder, Lengths.PasswordHash + 1);
         var sut = TestUserBuilder.Create().Build();
         
         // Act
@@ -635,7 +635,7 @@ public class UserTests
     {
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
-        var refreshTokenHash = new string('*', Lengths.RefreshTokenHash + 1);
+        var refreshTokenHash = new string(TestConstants.LengthTestPlaceholder, Lengths.RefreshTokenHash + 1);
         var sut = TestUserBuilder.Create().Build();
         
         // Act

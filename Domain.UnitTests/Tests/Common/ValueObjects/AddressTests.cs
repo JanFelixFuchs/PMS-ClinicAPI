@@ -35,7 +35,7 @@ public class AddressTests
     public void Constructor_WithStreetExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var street = new string('*', Lengths.Street + 1);
+        var street = new string(TestConstants.LengthTestPlaceholder, Lengths.Street + 1);
         
         // Act
         var act = () => TestAddressBuilder
@@ -75,7 +75,7 @@ public class AddressTests
     public void Constructor_WithHouseNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var houseNumber = new string('*', Lengths.HouseNumber + 1);
+        var houseNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.HouseNumber + 1);
         
         // Act
         var act = () => TestAddressBuilder
@@ -115,7 +115,7 @@ public class AddressTests
     public void Constructor_WithCityExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var city = new string('*', Lengths.City + 1);
+        var city = new string(TestConstants.LengthTestPlaceholder, Lengths.City + 1);
         
         // Act
         var act = () => TestAddressBuilder

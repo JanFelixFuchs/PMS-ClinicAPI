@@ -55,7 +55,7 @@ public class RoleTests
     public void Constructor_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.RoleName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.RoleName + 1);
         
         // Act
         var act = () => TestRoleBuilder
@@ -141,7 +141,7 @@ public class RoleTests
     public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.RoleName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.RoleName + 1);
         var roleBuilder = TestRoleBuilder.Create();
         var sut = roleBuilder.Build();
         

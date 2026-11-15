@@ -59,7 +59,7 @@ public class ResultTests
     public void Constructor_WithTitleExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var title = new string('*', Lengths.ResultTitle + 1);
+        var title = new string(TestConstants.LengthTestPlaceholder, Lengths.ResultTitle + 1);
         
         // Act
         var act = () => TestResultBuilder
@@ -198,7 +198,7 @@ public class ResultTests
     public void Constructor_WithRemarksExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var remarks = new string('*', Lengths.ResultRemarks + 1);
+        var remarks = new string(TestConstants.LengthTestPlaceholder, Lengths.ResultRemarks + 1);
         
         // Act
         var act = () => TestResultBuilder

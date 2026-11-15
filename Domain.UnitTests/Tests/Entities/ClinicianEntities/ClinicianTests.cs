@@ -56,7 +56,7 @@ public class ClinicianTests
     public void Constructor_WithFirstNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var firstName = new string('*', Lengths.FirstName + 1);
+        var firstName = new string(TestConstants.LengthTestPlaceholder, Lengths.FirstName + 1);
         
         // Act
         var act = () => TestClinicianBuilder
@@ -96,7 +96,7 @@ public class ClinicianTests
     public void Constructor_WithLastNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var lastName = new string('*', Lengths.LastName + 1);
+        var lastName = new string(TestConstants.LengthTestPlaceholder, Lengths.LastName + 1);
         
         // Act
         var act = () => TestClinicianBuilder
@@ -294,7 +294,7 @@ public class ClinicianTests
     public void Update_WithLastNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var lastName = new string('*', Lengths.LastName + 1);
+        var lastName = new string(TestConstants.LengthTestPlaceholder, Lengths.LastName + 1);
         var clinicianBuilder = TestClinicianBuilder.Create();
         var sut = clinicianBuilder.Build();
         

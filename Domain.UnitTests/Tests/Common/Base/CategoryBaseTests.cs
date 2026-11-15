@@ -53,7 +53,7 @@ public class CategoryBaseTests
     public void Constructor_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.CategoryName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.CategoryName + 1);
         
         // Act
         var act = () => TestCategoryBuilder
@@ -93,7 +93,7 @@ public class CategoryBaseTests
     public void Constructor_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         
         // Act
         var act = () => TestCategoryBuilder
@@ -214,7 +214,7 @@ public class CategoryBaseTests
     public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.CategoryName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.CategoryName + 1);
         var categoryBuilder = TestCategoryBuilder.Create();
         var sut = categoryBuilder.Build();
         
@@ -260,7 +260,7 @@ public class CategoryBaseTests
     public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         var categoryBuilder = TestCategoryBuilder.Create();
         var sut = categoryBuilder.Build();
         

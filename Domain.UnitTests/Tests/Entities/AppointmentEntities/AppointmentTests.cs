@@ -60,7 +60,7 @@ public class AppointmentTests
     public void Constructor_WithTitleExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var title = new string('*', Lengths.AppointmentTitle + 1);
+        var title = new string(TestConstants.LengthTestPlaceholder, Lengths.AppointmentTitle + 1);
         
         // Act
         var act = () => TestAppointmentBuilder
@@ -797,7 +797,7 @@ public class AppointmentTests
     public void Update_WithTitleExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var title = new string('*', Lengths.AppointmentTitle + 1);
+        var title = new string(TestConstants.LengthTestPlaceholder, Lengths.AppointmentTitle + 1);
         var appointmentBuilder = TestAppointmentBuilder.Create();
         var sut = appointmentBuilder.Build();
         

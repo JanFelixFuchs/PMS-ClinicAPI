@@ -55,7 +55,7 @@ public class RoomTests
     public void Constructor_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.RoomName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.RoomName + 1);
         
         // Act
         var act = () => TestRoomBuilder
@@ -95,7 +95,7 @@ public class RoomTests
     public void Constructor_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         
         // Act
         var act = () => TestRoomBuilder
@@ -232,7 +232,7 @@ public class RoomTests
     public void Constructor_WithRoomNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var roomNumber = new string('*', Lengths.RoomNumber + 1);
+        var roomNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.RoomNumber + 1);
         
         // Act
         var act = () => TestRoomBuilder
@@ -272,7 +272,7 @@ public class RoomTests
     public void Constructor_WithFloorExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var floor = new string('*', Lengths.Floor + 1);
+        var floor = new string(TestConstants.LengthTestPlaceholder, Lengths.Floor + 1);
         
         // Act
         var act = () => TestRoomBuilder
@@ -312,7 +312,7 @@ public class RoomTests
     public void Constructor_WithBuildingExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var building = new string('*', Lengths.Building + 1);
+        var building = new string(TestConstants.LengthTestPlaceholder, Lengths.Building + 1);
         
         // Act
         var act = () => TestRoomBuilder
@@ -416,7 +416,7 @@ public class RoomTests
     public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.RoomName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.RoomName + 1);
         var roomBuilder = TestRoomBuilder.Create();
         var sut = roomBuilder.Build();
         
@@ -462,7 +462,7 @@ public class RoomTests
     public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         var roomBuilder = TestRoomBuilder.Create();
         var sut = roomBuilder.Build();
         
@@ -621,7 +621,7 @@ public class RoomTests
     public void Update_WithRoomNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var roomNumber = new string('*', Lengths.RoomNumber + 1);
+        var roomNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.RoomNumber + 1);
         var roomBuilder = TestRoomBuilder.Create();
         var sut = roomBuilder.Build();
         
@@ -667,7 +667,7 @@ public class RoomTests
     public void Update_WithFloorExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var floor = new string('*', Lengths.Floor + 1);
+        var floor = new string(TestConstants.LengthTestPlaceholder, Lengths.Floor + 1);
         var roomBuilder = TestRoomBuilder.Create();
         var sut = roomBuilder.Build();
         
@@ -713,7 +713,7 @@ public class RoomTests
     public void Update_WithBuildingExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var building = new string('*', Lengths.Building + 1);
+        var building = new string(TestConstants.LengthTestPlaceholder, Lengths.Building + 1);
         var roomBuilder = TestRoomBuilder.Create();
         var sut = roomBuilder.Build();
         

@@ -80,7 +80,7 @@ public class ClinicTests
     public void Constructor_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.ClinicName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.ClinicName + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -120,7 +120,7 @@ public class ClinicTests
     public void Constructor_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -160,7 +160,7 @@ public class ClinicTests
     public void Constructor_WithOwnerExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var owner = new string('*', Lengths.Owner + 1);
+        var owner = new string(TestConstants.LengthTestPlaceholder, Lengths.Owner + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -218,7 +218,7 @@ public class ClinicTests
     public void Constructor_WithStreetExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var street = new string('*', Lengths.Street + 1);
+        var street = new string(TestConstants.LengthTestPlaceholder, Lengths.Street + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -258,7 +258,7 @@ public class ClinicTests
     public void Constructor_WithHouseNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var houseNumber = new string('*', Lengths.HouseNumber + 1);
+        var houseNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.HouseNumber + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -298,7 +298,7 @@ public class ClinicTests
     public void Constructor_WithCityExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var city = new string('*', Lengths.City + 1);
+        var city = new string(TestConstants.LengthTestPlaceholder, Lengths.City + 1);
         
         // Act
         var act = () => TestClinicBuilder
@@ -514,7 +514,7 @@ public class ClinicTests
     public void Update_WithNameExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var name = new string('*', Lengths.ClinicName + 1);
+        var name = new string(TestConstants.LengthTestPlaceholder, Lengths.ClinicName + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
@@ -560,7 +560,7 @@ public class ClinicTests
     public void Update_WithAbbreviationExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var abbreviation = new string('*', Lengths.Abbreviation + 1);
+        var abbreviation = new string(TestConstants.LengthTestPlaceholder, Lengths.Abbreviation + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
@@ -606,7 +606,7 @@ public class ClinicTests
     public void Update_WithOwnerExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var owner = new string('*', Lengths.Owner + 1);
+        var owner = new string(TestConstants.LengthTestPlaceholder, Lengths.Owner + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
@@ -674,7 +674,7 @@ public class ClinicTests
     public void Update_WithStreetExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var street = new string('*', Lengths.Street + 1);
+        var street = new string(TestConstants.LengthTestPlaceholder, Lengths.Street + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
@@ -720,7 +720,7 @@ public class ClinicTests
     public void Update_WithHouseNumberExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var houseNumber = new string('*', Lengths.HouseNumber + 1);
+        var houseNumber = new string(TestConstants.LengthTestPlaceholder, Lengths.HouseNumber + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
@@ -766,7 +766,7 @@ public class ClinicTests
     public void Update_WithCityExceedingMaximumLength_ThrowsValidationException()
     {
         // Arrange
-        var city = new string('*', Lengths.City + 1);
+        var city = new string(TestConstants.LengthTestPlaceholder, Lengths.City + 1);
         var clinicBuilder = TestClinicBuilder.Create();
         var sut = clinicBuilder.Build();
         
