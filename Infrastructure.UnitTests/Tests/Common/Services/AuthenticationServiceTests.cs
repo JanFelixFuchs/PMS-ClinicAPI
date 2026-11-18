@@ -3,6 +3,7 @@ using FluentAssertions;
 using Infrastructure.Common.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using TestUtils.Constants;
 using Utils.Exceptions.CustomExceptions;
 using Utils.Exceptions.Errors.Codes;
 
@@ -11,8 +12,8 @@ namespace Infrastructure.UnitTests.Tests.Common.Services;
 public class AuthenticationServiceTests
 {
     /* - - - Preparation - - - */
-    private const string ValidRawPasswordOne = "Password1!";
-    private const string ValidRawPasswordTwo = "Password2!";
+    private const string ValidRawPasswordOne = $"{TestConstants.ValidInitialPassword}1";
+    private const string ValidRawPasswordTwo = $"{TestConstants.ValidInitialPassword}2";
     private const string InvalidRawPassword = "";
     
     private readonly AuthenticationService _sut = new();
