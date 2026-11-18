@@ -214,7 +214,7 @@ public static class TestConstants
     
 
     /* - - - Invalid values - - - */
-    // General
+    // General: Checks for non-nullable strings
     public static TheoryData<string?> InvalidNullEmptyOrWhitespaceString => 
     [
         null!,
@@ -222,12 +222,62 @@ public static class TestConstants
         "   ",
     ];
     
+    // General: Checks for nullable strings
     public static TheoryData<string> InvalidEmptyOrWhitespaceString => 
     [
         "",
         "   ",
     ];
     
+    // Category: Color
+    public static TheoryData<string> InvalidColorsNotMatchingRegex =>
+    [
+        "000",
+        "000000",
+        "#00",
+        "#0000",
+        "#0000000",
+        "#GGG",
+        "#GGGGGG"
+    ];
+
+    // Clinic: Code
+    public static TheoryData<string> InvalidCodesNotMatchingRegex =>
+    [
+        new string('A', 7),
+        new string('A', 65),
+        "abcdefgh",
+        "ABCDEFG!",
+        "ABCD EFGH"
+    ];
+    
+    // User: Username
+    public static TheoryData<string> InvalidUsernamesNotMatchingRegex =>
+    [
+        new string('A', 7),
+        new string('A', 65),
+        "test-username",
+        "test+username",
+        "test!username",
+        "test#username",
+        "test@username",
+        "test username"
+    ];
+    
+    // User: Password
+    public static TheoryData<string> InvalidPasswordsNotMatchingRegex =>
+    [
+        "",
+        "   ",
+        "Short1!",
+        "testpasswordwithnouppercaseletter1!",
+        "TESTPASSWORDWITHNOLOWERCASELETTER1!",
+        "TestPasswordWithNoDigit!",
+        "TestPasswordWithNoSpecialCharacter1",
+        "TestPasswordWithUnallowedCharacter¡"
+    ];
+    
+    // Address: Zip Code
     public static TheoryData<string, Country> InvalidZipCodesNotMatchingRegex =>
     [
         ("1234", Country.De),
@@ -238,6 +288,7 @@ public static class TestConstants
         ("1234A", Country.Fi),
     ];
     
+    // Contact Information: Email
     public static TheoryData<string> InvalidEmailsNotMatchingRegex =>
     [
         "@test-missing-local-part.test",
@@ -245,6 +296,7 @@ public static class TestConstants
         "test@test-missing-domain",
     ];
     
+    // Contact Information: Phone Number
     public static TheoryData<string, Country> InvalidPhoneNumbersNotMatchingRegex =>
     [
         ("0123456789", Country.De),
@@ -259,49 +311,5 @@ public static class TestConstants
         ("+358 01234 56789", Country.Fi),
         ("+358-01234-56789", Country.Fi),
         ("3580123456789", Country.Fi),
-    ];
-    
-    public static TheoryData<string> InvalidColorsNotMatchingRegex =>
-    [
-        "000",
-        "000000",
-        "#00",
-        "#0000",
-        "#0000000",
-        "#GGG",
-        "#GGGGGG"
-    ];
-
-    public static TheoryData<string> InvalidPasswordsNotMatchingRegex =>
-    [
-        "",
-        "   ",
-        "Short1!",
-        "testpasswordwithnouppercaseletter1!",
-        "TESTPASSWORDWITHNOLOWERCASELETTER1!",
-        "TestPasswordWithNoDigit!",
-        "TestPasswordWithNoSpecialCharacter1",
-        "TestPasswordWithUnallowedCharacter¡"
-    ];
-    
-    public static TheoryData<string> InvalidUsernamesNotMatchingRegex =>
-    [
-        new string('A', 7),
-        new string('A', 65),
-        "test-username",
-        "test+username",
-        "test!username",
-        "test#username",
-        "test@username",
-        "test username"
-    ];
-    
-    public static TheoryData<string> InvalidCodesNotMatchingRegex =>
-    [
-        new string('A', 7),
-        new string('A', 65),
-        "abcdefgh",
-        "ABCDEFG!",
-        "ABCD EFGH"
     ];
 }
