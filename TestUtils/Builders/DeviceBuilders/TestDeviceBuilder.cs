@@ -28,11 +28,11 @@ public class TestDeviceBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Name = "test-name";
-        Abbreviation = "test-abbreviation";
-        SerialNumber = "test-serial-number";
-        Status = DeviceStatus.Operational;
-        Producer = "test-producer";
+        Name = TestConstants.ValidInitialDeviceName;
+        Abbreviation = TestConstants.ValidInitialAbbreviation;
+        SerialNumber = TestConstants.ValidInitialSerialNumber;
+        Status = TestConstants.ValidInitialDeviceStatus;
+        Producer = TestConstants.ValidInitialProducer;
         DeviceCategories = new List<DeviceCategory>{ TestDeviceCategoryBuilder.Create(defaultClinic).Build() };
         DateOfPurchase = creationDateTime;
         DateOfLastMaintenance = creationDateTime;
@@ -73,8 +73,8 @@ public class TestDeviceBuilder
             _updateDateTime = updateDateTime.Value;
         
         // Setting default values
-        Name = "test-updated-name";
-        Abbreviation = "test-updated-abbreviation";
+        Name = TestConstants.ValidUpdatedDeviceName;
+        Abbreviation = TestConstants.ValidUpdatedAbbreviation;
         DeviceCategories = new List<DeviceCategory>{ TestDeviceCategoryBuilder.Create(Clinic).Build() };
         DateOfLastMaintenance = _updateDateTime;
         

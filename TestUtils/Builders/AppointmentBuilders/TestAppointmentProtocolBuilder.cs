@@ -62,10 +62,10 @@ public class TestAppointmentProtocolBuilder
     public TestAppointmentProtocolBuilder AsUpdate()
     {
         // Setting default values
-        Symptoms = "test-updated-symptoms";
-        Diagnosis = "test-updated-diagnosis";
-        Treatment = "test-updated-treatment";
-        Remarks = "test-updated-remarks";
+        Symptoms = TestConstants.ValidUpdatedSymptoms;
+        Diagnosis = TestConstants.ValidUpdatedDiagnosis;
+        Treatment = TestConstants.ValidUpdatedTreatment;
+        Remarks = TestConstants.ValidUpdatedAppointmentProtocolRemarks;
         Clinician = TestClinicianBuilder.Create(Clinic).Build();
         Room = TestRoomBuilder.Create(Clinic).Build();
         Devices = new List<Device>{  TestDeviceBuilder.Create(Clinic).Build() };

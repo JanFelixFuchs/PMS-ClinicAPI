@@ -35,7 +35,7 @@ public class TestAppointmentBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Title = "test-title";
+        Title = TestConstants.ValidInitialAppointmentTitle;
         StartTime = creationDateTime;
         EndTime = creationDateTime.AddMinutes(30);
         AppointmentCategories = new List<AppointmentCategory>{ TestAppointmentCategoryBuilder.Create(defaultClinic).Build() };
@@ -79,7 +79,7 @@ public class TestAppointmentBuilder
             _updateDateTime = updateDateTime.Value;
         
         // Setting default values
-        Title = "test-updated-title";
+        Title = TestConstants.ValidUpdatedAppointmentTitle;
         StartTime = _updateDateTime;
         EndTime = _updateDateTime.AddMinutes(30);
         AppointmentCategories = new List<AppointmentCategory>{ TestAppointmentCategoryBuilder.Create(Clinic).Build() };

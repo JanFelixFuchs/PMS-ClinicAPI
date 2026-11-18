@@ -15,9 +15,9 @@ public class TestContactInformationBuilder
     private TestContactInformationBuilder()
     {
         // Setting default values
-        Email = "test@email.com";
-        PhoneNumber = TestConstants.ValidGermanPhoneNumber;
-        Country = Country.De;
+        Email = TestConstants.ValidInitialEmail;
+        PhoneNumber = TestConstants.ValidInitialPhoneNumber;
+        Country = TestConstants.ValidInitialCountry;
     }
     
     

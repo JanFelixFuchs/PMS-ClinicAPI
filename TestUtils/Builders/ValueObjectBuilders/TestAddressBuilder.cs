@@ -17,11 +17,11 @@ public class TestAddressBuilder
     private TestAddressBuilder()
     {
         // Setting default values
-        Street = "test-street";
-        HouseNumber = "123";
-        City = "test-city";
-        ZipCode = TestConstants.ValidGermanZipCode;
-        Country = Country.De;
+        Street = TestConstants.ValidInitialStreet;
+        HouseNumber = TestConstants.ValidInitialHouseNumber;
+        City = TestConstants.ValidInitialCity;
+        ZipCode = TestConstants.ValidInitialZipCode;
+        Country = TestConstants.ValidInitialCountry;
     }
     
     

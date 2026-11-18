@@ -23,8 +23,8 @@ public class TestUserBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Username = "test_username";
-        PasswordHash = "test-password-hash";
+        Username = TestConstants.ValidInitialUsername;
+        PasswordHash = TestConstants.ValidInitialPasswordHash;
         IsAdmin = false;
         Role = TestRoleBuilder.Create(defaultClinic).Build();
         Clinician = TestClinicianBuilder.Create(defaultClinic).Build();

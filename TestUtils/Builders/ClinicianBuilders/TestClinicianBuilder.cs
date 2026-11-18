@@ -1,6 +1,7 @@
 using Domain.Entities.ClinicianEntities;
 using Domain.Entities.IdentityEntities;
 using TestUtils.Builders.AuthBuilders;
+using TestUtils.Constants;
 
 namespace TestUtils.Builders.ClinicianBuilders;
 
@@ -17,8 +18,8 @@ public class TestClinicianBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        FirstName = "test-first-name";
-        LastName = "test-last-name";
+        FirstName = TestConstants.ValidInitialClinicianFirstName;
+        LastName = TestConstants.ValidInitialClinicianLastName;
         ClinicianCategories = new List<ClinicianCategory>{ TestClinicianCategoryBuilder.Create(defaultClinic).Build() };
     }
     
@@ -41,7 +42,7 @@ public class TestClinicianBuilder
     public TestClinicianBuilder AsUpdate()
     {
         // Setting default values
-        LastName = "test-updated-last-name";
+        LastName = TestConstants.ValidUpdatedClinicianLastName;
         ClinicianCategories = new List<ClinicianCategory>{ TestClinicianCategoryBuilder.Create(Clinic).Build() };
         
         // Returning instance

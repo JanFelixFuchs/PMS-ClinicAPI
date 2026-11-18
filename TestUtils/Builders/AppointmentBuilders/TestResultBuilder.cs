@@ -31,10 +31,10 @@ public class TestResultBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Title = "test-title";
+        Title = TestConstants.ValidInitialResultTitle;
         DateOfCreation = creationDateTime;
-        Appendix = [0x25, 0x50, 0x44, 0x46, 0x00, 0x01, 0x02, 0x03, 0x04];
-        Remarks = "test-remarks";
+        Appendix = TestConstants.ValidInitialAppendix;
+        Remarks = TestConstants.ValidInitialResultRemarks;
         Patient = TestPatientBuilder.Create(defaultClinic).Build();
         Clinician = TestClinicianBuilder.Create(defaultClinic).Build();
         Device = TestDeviceBuilder.Create(defaultClinic).Build();

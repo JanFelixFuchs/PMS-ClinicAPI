@@ -1,4 +1,5 @@
 using Domain.Entities.IdentityEntities;
+using TestUtils.Constants;
 
 namespace TestUtils.Builders.AuthBuilders;
 
@@ -14,7 +15,7 @@ public class TestRoleBuilder
     {
         // Generating and setting default values
         Clinic = defaultClinic;
-        Name = "test-name";
+        Name = TestConstants.ValidInitialRoleName;
         IsSystemRole = false;
     }
 
@@ -36,7 +37,7 @@ public class TestRoleBuilder
     public TestRoleBuilder AsUpdate()
     {
         // Setting default values
-        Name = "test-updated-name";
+        Name = TestConstants.ValidUpdatedRoleName;
         
         // Returning instance
         return this;

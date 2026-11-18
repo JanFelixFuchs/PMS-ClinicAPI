@@ -24,18 +24,18 @@ public class TestClinicBuilder
     private TestClinicBuilder()
     {
         // Setting default values
-        Code = "TESTCODE";
-        Name = "test-name";
-        Abbreviation = "test-abbreviation";
-        Owner = "test-owner";
-        MedicalField = MedicalField.GeneralMedicine;
-        Street = "test-street";
-        HouseNumber = "123";
-        City = "test-city";
-        ZipCode = TestConstants.ValidGermanZipCode;
-        Country = Country.De;
-        Email = "test@email.com";
-        PhoneNumber = TestConstants.ValidGermanPhoneNumber;
+        Code = TestConstants.ValidInitialCode;
+        Name = TestConstants.ValidInitialClinicName;
+        Abbreviation = TestConstants.ValidInitialAbbreviation;
+        Owner = TestConstants.ValidInitialOwner;
+        MedicalField = TestConstants.ValidInitialMedicalField;
+        Street = TestConstants.ValidInitialStreet;
+        HouseNumber = TestConstants.ValidInitialHouseNumber;
+        City = TestConstants.ValidInitialCity;
+        ZipCode = TestConstants.ValidInitialZipCode;
+        Country = TestConstants.ValidInitialCountry;
+        Email = TestConstants.ValidInitialEmail;
+        PhoneNumber = TestConstants.ValidInitialPhoneNumber;
     }
     
     
@@ -62,17 +62,17 @@ public class TestClinicBuilder
     public TestClinicBuilder AsUpdate()
     {
         // Setting default values
-        Name = "test-updated-name";
-        Abbreviation = "test-updated-abbreviation";
-        Owner = "test-updated-owner";
-        MedicalField = MedicalField.InternalMedicine;
-        Street = "test-updated-street";
-        HouseNumber = "456";
-        City = "test-updated-city";
-        ZipCode = TestConstants.ValidFinnishZipCode;
-        Country = Country.Fi;
-        Email = "test-updated@email.com";
-        PhoneNumber = TestConstants.ValidFinnishPhoneNumber;
+        Name = TestConstants.ValidUpdatedClinicName;
+        Abbreviation = TestConstants.ValidUpdatedAbbreviation;
+        Owner = TestConstants.ValidUpdatedOwner;
+        MedicalField = TestConstants.ValidUpdatedMedicalField;
+        Street = TestConstants.ValidUpdatedStreet;
+        HouseNumber = TestConstants.ValidUpdatedHouseNumber;
+        City = TestConstants.ValidUpdatedCity;
+        ZipCode = TestConstants.ValidUpdatedZipCode;
+        Country = TestConstants.ValidUpdatedCountry;
+        Email = TestConstants.ValidUpdatedEmail;
+        PhoneNumber = TestConstants.ValidUpdatedPhoneNumber;
         
         // Returning instance
         return this;

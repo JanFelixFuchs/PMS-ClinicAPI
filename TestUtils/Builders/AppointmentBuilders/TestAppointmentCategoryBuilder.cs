@@ -1,6 +1,7 @@
 using Domain.Entities.AppointmentEntities;
 using Domain.Entities.IdentityEntities;
 using TestUtils.Builders.AuthBuilders;
+using TestUtils.Constants;
 
 namespace TestUtils.Builders.AppointmentBuilders;
 
@@ -17,9 +18,9 @@ public class TestAppointmentCategoryBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Name = "test-name";
-        Abbreviation = "test-abbreviation";
-        Color = "#000000";
+        Name = TestConstants.ValidInitialCategoryName;
+        Abbreviation = TestConstants.ValidInitialAbbreviation;
+        Color = TestConstants.ValidInitialColor;
     }
     
     

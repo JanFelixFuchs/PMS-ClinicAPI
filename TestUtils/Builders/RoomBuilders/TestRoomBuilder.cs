@@ -1,6 +1,7 @@
 using Domain.Entities.IdentityEntities;
 using Domain.Entities.RoomEntities;
 using TestUtils.Builders.AuthBuilders;
+using TestUtils.Constants;
 
 namespace TestUtils.Builders.RoomBuilders;
 
@@ -20,12 +21,12 @@ public class TestRoomBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        Name = "test-name";
-        Abbreviation = "test-abbreviation";
+        Name = TestConstants.ValidInitialRoomName;
+        Abbreviation = TestConstants.ValidInitialAbbreviation;
         RoomCategories = new List<RoomCategory>{ TestRoomCategoryBuilder.Create(defaultClinic).Build() };
-        RoomNumber = "123";
-        Floor = "test-floor";
-        Building = "test-building";
+        RoomNumber = TestConstants.ValidInitialRoomNumber;
+        Floor = TestConstants.ValidInitialFloor;
+        Building = TestConstants.ValidInitialBuilding;
     }
 
 
@@ -50,12 +51,12 @@ public class TestRoomBuilder
     public TestRoomBuilder AsUpdate()
     {
         // Setting default values
-        Name = "test-updated-name";
-        Abbreviation = "test-updated-abbreviation";
+        Name = TestConstants.ValidUpdatedRoomName;
+        Abbreviation = TestConstants.ValidUpdatedAbbreviation;
         RoomCategories = new List<RoomCategory>{ TestRoomCategoryBuilder.Create(Clinic).Build() };
-        RoomNumber = "456";
-        Floor = "test-updated-floor";
-        Building = "test-updated-building";
+        RoomNumber = TestConstants.ValidUpdatedRoomNumber;
+        Floor = TestConstants.ValidUpdatedFloor;
+        Building = TestConstants.ValidUpdatedBuilding;
         
         // Returning instance
         return this;

@@ -1,5 +1,6 @@
 using Domain.Common.Enums;
 using Domain.Entities.IdentityEntities;
+using TestUtils.Constants;
 
 namespace TestUtils.Builders.AuthBuilders;
 
@@ -15,8 +16,8 @@ public class TestClaimBuilder
     {
         // Setting default values
         Role = TestRoleBuilder.Create().Build();
-        Type = ClaimType.Appointment;
-        Value = ClaimValue.None;
+        Type = TestConstants.ValidInitialClaimType;
+        Value = TestConstants.ValidInitialClaimValue;
     }
     
     

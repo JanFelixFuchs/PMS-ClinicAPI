@@ -33,20 +33,20 @@ public class TestPatientBuilder
     {
         // Setting default values
         Clinic = defaultClinic;
-        FirstName = "test-first-name";
-        LastName = "test-last-name";
+        FirstName = TestConstants.ValidInitialPatientFirstName;
+        LastName = TestConstants.ValidInitialPatientLastName;
         DateOfBirth = creationDateTime.AddYears(-20);
-        Gender = Gender.Male;
-        Street = "test-street";
-        HouseNumber = "123";
-        City = "test-city";
-        ZipCode = TestConstants.ValidGermanZipCode;
-        Country = Country.De;
-        Email = "test@email.com";
-        PhoneNumber = TestConstants.ValidGermanPhoneNumber;
-        InsuranceStatus = InsuranceStatus.Statutory;
-        Allergies = "test-allergies";
-        Remarks = "test-remarks";
+        Gender = TestConstants.ValidInitialGender;
+        Street = TestConstants.ValidInitialStreet;
+        HouseNumber = TestConstants.ValidInitialHouseNumber;
+        City = TestConstants.ValidInitialCity;
+        ZipCode = TestConstants.ValidInitialZipCode;
+        Country = TestConstants.ValidInitialCountry;
+        Email = TestConstants.ValidInitialEmail;
+        PhoneNumber = TestConstants.ValidInitialPhoneNumber;
+        InsuranceStatus = TestConstants.ValidInitialInsuranceStatus;
+        Allergies = TestConstants.ValidInitialAllergies;
+        Remarks = TestConstants.ValidInitialPatientRemarks;
         CreationDateTime = creationDateTime;
     }
     
@@ -85,17 +85,17 @@ public class TestPatientBuilder
     public TestPatientBuilder AsUpdate()
     {
         // Setting default values
-        LastName = "test-updated-last-name";
-        Street = "test-updated-street";
-        HouseNumber = "456";
-        City = "test-updated-city";
-        ZipCode = TestConstants.ValidFinnishZipCode;
-        Country = Country.Fi;
-        Email = "test-updated@email.com";
-        PhoneNumber = TestConstants.ValidFinnishPhoneNumber;
-        InsuranceStatus = InsuranceStatus.Private;
-        Allergies = "test-updated-allergies";
-        Remarks = "test-updated-remarks";
+        LastName = TestConstants.ValidUpdatedPatientLastName;
+        Street = TestConstants.ValidUpdatedStreet;
+        HouseNumber = TestConstants.ValidUpdatedHouseNumber;
+        City = TestConstants.ValidUpdatedCity;
+        ZipCode = TestConstants.ValidUpdatedZipCode;
+        Country = TestConstants.ValidUpdatedCountry;
+        Email = TestConstants.ValidUpdatedEmail;
+        PhoneNumber = TestConstants.ValidUpdatedPhoneNumber;
+        InsuranceStatus = TestConstants.ValidUpdatedInsuranceStatus;
+        Allergies = TestConstants.ValidUpdatedAllergies;
+        Remarks = TestConstants.ValidUpdatedPatientRemarks;
         
         // Returning instance
         return this;
