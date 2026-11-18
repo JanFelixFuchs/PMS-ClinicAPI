@@ -14,12 +14,6 @@ namespace Domain.Tests.Tests.Entities.IdentityEntities;
 
 public class UserTests
 {
-    /* - - - Preparation - - - */
-    private const string ValidUsernameMatchingRegex = "test_updated_username";
-    private const string ValidRefreshTokenHash = "test-updated-refresh-token-hash";
-    private const string ValidPasswordHash = "test-updated-password-hash";
-
-    
     /* - - - Constructor - - - */
     [Fact]
     public void Constructor_WithNullClinic_ThrowsValidationException()
@@ -422,7 +416,7 @@ public class UserTests
         sut.Archive(TestConstants.DefaultCurrentDateTime);
         
         // Act
-        var act = () => sut.UpdateUsername(ValidUsernameMatchingRegex);
+        var act = () => sut.UpdateUsername(TestConstants.ValidUpdatedUsername);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -437,7 +431,7 @@ public class UserTests
         sut.Delete();
         
         // Act
-        var act = () => sut.UpdateUsername(ValidUsernameMatchingRegex);
+        var act = () => sut.UpdateUsername(TestConstants.ValidUpdatedUsername);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -488,11 +482,11 @@ public class UserTests
         var sut = TestUserBuilder.Create().Build();
         
         // Act
-        sut.UpdateUsername(ValidUsernameMatchingRegex);
+        sut.UpdateUsername(TestConstants.ValidUpdatedUsername);
         
         // Assert
-        sut.Username.Should().Be(ValidUsernameMatchingRegex);
-        sut.NormalizedUsername.Should().Be(StringHelper.Normalize(ValidUsernameMatchingRegex));
+        sut.Username.Should().Be(TestConstants.ValidUpdatedUsername);
+        sut.NormalizedUsername.Should().Be(StringHelper.Normalize(TestConstants.ValidUpdatedUsername));
     }
     
     
@@ -505,7 +499,7 @@ public class UserTests
         sut.Archive(TestConstants.DefaultCurrentDateTime);
         
         // Act
-        var act = () => sut.UpdatePasswordHash(ValidPasswordHash);
+        var act = () => sut.UpdatePasswordHash(TestConstants.ValidUpdatedPasswordHash);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -520,7 +514,7 @@ public class UserTests
         sut.Delete();
         
         // Act
-        var act = () => sut.UpdatePasswordHash(ValidPasswordHash);
+        var act = () => sut.UpdatePasswordHash(TestConstants.ValidUpdatedPasswordHash);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -571,10 +565,10 @@ public class UserTests
         var sut = TestUserBuilder.Create().Build();
         
         // Act
-        sut.UpdatePasswordHash(ValidPasswordHash);
+        sut.UpdatePasswordHash(TestConstants.ValidUpdatedPasswordHash);
         
         // Assert
-        sut.PasswordHash.Should().Be(ValidPasswordHash);
+        sut.PasswordHash.Should().Be(TestConstants.ValidUpdatedPasswordHash);
     }
     
     
@@ -588,7 +582,7 @@ public class UserTests
         sut.Archive(TestConstants.DefaultCurrentDateTime);
         
         // Act
-        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -604,7 +598,7 @@ public class UserTests
         sut.Delete();
         
         // Act
-        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
         
         // Assert
         act.Should().Throw<InvalidOperationException>();
@@ -658,7 +652,7 @@ public class UserTests
         var sut = TestUserBuilder.Create().Build();
         
         // Act
-        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(-15), currentDateTime);
+        var act = () => sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(-15), currentDateTime);
         
         // Assert
         var exception = act.Should().Throw<ValidationException>().Which;
@@ -678,10 +672,10 @@ public class UserTests
         var sut = TestUserBuilder.Create().Build();
         
         // Act
-        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, refreshTokenHashExpirationTime, currentDateTime);
+        sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, refreshTokenHashExpirationTime, currentDateTime);
         
         // Assert
-        sut.RefreshTokenHash.Should().Be(ValidRefreshTokenHash);
+        sut.RefreshTokenHash.Should().Be(TestConstants.ValidUpdatedRefreshTokenHash);
         sut.RefreshTokenExpirationTime.Should().Be(refreshTokenHashExpirationTime);
     }
     
@@ -724,7 +718,7 @@ public class UserTests
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
         var sut = TestUserBuilder.Create().Build();
-        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
         
         // Act
         sut.MarkRefreshTokenHashAsExpired(currentDateTime);
@@ -790,7 +784,7 @@ public class UserTests
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
         var sut = TestUserBuilder.Create().Build();
-        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
         
         // Act
         sut.Archive(TestConstants.DefaultCurrentDateTime);
@@ -915,7 +909,7 @@ public class UserTests
         // Arrange
         var currentDateTime = TestConstants.DefaultCurrentDateTime;
         var sut = TestUserBuilder.Create().Build();
-        sut.UpdateRefreshTokenHashAndExpirationTime(ValidRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
+        sut.UpdateRefreshTokenHashAndExpirationTime(TestConstants.ValidUpdatedRefreshTokenHash, currentDateTime.AddMinutes(15), currentDateTime);
         
         // Act
         var result = sut.ToString();

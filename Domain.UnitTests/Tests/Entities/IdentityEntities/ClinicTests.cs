@@ -14,10 +14,6 @@ namespace Domain.Tests.Tests.Entities.IdentityEntities;
 
 public class ClinicTests
 {
-    /* - - - Preparation - - - */
-    private const string ValidCodeMatchingRegex = "TESTUPDATEDCODE1";
-    
-    
     /* - - - Constructor - - - */
     [Theory]
     [MemberData(nameof(TestConstants.InvalidNullEmptyOrWhitespaceString), MemberType = typeof(TestConstants))]
@@ -1029,11 +1025,11 @@ public class ClinicTests
         var sut = TestClinicBuilder.Create().Build();
         
         // Act
-        sut.UpdateCode(ValidCodeMatchingRegex);
+        sut.UpdateCode(TestConstants.ValidUpdatedCode);
         
         // Assert
-        sut.Code.Should().Be(ValidCodeMatchingRegex);
-        sut.NormalizedCode.Should().Be(StringHelper.Normalize(ValidCodeMatchingRegex));
+        sut.Code.Should().Be(TestConstants.ValidUpdatedCode);
+        sut.NormalizedCode.Should().Be(StringHelper.Normalize(TestConstants.ValidUpdatedCode));
     }
     
     

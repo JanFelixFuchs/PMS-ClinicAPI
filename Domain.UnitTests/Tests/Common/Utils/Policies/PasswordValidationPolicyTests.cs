@@ -44,7 +44,7 @@ public class PasswordValidationPolicyTests
     public void Validate_WithValidPassword_DoesNotThrow()
     {
         // Act
-        var act = () => PasswordValidationPolicy.Validate("TestPassword1!");
+        var act = () => PasswordValidationPolicy.Validate(TestConstants.ValidInitialPassword);
         
         // Assert
         act.Should().NotThrow();

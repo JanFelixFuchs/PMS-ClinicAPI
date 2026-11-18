@@ -113,8 +113,7 @@ public class ContactInformationTests
     }
     
     [Theory]
-    [InlineData(TestConstants.ValidGermanPhoneNumber, Country.De)]
-    [InlineData(TestConstants.ValidFinnishPhoneNumber, Country.Fi)]
+    [MemberData(nameof(TestConstants.ValidPhoneNumbers), MemberType = typeof(TestConstants))]
     public void Constructor_WithValidArguments_SetsAllProperties(string phoneNumber, Country country)
     {
         // Arrange
@@ -197,8 +196,7 @@ public class ContactInformationTests
     }
     
     [Theory]
-    [InlineData("+49", Country.De)]
-    [InlineData("+358", Country.Fi)]
+    [MemberData(nameof(TestConstants.ValidPhoneNumberPrefixes), MemberType = typeof(TestConstants))]
     public void Equals_WithDifferentPhoneNumber_ReturnsFalse(string phoneNumberPrefix, Country country)
     {
         // Arrange

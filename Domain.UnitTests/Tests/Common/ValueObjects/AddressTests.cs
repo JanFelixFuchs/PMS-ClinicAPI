@@ -190,8 +190,7 @@ public class AddressTests
     }
     
     [Theory]
-    [InlineData(TestConstants.ValidGermanZipCode, Country.De)]
-    [InlineData(TestConstants.ValidFinnishZipCode, Country.Fi)]
+    [MemberData(nameof(TestConstants.ValidZipCodes), MemberType = typeof(TestConstants))]
     public void Constructor_WithValidArguments_SetsAllProperties(string zipCode, Country country)
     {
         // Arrange
@@ -311,8 +310,7 @@ public class AddressTests
     }
     
     [Theory]
-    [InlineData(TestConstants.ValidGermanZipCode, Country.De)]
-    [InlineData(TestConstants.ValidFinnishZipCode, Country.Fi)]
+    [MemberData(nameof(TestConstants.ValidZipCodes), MemberType = typeof(TestConstants))]
     public void Equals_WithDifferentZipCode_ReturnsFalse(string zipCode, Country country)
     {
         // Arrange

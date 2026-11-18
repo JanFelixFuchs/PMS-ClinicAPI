@@ -1,6 +1,7 @@
 using Domain.Entities.IdentityEntities;
 using Domain.Tests.Utils.Models.Category;
 using TestUtils.Builders.AuthBuilders;
+using TestUtils.Constants;
 
 namespace Domain.Tests.Utils.Builders.CategoryBuilders;
 
@@ -17,9 +18,9 @@ public class TestCategoryBuilder
     {
         // Generating and setting default values
         Clinic = defaultClinic;
-        Name = "test-name";
-        Abbreviation = "test-abbreviation";
-        Color = "#000000";
+        Name = TestConstants.ValidInitialCategoryName;
+        Abbreviation = TestConstants.ValidInitialAbbreviation;
+        Color = TestConstants.ValidInitialColor;
     }
     
     
@@ -41,9 +42,9 @@ public class TestCategoryBuilder
     public TestCategoryBuilder AsUpdate()
     {
         // Setting default values
-        Name = "test-updated-name";
-        Abbreviation = "test-updated-abbreviation";
-        Color = "#ffffff";
+        Name = TestConstants.ValidUpdatedCategoryName;
+        Abbreviation = TestConstants.ValidUpdatedAbbreviation;
+        Color = TestConstants.ValidUpdatedColor;
         
         // Returning instance
         return this;
